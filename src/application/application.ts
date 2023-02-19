@@ -38,7 +38,7 @@ export class Application {
     this.maxRequest = input.maxRequest;
   }
 
-  public execute(): any {
+  public execute(): IExpressResponse {
     const rateLimitWindow = this.rateLimitWindow * 1000;
     const rateLimitMaxRequests = this.maxRequest;
     const clientIp = this.req.ip;
