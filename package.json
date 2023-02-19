@@ -9,7 +9,9 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node server.js"
+    "patch:version": "npm version patch -m 'Bump patch version to %s'",
+    "minor:version": "npm version minor -m 'Bump minor version to %s'",
+    "major:version": "npm version major -m 'Bump major version to %s'"
   },
   "repository": {
     "type": "git",
