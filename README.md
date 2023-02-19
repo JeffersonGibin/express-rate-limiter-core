@@ -66,3 +66,18 @@ This library provides interfaces that can be used with TypeScript.
 |    ICache:    | interface provides a model for adapters. Any new adapter must implement this interface. |
 | IResponseHit: |           interface provides a model for the response of the ICache adapter.            |
 |  ISettings:   |       interface provides a model for the construction parameters of the library.        |
+
+## Response
+
+When the request max number is hit the response return is.
+
+- HTTP Status Code 429
+- Message: `{ message: "Too many requests" }`
+
+## Headers
+
+|       Header        | Always Returned |                                                                  Description                                                                   |
+| :-----------------: | :-------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: |
+| `X-RateLimit-Limit` |       Yes       |                                                       used to identify max request limit                                                       |
+| `X-RateLimit-Reset` |       No        | This header is used to identify when the limiter is reset and only is returned when the request limit hit. The value é represented in seconds. |
+|    `Retry-After`    |       Yes       |                              used to tells the client how long in seconds to wait before making another request.                               |
