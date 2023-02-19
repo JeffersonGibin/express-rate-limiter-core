@@ -43,15 +43,15 @@ export class Application {
     const rateLimitMaxRequests = this.maxRequest;
     const clientIp = this.req.ip;
     const now = Date.now();
-    
+
     // set custom header to identify max request limit
     this.res.set("X-RateLimit-Limit", rateLimitMaxRequests.toString());
-    
+
     const cache = this.cache;
     const responseCahe = cache.getByKey(clientIp);
     const hits = responseCahe?.hits ?? 0;
     const timestampCreated = responseCahe?.timestamp_created ?? 0;
-    
+
     new RateLimit({
       ip: clientIp,
       cache,

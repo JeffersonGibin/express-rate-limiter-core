@@ -10,9 +10,13 @@ import { ISettings } from "./interfaces/settings";
 
 export const middleware = (settings: ISettings): IMiddleware => {
   return {
-    apply: (req: IExpressRequest, res: IExpressResponse, next: INextFunctionExpress) => {
-      const {maxRequest, rateLimitWindow, cache} = settings;
-      
+    apply: (
+      req: IExpressRequest,
+      res: IExpressResponse,
+      next: INextFunctionExpress
+    ) => {
+      const { maxRequest, rateLimitWindow, cache } = settings;
+
       const application = new Application({
         cache,
         requestParam: {
