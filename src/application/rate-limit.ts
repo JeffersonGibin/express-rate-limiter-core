@@ -1,3 +1,4 @@
+import { UNIT_TIME_IN_SECONDS } from "../constants/application";
 import { ICache, IResponseHit } from "../interfaces/cache";
 import { ISettings } from "../interfaces/settings";
 
@@ -39,6 +40,18 @@ export class RateLimit {
     };
   }
 
+  /**
+   * Calculate the time expiration
+   * @param {number} createdAt
+   * @returns time expiration in the unit time seconds
+   */
+  private calculateTimeExpiration(createdAt: number): number {
+    const rateLimitInMiliseconds =
+      this.settings.maxRequest * UNIT_TIME_IN_SECONDS;
+
+    return createdAt + rateLimitInMiliseconds;
+  }
+
   public async processHit(cacheRequest: IResponseHit) {
     const ip = this.ip;
     const timestampNow = Date.now();
@@ -47,7 +60,7 @@ export class RateLimit {
     const createdAt = cacheRequest?.created_at ?? timestampNow;
     const hits = cacheRequest?.hits ?? 0;
 
-    const resultTimeExpiration = createdAt + rateLimitMaxRequests * 1000;
+    const resultTimeExpiration = this.calculateTimeExpiration(createdAt);
 
     if (createdAt && timestampNow > resultTimeExpiration) {
       // remove cache

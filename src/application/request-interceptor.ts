@@ -18,6 +18,7 @@ interface RequestParams {
 
 interface InputInterceptor {
   cache: ICache;
+  rateLimit: RateLimit;
   requestParam: RequestParams;
   maxRequest: number;
   rateLimitWindow: number;
@@ -30,51 +31,58 @@ export class RequestInterceptor {
     this.input = input;
   }
 
+  /**
+   * Calculate how long it takes to reset the server and release new requests
+   * @return {number} time in seconds representation reset
+   */
   private calculateTimeToReset(): number {
     return (
       new Date().getTime() + this.input.rateLimitWindow / UNIT_TIME_IN_SECONDS
     );
   }
 
-  private calculateTimeWait(resultDiffTime: number): string {
+  /**
+   * Calculate how much time is left to release the server for new requests
+   * @param {number} diffBetweenNowCreadAt
+   * @return {string} time in seconds
+   */
+  private calculateTimeWait(diffBetweenNowCreadAt: number): string {
     return Math.ceil(
-      (resultDiffTime + this.input.rateLimitWindow) / UNIT_TIME_IN_SECONDS
+      (diffBetweenNowCreadAt + this.input.rateLimitWindow) /
+        UNIT_TIME_IN_SECONDS
     ).toString();
   }
 
-  private diffNowBeetwenCreatedAt(createdAt: number) {
+  /**
+   * Calculate diff now between created at
+   * @param {number} createdAt
+   * @return {number} result diff
+   */
+  private diffNowBetweenCreatedAt(createdAt: number): number {
     const now = Date.now();
-    const resultDiffTime = createdAt - now;
+    const resultDiff = now - createdAt;
 
-    return resultDiffTime;
+    return resultDiff;
   }
 
   public execute(): IExpressResponse {
+    const { cache, rateLimit } = this.input;
     const { req, res, next } = this.input.requestParam;
-    const rateLimitWindow = this.input.rateLimitWindow * 1000;
     const rateLimitMaxRequests = this.input.maxRequest;
     const clientIp = req.ip;
 
     // set custom header to identify max request limit
     res.set("X-RateLimit-Limit", rateLimitMaxRequests.toString());
 
-    const cache = this.input.cache;
     const responseCache = cache.getByKey(clientIp);
     const hits = responseCache?.hits ?? 0;
     const createdAt = responseCache?.created_at ?? 0;
-
-    const rateLimit = new RateLimit({
-      ip: clientIp,
-      cache,
-      maxRequest: rateLimitMaxRequests,
-      rateLimitWindow: rateLimitWindow,
-    });
 
     // Process Hit increment or decrement
     rateLimit.processHit(responseCache);
 
     if (hits >= rateLimitMaxRequests) {
-      const resultDiffTime = this.diffNowBeetwenCreatedAt(createdAt);
+      const resultDiffTime = this.diffNowBetweenCreatedAt(createdAt);
       const timestampToReset = this.calculateTimeToReset();
       const timeWaitInSeconds = this.calculateTimeWait(resultDiffTime);
 

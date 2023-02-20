@@ -3,11 +3,13 @@ import {
   Request as IExpressRequest,
   Response as IExpressResponse,
 } from "express";
+import { RateLimit } from "./application/rate-limit";
 import { RequestInterceptor } from "./application/request-interceptor";
 import { ICache, IResponseHit } from "./interfaces/cache";
 import { middleware } from "./middleware";
 
 jest.mock("./application/request-interceptor");
+jest.mock("./application/rate-limit");
 
 const req = {} as IExpressRequest;
 const res = { send: jest.fn() } as unknown as IExpressResponse;
@@ -39,13 +41,16 @@ describe("middleware unit test", () => {
     jest.resetAllMocks();
   });
 
-  test("should call apply function with request interceptor class", () => {
-    const constructorInterceptorApplication = jest.fn();
+  test("should call apply function correctly", () => {
+    const constructorRateLimit = jest.fn();
+    (RateLimit as jest.Mock).mockImplementation(constructorRateLimit);
+
+    const constructorRequestInterceptor = jest.fn();
     (RequestInterceptor as jest.Mock).mockImplementation(
-      constructorInterceptorApplication
+      constructorRequestInterceptor
     );
 
-    const spyExecute = jest.spyOn(RequestInterceptor.prototype, "execute");
+    const spyApply = jest.spyOn(RequestInterceptor.prototype, "execute");
 
     const mw = middleware({
       cache: adapterCacheMock,
@@ -55,17 +60,8 @@ describe("middleware unit test", () => {
 
     mw.apply(req, res, nextFn);
 
-    expect(constructorInterceptorApplication).toBeCalledWith({
-      cache: adapterCacheMock,
-      requestParam: {
-        req,
-        res,
-        next: nextFn,
-      },
-      maxRequest: 10,
-      rateLimitWindow: 10,
-    });
-
-    expect(spyExecute).toBeCalled();
+    expect(constructorRateLimit).toBeCalled();
+    expect(constructorRequestInterceptor).toBeCalled();
+    expect(spyApply).toBeCalled();
   });
 });

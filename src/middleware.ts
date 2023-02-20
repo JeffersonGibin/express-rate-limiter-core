@@ -3,6 +3,7 @@ import {
   type Request as IExpressRequest,
   type Response as IExpressResponse,
 } from "express";
+import { RateLimit } from "./application/rate-limit";
 
 import { RequestInterceptor } from "./application/request-interceptor";
 import { type IMiddleware } from "./interfaces/middleware";
@@ -17,8 +18,16 @@ export const middleware = (settings: ISettings): IMiddleware => {
     ) => {
       const { maxRequest, rateLimitWindow, cache } = settings;
 
+      const rateLimit = new RateLimit({
+        ip: req.ip,
+        cache,
+        maxRequest,
+        rateLimitWindow,
+      });
+
       const interceptor = new RequestInterceptor({
         cache,
+        rateLimit,
         requestParam: {
           req,
           res,
