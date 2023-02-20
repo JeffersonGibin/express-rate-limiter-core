@@ -1,0 +1,32 @@
+name: Pipeline Workflow
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "README.md"
+
+  pull_request:
+    types: ["opened"]
+    branches: ["main"]
+    paths-ignore:
+      - "README.md"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Install Dependencies"
+        run: npm install
+
+      - name: "ESLint"
+        run: npm run lint
+
+      - name: "Unit tests"
+        run: npm run unit:test
+
+      - name: "Build"
+        run: npm run build
