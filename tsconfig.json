@@ -1,4 +1,3 @@
-
 {
   "compilerOptions": {
     "module": "commonjs",
@@ -11,5 +10,5 @@
     "incremental": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "src/interfaces"]
+  "exclude": ["node_modules", "src/interfaces", "src/**/*.spec.ts"]
 }
