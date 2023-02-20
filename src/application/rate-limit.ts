@@ -64,7 +64,7 @@ export class RateLimit {
 
     if (createdAt && timestampNow > resultTimeExpiration) {
       // remove cache
-      this.settings.cache.decrementHit(ip);
+      this.settings.cache.deleteHit(ip);
     }
 
     if (rateLimitMaxRequests >= hits) {

@@ -5,7 +5,7 @@ import {
 } from "express";
 import { RateLimit } from "./application/rate-limit";
 import { RequestInterceptor } from "./application/request-interceptor";
-import { ICache, IResponseHit } from "./interfaces/cache";
+import { ICache } from "./interfaces/cache";
 import { middleware } from "./middleware";
 
 jest.mock("./application/request-interceptor");
@@ -14,27 +14,6 @@ jest.mock("./application/rate-limit");
 const req = {} as IExpressRequest;
 const res = { send: jest.fn() } as unknown as IExpressResponse;
 const nextFn = jest.fn<INextFunctionExpress, []>();
-
-const responseCache: IResponseHit = {
-  created_at: 0,
-  hits: 1,
-};
-
-const adapterCacheMock: ICache = {
-  incrementHit: function (key: string): IResponseHit {
-    if (key) {
-      return responseCache;
-    }
-  },
-  decrementHit: function (key: string): boolean {
-    return key ? true : false;
-  },
-  getByKey: function (key: string): IResponseHit {
-    if (key) {
-      return responseCache;
-    }
-  },
-};
 
 describe("middleware unit test", () => {
   beforeEach(() => {
@@ -53,7 +32,7 @@ describe("middleware unit test", () => {
     const spyApply = jest.spyOn(RequestInterceptor.prototype, "execute");
 
     const mw = middleware({
-      cache: adapterCacheMock,
+      cache: {} as ICache,
       maxRequest: 10,
       rateLimitWindow: 10,
     });
