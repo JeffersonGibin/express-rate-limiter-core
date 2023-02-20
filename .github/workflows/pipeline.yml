@@ -1,4 +1,4 @@
-name: ${{ github.event_name == 'pull_request' && 'Pull Request #' + github.event.pull_request.number || 'Merge PR #' + github.event.pull_request.number }}
+name: Pipeline Workflow
 
 on:
   push:
