@@ -18,9 +18,7 @@ import { MemoryDBAdapter, RateLimitExpress } from "express-rate-limiter-core";
 
 const app = express();
 
-/**
- * Configure rate limiting settings
- */
+// Configure rate limiting settings
 const rateLimit = RateLimitExpress({
   maxRequest: 20,
   rateLimitWindow: 20,
@@ -32,18 +30,14 @@ const rateLimit = RateLimitExpress({
  */
 app.use(rateLimit.apply);
 
-/**
- * Rote exemple
- */
+// Rote exemple
 app.get("/user", (req, res) => {
   res.status(200).json({
-    name: `People ${i}`,
+    name: "Person",
   });
 });
 
-/**
- * Server
- */
+// Server
 app.listen(8080, () => {
   console.log("Server is ready!");
 });
@@ -51,7 +45,7 @@ app.listen(8080, () => {
 
 ## Constructor Parameters
 
-|     Paramter      | Require |                                                                   Description                                                                   |
+|     Parameter     | Require |                                                                   Description                                                                   |
 | :---------------: | :-----: | :---------------------------------------------------------------------------------------------------------------------------------------------: |
 |   `maxRequest`    |   Yes   |                                   The maximum number of allowed requests within the rate limiting time window                                   |
 | `rateLimitWindow` |   Yes   |                                         Time window in milliseconds during which requests are throttled                                         |
