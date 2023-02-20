@@ -4,7 +4,7 @@ import {
   type Response as IExpressResponse,
 } from "express";
 
-import { Application } from "./application/application";
+import { RequestInterceptor } from "./application/request-interceptor";
 import { type IMiddleware } from "./interfaces/middleware";
 import { type ISettings } from "./interfaces/settings";
 
@@ -17,7 +17,7 @@ export const middleware = (settings: ISettings): IMiddleware => {
     ) => {
       const { maxRequest, rateLimitWindow, cache } = settings;
 
-      const application = new Application({
+      const interceptor = new RequestInterceptor({
         cache,
         requestParam: {
           req,
@@ -28,7 +28,7 @@ export const middleware = (settings: ISettings): IMiddleware => {
         rateLimitWindow,
       });
 
-      application.execute();
+      interceptor.execute();
     },
   };
 };
