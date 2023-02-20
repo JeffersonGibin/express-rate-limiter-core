@@ -78,7 +78,7 @@ export class RequestInterceptor {
     const hits = responseCache?.hits ?? 0;
     const createdAt = responseCache?.created_at ? responseCache?.created_at : 0;
 
-    // Process Hit increment or decrement
+    // Process Hit increment or delete
     rateLimit.processHit(responseCache);
 
     if (hits >= rateLimitMaxRequests) {

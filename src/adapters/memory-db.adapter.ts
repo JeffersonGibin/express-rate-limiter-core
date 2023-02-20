@@ -1,30 +1,36 @@
 import { ICache, IResponseHit } from "../interfaces/cache";
 import { IDatabaseMemory } from "../interfaces/memory-cache";
 
-const databaseMemory: IDatabaseMemory = {};
-
 export class MemoryDBAdapter implements ICache {
+  private databaseMemory: IDatabaseMemory;
+
+  constructor() {
+    this.databaseMemory = {};
+  }
+
   public incrementHit(key: string): IResponseHit {
     const ONE_HIT = 1;
-    if (databaseMemory[key] === undefined) {
-      databaseMemory[key] = {
+    if (this.databaseMemory[key] === undefined) {
+      this.databaseMemory[key] = {
         hits: ONE_HIT,
         created_at: Date.now(),
       };
+
+      return this.databaseMemory[key];
     }
 
-    databaseMemory[key].hits += ONE_HIT;
+    this.databaseMemory[key].hits += ONE_HIT;
 
-    return databaseMemory[key];
+    return this.databaseMemory[key];
   }
 
-  public getByKey(key: string) {
-    return databaseMemory[key];
+  public getByKey(key: string): IResponseHit {
+    return this.databaseMemory[key];
   }
 
-  public decrementHit(key: string): boolean {
-    delete databaseMemory[key];
+  public deleteHit(key: string): boolean {
+    delete this.databaseMemory[key];
 
-    return databaseMemory[key] === undefined;
+    return this.databaseMemory[key] === undefined;
   }
 }

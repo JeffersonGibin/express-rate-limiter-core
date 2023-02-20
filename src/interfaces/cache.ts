@@ -19,11 +19,11 @@ export interface ICache {
   incrementHit(key: string): IResponseHit;
 
   /**
-   * DecrementHit a HIT to a cache using the parameter key.
+   * Delete a HIT to a cache using the parameter key.
    * @param {string} key
    * @returns {boolean}
    */
-  decrementHit(key: string): boolean;
+  deleteHit(key: string): boolean;
 
   /**
    * Get cache by key

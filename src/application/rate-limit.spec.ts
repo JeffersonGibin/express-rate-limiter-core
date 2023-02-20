@@ -2,7 +2,7 @@ import { ICache, IResponseHit } from "../interfaces/cache";
 import { RateLimit } from "./rate-limit";
 
 const incrementHitFn = jest.fn();
-const decrementHitFn = jest.fn();
+const deleteHitFn = jest.fn();
 
 const responseCache: IResponseHit = {
   created_at: 0,
@@ -11,11 +11,13 @@ const responseCache: IResponseHit = {
 
 const adapterCacheMock: ICache = {
   incrementHit: incrementHitFn,
-  decrementHit: decrementHitFn,
+  deleteHit: deleteHitFn,
   getByKey: function (key: string): IResponseHit {
     if (key) {
       return responseCache;
     }
+
+    return {} as IResponseHit;
   },
 };
 
@@ -49,7 +51,7 @@ describe("rate-limit unit test", () => {
           cache: adapterCacheMock,
           maxRequest: 10,
           rateLimitWindow: 60,
-          ip: undefined,
+          ip: undefined as unknown as string,
         });
       }).toThrow("Invalid IP address");
     });
@@ -57,7 +59,7 @@ describe("rate-limit unit test", () => {
     test("should throw an error if the cache parameter is invalid", () => {
       expect(() => {
         new RateLimit({
-          cache: undefined,
+          cache: undefined as unknown as ICache,
           maxRequest: 10,
           rateLimitWindow: 60,
           ip: "127.0.0.1",
@@ -69,7 +71,7 @@ describe("rate-limit unit test", () => {
       expect(() => {
         new RateLimit({
           cache: adapterCacheMock,
-          maxRequest: undefined,
+          maxRequest: undefined as unknown as number,
           rateLimitWindow: 60,
           ip: "127.0.0.1",
         });
@@ -90,7 +92,7 @@ describe("rate-limit unit test", () => {
         new RateLimit({
           cache: adapterCacheMock,
           maxRequest: 10,
-          rateLimitWindow: undefined,
+          rateLimitWindow: undefined as unknown as number,
           ip: "127.0.0.1",
         });
       }).toThrow("Invalid rateLimitWindow value");
@@ -111,7 +113,7 @@ describe("rate-limit unit test", () => {
       jest.resetAllMocks();
     });
 
-    test("should decrement hit when current date is greater than expiry calculation", () => {
+    test("should delete hit when current date is greater than expiry calculation", () => {
       const DATE_NOW_MOCK = 1676899858076;
       const CREATED_AT_MOCK = 1676899798076;
 
@@ -129,7 +131,7 @@ describe("rate-limit unit test", () => {
         hits: 1,
       });
 
-      expect(decrementHitFn).toBeCalled();
+      expect(deleteHitFn).toBeCalled();
     });
 
     test("should increment hit when the maximum allowable limit is greater than or equal to cache hits", () => {
