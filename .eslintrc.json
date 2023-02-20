@@ -13,8 +13,7 @@
   "ignorePatterns": ["/lib/**/*", "package.json", "src/interfaces/*"],
   "overrides": [],
   "parserOptions": {
-    "sourceType": "module",
-    "project": ["./tsconfig.json"]
+    "sourceType": "module"
   },
   "parser": "@typescript-eslint/parser",
   "rules": {
