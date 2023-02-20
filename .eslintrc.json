@@ -22,6 +22,11 @@
     "no-console": "error",
     "arrow-spacing": "error",
     "no-unused-vars": "error",
-    "no-duplicate-imports": "error"
+    "no-duplicate-imports": "error",
+
+    "camelcase": [
+      "error",
+      { "properties": "always", "ignoreDestructuring": true, "allow": ["_"] }
+    ]
   }
 }

@@ -9,7 +9,7 @@ export class MemoryDBAdapter implements ICache {
     if (databaseMemory[key] === undefined) {
       databaseMemory[key] = {
         hits: ONE_HIT,
-        timestamp_created: Date.now(),
+        created_at: Date.now(),
       };
     }
 

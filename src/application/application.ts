@@ -50,7 +50,7 @@ export class Application {
     const cache = this.cache;
     const responseCahe = cache.getByKey(clientIp);
     const hits = responseCahe?.hits ?? 0;
-    const timestampCreated = responseCahe?.timestamp_created ?? 0;
+    const createdAt = responseCahe?.created_at ?? 0;
 
     new RateLimit({
       ip: clientIp,
@@ -60,7 +60,7 @@ export class Application {
     }).processLimitCache(responseCahe);
 
     if (hits >= rateLimitMaxRequests) {
-      const resultDiffTime = timestampCreated - now;
+      const resultDiffTime = createdAt - now;
       const timestampToReset = new Date().getTime() + rateLimitWindow / 1000;
       const HTTP_STATUS_TOO_MANY_REQUESTS = 429;
 
