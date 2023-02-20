@@ -1,4 +1,4 @@
-import { IResponseHit } from './cache'
+import { IResponseHit } from "./cache";
 
 export interface IDatabaseMemory {
   [key: string]: IResponseHit;

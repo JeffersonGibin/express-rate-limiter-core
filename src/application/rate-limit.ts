@@ -13,8 +13,8 @@ export class RateLimit {
   private ip: string;
 
   constructor(intput: Input) {
-    const {maxRequest, rateLimitWindow, cache, ip} = intput
-    
+    const { maxRequest, rateLimitWindow, cache, ip } = intput;
+
     this.ip = ip;
     this.settings = {
       cache,
@@ -28,11 +28,11 @@ export class RateLimit {
     const timestampNow = Date.now();
     const rateLimitMaxRequests = this.settings.maxRequest;
 
-    const timestampCreated = cacheRequest?.timestamp_created ?? timestampNow;
+    const createdAt = cacheRequest?.created_at ?? timestampNow;
     const hits = cacheRequest?.hits ?? 0;
 
-    const resultTimeExpiration = timestampCreated + rateLimitMaxRequests * 1000;
-    if (timestampCreated && timestampNow > resultTimeExpiration) {
+    const resultTimeExpiration = createdAt + rateLimitMaxRequests * 1000;
+    if (createdAt && timestampNow > resultTimeExpiration) {
       // remove cache
       this.settings.cache.decrementHit(ip);
     }

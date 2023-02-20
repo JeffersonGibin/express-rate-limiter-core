@@ -1,12 +1,12 @@
 import {
-  NextFunction as INextFunctionExpress,
-  Request as IExpressRequest,
-  Response as IExpressResponse,
+  type NextFunction as INextFunctionExpress,
+  type Request as IExpressRequest,
+  type Response as IExpressResponse,
 } from "express";
 
 import { Application } from "./application/application";
-import { IMiddleware } from "./interfaces/middleware";
-import { ISettings } from "./interfaces/settings";
+import { type IMiddleware } from "./interfaces/middleware";
+import { type ISettings } from "./interfaces/settings";
 
 export const middleware = (settings: ISettings): IMiddleware => {
   return {
