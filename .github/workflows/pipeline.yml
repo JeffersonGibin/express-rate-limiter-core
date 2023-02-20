@@ -1,4 +1,4 @@
-name: "${{github.event_name}}"
+name: "My Custom Workflow Name"
 
 on:
   push:
