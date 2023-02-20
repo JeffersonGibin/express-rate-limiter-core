@@ -7,7 +7,7 @@ on:
       - "README.md"
 
   pull_request:
-    types: ["opened"]
+    types: [opened, synchronize]
     branches: ["main"]
     paths-ignore:
       - "README.md"
