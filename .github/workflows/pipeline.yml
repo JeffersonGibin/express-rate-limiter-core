@@ -1,4 +1,4 @@
-name: Pipeline Workflow
+name: ${{ if eq(github.event_name, 'pull_request') }}Pull Request \#${{ github.event.pull_request.number }}{{ else }}Merge PR \#${{ github.event.pull_request.number }}{{ endif }}
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - "README.md"
 
   pull_request:
-    types: ["opened"]
+    types: [opened, synchronize]
     branches: ["main"]
     paths-ignore:
       - "README.md"
