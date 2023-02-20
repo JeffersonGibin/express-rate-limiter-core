@@ -10,13 +10,13 @@ import {
 import { ICache } from "../interfaces/cache";
 import { RateLimit } from "./rate-limit";
 
-interface RequestParams {
+export interface RequestParams {
   readonly req: IExpressRequest;
   readonly res: IExpressResponse;
   readonly next: INextFunctionExpress;
 }
 
-interface InputInterceptor {
+export interface InputInterceptor {
   cache: ICache;
   rateLimit: RateLimit;
   requestParam: RequestParams;
@@ -72,25 +72,25 @@ export class RequestInterceptor {
     const clientIp = req.ip;
 
     // set custom header to identify max request limit
-    res.set("X-RateLimit-Limit", rateLimitMaxRequests.toString());
+    res.setHeader("X-RateLimit-Limit", rateLimitMaxRequests.toString());
 
     const responseCache = cache.getByKey(clientIp);
     const hits = responseCache?.hits ?? 0;
-    const createdAt = responseCache?.created_at ?? 0;
+    const createdAt = responseCache?.created_at ? responseCache?.created_at : 0;
 
     // Process Hit increment or decrement
     rateLimit.processHit(responseCache);
 
     if (hits >= rateLimitMaxRequests) {
       const resultDiffTime = this.diffNowBetweenCreatedAt(createdAt);
-      const timestampToReset = this.calculateTimeToReset();
+      const timestampToReset = Math.ceil(this.calculateTimeToReset());
       const timeWaitInSeconds = this.calculateTimeWait(resultDiffTime);
 
       // Set custom header with time in seconds to specify when API's rate limiting will be reset.
-      res.setHeader("X-RateLimit-Reset", Math.ceil(timestampToReset));
+      res.setHeader("X-RateLimit-Reset", timestampToReset);
 
       // tells the client how long in seconds to wait before making another request.
-      res.set("Retry-After", timeWaitInSeconds);
+      res.setHeader("Retry-After", timeWaitInSeconds);
 
       return res
         .status(HTTP_STATUS_TOO_MANY_REQUESTS)
