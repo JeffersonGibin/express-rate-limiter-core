@@ -1,0 +1,47 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
+
+run-name: 'Build Staging'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: .
+          node-version: ${{ inputs.node-version }}
+          key: ${{ env.cache-name }}${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ env.cache-name }}
+
+      - name: "Install Dependencies"
+        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        run: npm install
+
+      - name: "ESLint"
+        run: npm run lint
+
+      - name: "Unit tests"
+        run: npm run test:unit
+
+      - name: "Build"
+        run: npm run build
+
+      - name: "Upload Artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact-build
+          path: |
+            ./build
