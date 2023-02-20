@@ -1,4 +1,5 @@
-name: "My Custom Workflow Name"
+name: ${{ if github.event_name == 'pull_request' }}PR #${{ github.event.pull_request.number }}${{ else }}Default Name${{ endif }}
+
 
 on:
   push:
