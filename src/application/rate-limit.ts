@@ -1,7 +1,8 @@
+import { UNIT_TIME_IN_SECONDS } from "../constants/application";
 import { ICache, IResponseHit } from "../interfaces/cache";
 import { ISettings } from "../interfaces/settings";
 
-interface Input {
+interface RateLimitInput {
   ip: string;
   cache: ICache;
   maxRequest: number;
@@ -9,11 +10,27 @@ interface Input {
 }
 
 export class RateLimit {
-  private settings: ISettings;
-  private ip: string;
+  private readonly settings: ISettings;
+  private readonly ip: string;
 
-  constructor(intput: Input) {
+  constructor(intput: RateLimitInput) {
     const { maxRequest, rateLimitWindow, cache, ip } = intput;
+
+    if (!ip || typeof ip !== "string") {
+      throw new Error("Invalid IP address");
+    }
+
+    if (!cache) {
+      throw new Error("Invalid cache object");
+    }
+
+    if (!maxRequest || maxRequest < 0) {
+      throw new Error("Invalid maxRequest value");
+    }
+
+    if (!rateLimitWindow || rateLimitWindow < 0) {
+      throw new Error("Invalid rateLimitWindow value");
+    }
 
     this.ip = ip;
     this.settings = {
@@ -23,7 +40,19 @@ export class RateLimit {
     };
   }
 
-  public async processLimitCache(cacheRequest: IResponseHit) {
+  /**
+   * Calculate the time expiration
+   * @param {number} createdAt
+   * @returns time expiration in the unit time seconds
+   */
+  private calculateTimeExpiration(createdAt: number): number {
+    const rateLimitInMiliseconds =
+      this.settings.maxRequest * UNIT_TIME_IN_SECONDS;
+
+    return createdAt + rateLimitInMiliseconds;
+  }
+
+  public async processHit(cacheRequest: IResponseHit) {
     const ip = this.ip;
     const timestampNow = Date.now();
     const rateLimitMaxRequests = this.settings.maxRequest;
@@ -31,7 +60,8 @@ export class RateLimit {
     const createdAt = cacheRequest?.created_at ?? timestampNow;
     const hits = cacheRequest?.hits ?? 0;
 
-    const resultTimeExpiration = createdAt + rateLimitMaxRequests * 1000;
+    const resultTimeExpiration = this.calculateTimeExpiration(createdAt);
+
     if (createdAt && timestampNow > resultTimeExpiration) {
       // remove cache
       this.settings.cache.decrementHit(ip);

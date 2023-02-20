@@ -5,7 +5,6 @@ import {
 } from "express";
 
 export interface IMiddleware {
-  
   /**
    * Function that applies the execution of the rate limit logic, this function is in fact the initial function
    * @param {Request} req request param express
