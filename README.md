@@ -70,8 +70,8 @@ When the request max number is hit the response return is.
 
 ## Headers
 
-|       Header        | Always Returned |                                                                  Description                                                                   |
-| :-----------------: | :-------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: |
-| `X-RateLimit-Limit` |       Yes       |                                                       used to identify max request limit                                                       |
-| `X-RateLimit-Reset` |       No        | This header is used to identify when the limiter is reset and only is returned when the request limit hit. The value é represented in seconds. |
-|    `Retry-After`    |       Yes       |                              used to tells the client how long in seconds to wait before making another request.                               |
+|       Header        | Always Returned |                                                                                              Description                                                                                               |
+| :-----------------: | :-------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| `X-RateLimit-Limit` |       Yes       |                                                                                   used to identify max request limit                                                                                   |
+| `X-RateLimit-Reset` |       No        | This header is used to identify when the limiter is reset and only is returned when the request limit hit. The value é represented in seconds.The header only is returned when the rate limit was hit. |
+|    `Retry-After`    |       No        |                              used to tells the client how long in seconds to wait before making another request. The header only is returned when the rate limit was hit.                              |
