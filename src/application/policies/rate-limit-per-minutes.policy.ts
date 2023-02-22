@@ -2,8 +2,7 @@ import { IResponseHit } from "../../interfaces/cache";
 import { ONE_SECOND_IN_MILLISECOND, SIXTY_SECONDS } from "../../constants";
 import { IPolicyRequestPerMinutes } from "../../interfaces/policies";
 import { RateLimitPolicy } from "./abstract/rate-limit.policy";
-import { MissingPropertyException } from "../exceptions/missing-property.exception";
-import { getMessageMissingProperty } from "../utils/message-error";
+import { ValidationHandler } from "../validations/validation-handler";
 
 export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
   protected policy: IPolicyRequestPerMinutes;
@@ -16,21 +15,24 @@ export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
   }
 
   public validateProps(): RateLimitPerMinutesPolicy {
-    if (!this.policy?.periodWindow) {
-      throw new MissingPropertyException(
-        getMessageMissingProperty("periodWindow")
-      );
-    }
-
-    if (!this.policy?.maxRequests) {
-      throw new MissingPropertyException(
-        getMessageMissingProperty("maxRequests")
-      );
-    }
-
-    if (!this.policy?.type) {
-      throw new MissingPropertyException(getMessageMissingProperty("type"));
-    }
+    // Validations properties
+    new ValidationHandler([
+      {
+        propertyName: "periodWindow",
+        value: this.policy?.periodWindow,
+        validations: ["exists_property", "is_number"],
+      },
+      {
+        propertyName: "maxRequests",
+        value: this.policy?.maxRequests,
+        validations: ["exists_property", "is_number"],
+      },
+      {
+        propertyName: "type",
+        value: this.policy?.type,
+        validations: ["exists_property", "is_string"],
+      },
+    ]).execute();
 
     return this;
   }

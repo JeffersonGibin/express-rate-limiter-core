@@ -1,7 +1,6 @@
 import { IResponseHit } from "../../interfaces/cache";
 import { IPolicyRequestPerPeriod } from "../../interfaces/policies";
-import { MissingPropertyException } from "../exceptions/missing-property.exception";
-import { getMessageMissingProperty } from "../utils/message-error";
+import { ValidationHandler } from "../validations/validation-handler";
 import { RateLimitPolicy } from "./abstract/rate-limit.policy";
 
 export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
@@ -15,21 +14,24 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
   }
 
   public validateProps(): RateLimitPerPeriodPolicy {
-    if (!this.policy?.periodWindowStart) {
-      throw new MissingPropertyException(
-        getMessageMissingProperty("periodWindowStart")
-      );
-    }
-
-    if (!this.policy?.periodWindowEnd) {
-      throw new MissingPropertyException(
-        getMessageMissingProperty("periodWindowEnd")
-      );
-    }
-
-    if (!this.policy?.type) {
-      throw new MissingPropertyException(getMessageMissingProperty("type"));
-    }
+    // Validations properties
+    new ValidationHandler([
+      {
+        propertyName: "periodWindowStart",
+        value: this.policy?.periodWindowStart,
+        validations: ["exists_property", "is_instance_date"],
+      },
+      {
+        propertyName: "periodWindowEnd",
+        value: this.policy?.periodWindowEnd,
+        validations: ["exists_property", "is_instance_date"],
+      },
+      {
+        propertyName: "type",
+        value: this.policy?.type,
+        validations: ["exists_property", "is_string"],
+      },
+    ]).execute();
 
     return this;
   }
