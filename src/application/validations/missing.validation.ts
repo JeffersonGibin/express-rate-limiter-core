@@ -6,7 +6,7 @@ export class MissingValidation {
   private input: IPropertyDefinitionValidation;
 
   /**
-   * Represent Class validation to missing value
+   * It Represent Class validation to missing value
    * @param {IPropertyDefinitionValidation} input
    */
   constructor(input: IPropertyDefinitionValidation) {

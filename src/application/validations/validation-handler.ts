@@ -8,7 +8,7 @@ export class ValidationHandler {
   private inputArgs: IValidationHandler[];
 
   /**
-   * Represent Class validation handler. This class is a handler the use of class validations
+   * It Represent Class validation handler. This class is a handler the use of class validations
    * @param {IPropertyDefinitionValidation} input
    */
   constructor(input: IValidationHandler[]) {

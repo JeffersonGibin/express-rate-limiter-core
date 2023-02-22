@@ -6,7 +6,7 @@ export class DateValidation {
   private input: IPropertyDefinitionValidation;
 
   /**
-   * Represent Class validation to Date
+   * It Represent Class validation to Date
    * @param {IPropertyDefinitionValidation} input
    */
   constructor(input: IPropertyDefinitionValidation) {

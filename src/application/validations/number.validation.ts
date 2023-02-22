@@ -6,7 +6,7 @@ export class NumberValidation {
   private input: IPropertyDefinitionValidation;
 
   /**
-   * Represent Class validation to Number
+   * It Represent Class validation to Number
    * @param {IPropertyDefinitionValidation} input
    */
   constructor(input: IPropertyDefinitionValidation) {
