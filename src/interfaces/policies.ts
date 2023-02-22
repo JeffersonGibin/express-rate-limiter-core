@@ -1,7 +1,7 @@
 export type Policy =
-  | "REQUET_PER_SECONDS"
-  | "REQUET_PER_MINUTES"
-  | "REQUET_PER_PERIOD";
+  | "REQUEST_PER_SECONDS"
+  | "REQUEST_PER_MINUTES"
+  | "REQUEST_PER_PERIOD";
 
 export interface IPolicyDefault {
   type: Policy;
@@ -9,17 +9,17 @@ export interface IPolicyDefault {
 }
 
 export interface IPolicyRequestPerSeconds extends IPolicyDefault {
-  type: "REQUET_PER_SECONDS";
+  type: "REQUEST_PER_SECONDS";
   periodWindow: number;
 }
 
 export interface IPolicyRequestPerMinutes extends IPolicyDefault {
-  type: "REQUET_PER_MINUTES";
+  type: "REQUEST_PER_MINUTES";
   periodWindow: number;
 }
 
 export interface IPolicyRequestPerPeriod extends IPolicyDefault {
-  type: "REQUET_PER_PERIOD";
+  type: "REQUEST_PER_PERIOD";
   periodWindowStart: Date;
   periodWindowEnd: Date;
 }

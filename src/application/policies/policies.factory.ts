@@ -11,15 +11,15 @@ export class PoliciesFactory {
   }
 
   create() {
-    if (this.type === "REQUET_PER_SECONDS") {
+    if (this.type === "REQUEST_PER_SECONDS") {
       return new RateLimitPerSecondsPolicy();
     }
 
-    if (this.type === "REQUET_PER_MINUTES") {
+    if (this.type === "REQUEST_PER_MINUTES") {
       return new RateLimitPerMinutesPolicy();
     }
 
-    if (this.type === "REQUET_PER_PERIOD") {
+    if (this.type === "REQUEST_PER_PERIOD") {
       return new RateLimitPerPeriodPolicy();
     }
   }
