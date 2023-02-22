@@ -5,6 +5,7 @@ import {
 } from "express";
 
 import { Application } from "./application/application";
+import { HTTP_STATUS_INTERNAL_SERVER_ERROR } from "./constants";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
 
@@ -34,7 +35,7 @@ export const middleware = (settings: ISettings): IMiddleware => {
         // Execute application
         app.execute();
       } catch (error) {
-        return res.status(500).json({
+        return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).json({
           message: error.message,
         });
       }
