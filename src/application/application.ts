@@ -10,7 +10,10 @@ import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
 import { ICache } from "../interfaces/cache";
 import { BlockRequestRule } from "../interfaces/settings";
-import { MESSAGE_DEFAULT_TOOMANY_REQUEST } from "src/constants/message";
+import {
+  MESSAGE_DEFAULT_TOOMANY_REQUEST,
+  MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
+} from "src/constants/message";
 
 interface InputApplication {
   requestExpressDto: RequestExpressDTO;
@@ -83,7 +86,7 @@ export class Application {
       return this.requestExpressDto.response
         .status(HTTP_STATUS_FORBIDDEN)
         .send({
-          message: "Request don't authorized!",
+          message: MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
         });
     }
 
