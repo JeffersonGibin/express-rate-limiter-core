@@ -17,7 +17,9 @@ npm install express-rate-limiter-core
 - Rate limit per period
 - Block system to requets
 
-## Exemple Request per Seconds or Minutes
+## Exemples
+
+### Request per Seconds or Minutes
 
 ```javascript
 import express from "express";
@@ -55,7 +57,7 @@ app.listen(8080, () => {
 });
 ```
 
-## Exemple Request per Period
+### Request per Period
 
 ```javascript
 import express from "express";
@@ -97,7 +99,7 @@ app.listen(8080, () => {
 });
 ```
 
-## Exemple Block Request Rule
+### Block Request Rule
 
 ```javascript
 import express from "express";
