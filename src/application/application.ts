@@ -73,9 +73,10 @@ export class Application {
     const maxRequests = policyProps?.maxRequests;
 
     // Block Request
-    const requestBlocked = this?.blockRequestRule
-      ? this?.blockRequestRule(this.requestExpressDto.request)
-      : false;
+    const requestBlocked =
+      this?.blockRequestRule && typeof this?.blockRequestRule === "function"
+        ? this?.blockRequestRule(this.requestExpressDto.request)
+        : false;
 
     if (requestBlocked) {
       return this.requestExpressDto.response
