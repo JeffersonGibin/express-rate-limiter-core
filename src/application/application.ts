@@ -10,6 +10,7 @@ import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
 import { ICache } from "../interfaces/cache";
 import { BlockRequestRule } from "../interfaces/settings";
+import { MESSAGE_DEFAULT_TOOMANY_REQUEST } from "src/constants/message";
 
 interface InputApplication {
   requestExpressDto: RequestExpressDTO;
@@ -92,8 +93,7 @@ export class Application {
     // Too many requests response
     if (hits > maxRequests) {
       return res.status(HTTP_STATUS_TOO_MANY_REQUESTS).send({
-        message:
-          "Too many requests. You've exceeded the rate limit for requests",
+        message: MESSAGE_DEFAULT_TOOMANY_REQUEST,
       });
     }
 
