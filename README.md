@@ -15,7 +15,7 @@ npm install express-rate-limiter-core
 - Rate limit per second
 - Rate limit per minutes
 - Rate limit per period
-- Lock system to requets
+- Block system to requets
 
 ## Exemple Request per Seconds or Minutes
 
