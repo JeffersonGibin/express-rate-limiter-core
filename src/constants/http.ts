@@ -11,4 +11,4 @@ export const HTTP_STATUS_FORBIDDEN = 403;
 /**
  * Represent HTTP status code 500 Internal Server Error
  */
-export const HTTP_STATUS_INTERNAL_SERVER_ERROR = 403;
+export const HTTP_STATUS_INTERNAL_SERVER_ERROR = 500;

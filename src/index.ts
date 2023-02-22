@@ -16,4 +16,4 @@ export const MemoryDBAdapter = MemoryDB;
 /**
  * Interfaces Types
  */
-export { ICache, IRateLimitCache as IResponseHit, ISettings };
+export { ICache, IRateLimitCache, ISettings };
