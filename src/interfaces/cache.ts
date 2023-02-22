@@ -5,6 +5,11 @@ export interface IResponseHit {
   hits: number;
 
   /**
+   * represented last time request
+   */
+  last_time: number;
+
+  /**
    * represented when cache was created
    */
   created_at: number;
@@ -12,11 +17,12 @@ export interface IResponseHit {
 
 export interface ICache {
   /**
-   * Increment a HIT to a cache using the parameter key. This method needs to implement a logic that store timestamp now.
+   * Save a HIT to a cache using the parameter key. This method needs to implement a logic that store timestamp now.
    * @param {string} key
+   * @param {value} key
    * @returns {IResponseHit}
    */
-  incrementHit(key: string): IResponseHit;
+  saveHit(key: string, value: number): IResponseHit;
 
   /**
    * Delete a HIT to a cache using the parameter key.

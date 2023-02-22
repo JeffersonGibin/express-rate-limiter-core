@@ -1,75 +1,69 @@
-import { UNIT_TIME_IN_SECONDS } from "../constants/application";
+import {
+  Request as IExpressRequest,
+  Response as IExpressResponse,
+  NextFunction as INextFunction,
+} from "express";
 import { ICache, IResponseHit } from "../interfaces/cache";
-import { ISettings } from "../interfaces/settings";
-
-interface RateLimitInput {
-  ip: string;
-  cache: ICache;
-  maxRequest: number;
-  rateLimitWindow: number;
-}
+import { ONE_HIT, ONE_SECOND_IN_MILLISECOND } from "../constants/application";
+import { IPolicieRateLimit } from "../interfaces/policies";
+import { RateLimitPolicy } from "./policies/abstract/rate-limit.policy";
 
 export class RateLimit {
-  private readonly settings: ISettings;
-  private readonly ip: string;
+  protected policyInstance: RateLimitPolicy;
+  protected policy: IPolicieRateLimit;
+  protected request: IExpressRequest;
+  protected response: IExpressResponse;
+  protected next: INextFunction;
 
-  constructor(intput: RateLimitInput) {
-    const { maxRequest, rateLimitWindow, cache, ip } = intput;
+  protected responseHit: IResponseHit;
+  protected cacheAdapter: ICache;
 
-    if (!ip || typeof ip !== "string") {
-      throw new Error("Invalid IP address");
-    }
-
-    if (!cache) {
-      throw new Error("Invalid cache object");
-    }
-
-    if (!maxRequest || maxRequest < 0) {
-      throw new Error("Invalid maxRequest value");
-    }
-
-    if (!rateLimitWindow || rateLimitWindow < 0) {
-      throw new Error("Invalid rateLimitWindow value");
-    }
-
-    this.ip = ip;
-    this.settings = {
-      cache,
-      maxRequest,
-      rateLimitWindow,
-    };
+  public setAdapter(cacheAdapter: ICache): RateLimit {
+    this.cacheAdapter = cacheAdapter;
+    return this;
   }
 
-  /**
-   * Calculate the time expiration
-   * @param {number} createdAt
-   * @returns time expiration in the unit time seconds
-   */
-  private calculateTimeExpiration(createdAt: number): number {
-    const rateLimitInMiliseconds =
-      this.settings.maxRequest * UNIT_TIME_IN_SECONDS;
+  public setPolicy(policy: IPolicieRateLimit): RateLimit {
+    this.policy = policy;
 
-    return createdAt + rateLimitInMiliseconds;
+    return this;
   }
 
-  public async processHit(cacheRequest: IResponseHit) {
-    const ip = this.ip;
+  public setRequest(
+    req: IExpressRequest,
+    res: IExpressResponse,
+    next: INextFunction
+  ): RateLimit {
+    this.request = req;
+    this.response = res;
+    this.next = next;
+
+    return this;
+  }
+
+  public processIncrementOrDeleteHits() {
+    const ip = this.request?.ip;
     const timestampNow = Date.now();
-    const rateLimitMaxRequests = this.settings.maxRequest;
 
-    const createdAt = cacheRequest?.created_at ?? timestampNow;
-    const hits = cacheRequest?.hits ?? 0;
+    this.responseHit = this.cacheAdapter?.getByKey(ip);
+    const lastTimeInMilissecond = this.responseHit?.last_time ?? timestampNow;
 
-    const resultTimeExpiration = this.calculateTimeExpiration(createdAt);
+    const timeSinceLastRequest = timestampNow - lastTimeInMilissecond;
+    const waitTime = this.policy?.maxRequests * ONE_SECOND_IN_MILLISECOND;
 
-    if (createdAt && timestampNow > resultTimeExpiration) {
-      // remove cache
-      this.settings.cache.deleteHit(ip);
+    if (!this.responseHit?.hits) {
+      this.cacheAdapter?.saveHit(ip, ONE_HIT);
+    } else {
+      // insert cache
+      let totalHitsInCache = this.responseHit?.hits;
+      if (this.policy?.maxRequests >= totalHitsInCache) {
+        const newValue = (totalHitsInCache += ONE_HIT);
+        this.cacheAdapter?.saveHit(ip, newValue);
+      }
     }
 
-    if (rateLimitMaxRequests >= hits) {
-      // insert cache
-      this.settings.cache.incrementHit(ip);
+    if (timeSinceLastRequest > waitTime) {
+      this.cacheAdapter?.deleteHit(ip);
     }
   }
 }

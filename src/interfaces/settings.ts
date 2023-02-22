@@ -1,20 +1,24 @@
+import { Request as IExpressRequest } from "express";
+
 import { ICache } from "./cache";
+import { IPolicieRateLimit } from "./policies";
 
 export interface ISettings {
-    /**
-     * Maximum number of requests allowed
-     */
-     maxRequest: number;
+  /**
+   * This atributte  is opcional and needs to receive an adapter.
+   * You can implement a custom adapter if you want as long as the interface is respected
+   */
+  cache: ICache;
 
-    /**
-     * 
-    Period window that the request limit is allowed
-     */
-    rateLimitWindow: number;
+  /**
+   * This function can to be implemented to forbidden a request.
+   * @param {IExpressRequest} req
+   * @returns {boolean}
+   */
+  blockRequestRule?(req: IExpressRequest): boolean;
 
-    /**
-     * This atributte Cache needs to receive an adapter.
-     * You can implement a custom adapter if you want as long as the interface is respected
-     */
-    cache: ICache
+  /**
+   * A list with policy rate limit
+   */
+  policy: IPolicieRateLimit;
 }
