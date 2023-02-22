@@ -1,30 +1,39 @@
 import { Response as IExpressResponse } from "express";
 import { RateLimit } from "./rate-limit";
 import { HeaderRequestHandler } from "./header-request-handler";
-import { HTTP_STATUS_TOO_MANY_REQUESTS } from "../constants/application";
+import {
+  HTTP_STATUS_FORBIDDEN,
+  HTTP_STATUS_TOO_MANY_REQUESTS,
+} from "../constants";
 import { PoliciesFactory } from "./policies/policies.factory";
 import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
 import { ICache } from "../interfaces/cache";
+import { BlockRequestRule } from "../interfaces/settings";
 
-export class RequestInterceptor {
+interface InputApplication {
+  requestExpressDto: RequestExpressDTO;
+  argumentsPolicyDto: ArgumentsPolicyDTO;
+  blockRequestRule: BlockRequestRule;
+  cache: ICache;
+}
+
+export class Application {
   private requestExpressDto: RequestExpressDTO;
   private argumentsPolicyDto: ArgumentsPolicyDTO;
   private cache: ICache;
+  private blockRequestRule: BlockRequestRule;
 
-  constructor(
-    requestExpressDto: RequestExpressDTO,
-    argumentsPolicyDto: ArgumentsPolicyDTO,
-    cache: ICache
-  ) {
-    this.requestExpressDto = requestExpressDto;
-    this.argumentsPolicyDto = argumentsPolicyDto;
-    this.cache = cache;
+  constructor(input: InputApplication) {
+    this.requestExpressDto = input.requestExpressDto;
+    this.argumentsPolicyDto = input.argumentsPolicyDto;
+    this.cache = input.cache;
+    this.blockRequestRule = input.blockRequestRule;
   }
 
-  public execute(): IExpressResponse {
+  private rateLimitFlow(): number {
     const cache = this.cache;
-    const { req, res, next } = this.requestExpressDto;
+    const { req } = this.requestExpressDto;
     const policyProps = this.argumentsPolicyDto.policy;
 
     // Find cache by key
@@ -55,7 +64,29 @@ export class RequestInterceptor {
       .applyRateLimitReset(maxRequests)
       .applyRetryAfter(maxRequests);
 
-    const hits = responseCache?.hits;
+    return responseCache?.hits;
+  }
+
+  public execute(): IExpressResponse {
+    const { res, next } = this.requestExpressDto;
+    const policyProps = this.argumentsPolicyDto.policy;
+    const maxRequests = policyProps?.maxRequests;
+
+    // Block Request
+    const requestBlocked = this?.blockRequestRule
+      ? this?.blockRequestRule(this.requestExpressDto.request)
+      : false;
+
+    if (requestBlocked) {
+      return this.requestExpressDto.response
+        .status(HTTP_STATUS_FORBIDDEN)
+        .send({
+          message: "Request don't authorized!",
+        });
+    }
+
+    // Process All flow to Rate Limit
+    const hits = this.rateLimitFlow();
 
     // Too many requests response
     if (hits > maxRequests) {
