@@ -1,5 +1,6 @@
 import { IResponseHit } from "../../interfaces/cache";
 import { IPolicyRequestPerPeriod } from "../../interfaces/policies";
+import { MissingPropertyException } from "../exceptions/missing-property.exception";
 import { RateLimitPolicy } from "./abstract/rate-limit.policy";
 
 export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
@@ -14,15 +15,21 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
 
   public validateProps(): RateLimitPerPeriodPolicy {
     if (!this.policy?.periodWindowStart) {
-      throw new Error("The policy doesn't find property [periodWindowStart]");
+      throw new MissingPropertyException(
+        "The policy doesn't find property [periodWindowStart]"
+      );
     }
 
     if (!this.policy?.periodWindowEnd) {
-      throw new Error("The policy doesn't find property [periodWindowEnd]");
+      throw new MissingPropertyException(
+        "The policy doesn't find property [periodWindowEnd]"
+      );
     }
 
     if (!this.policy?.type) {
-      throw new Error("The policy doesn't find property [type]");
+      throw new MissingPropertyException(
+        "The policy doesn't find property [type]"
+      );
     }
 
     return this;
