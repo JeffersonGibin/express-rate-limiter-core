@@ -123,7 +123,7 @@ const rateLimit = RateLimitExpress({
   },
 
   /**
-   *  Method to you can implement block request rules.
+   * In this  Method, you can implement block request rules.
    * The method to have request express object available to use response express
    */
   blockRequestRule: (requestExpress) => {
