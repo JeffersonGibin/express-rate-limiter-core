@@ -36,6 +36,8 @@ export const middleware = (settings: ISettings): IMiddleware => {
         app.execute();
       } catch (error) {
         return res.status(HTTP_STATUS_INTERNAL_SERVER_ERROR).json({
+          author: "EXPRESS_RATE_LIMITER_CORE",
+          type: error.name,
           message: error.message,
         });
       }
