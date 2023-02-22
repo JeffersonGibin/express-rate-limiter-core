@@ -63,7 +63,8 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
   public calculateRateLimitReset(): number {
     const timeWaitInMilliseconds = this.diffPeriod();
 
-    const lastTimeCacheInMilliseconds = this.responseRateLimitCache?.last_time;
+    const lastTimeCacheInMilliseconds =
+      this.responseRateLimitCache?.last_time_request;
 
     const nextWindowTime = Math.ceil(
       lastTimeCacheInMilliseconds + timeWaitInMilliseconds

@@ -7,7 +7,7 @@ export interface IRateLimitCache {
   /**
    * represented last time request
    */
-  last_time: number;
+  last_time_request: number;
 
   /**
    * represented when cache was created
@@ -17,12 +17,22 @@ export interface IRateLimitCache {
 
 export interface ICache {
   /**
-   * Save a HIT to a cache using the parameter key. This method needs to implement a logic that store timestamp now.
+   * Save a HIT to a cache using the parameter key.
+   *  This method needs to implement a logic that store hits, last_time_request and created_at
    * @param {string} key
-   * @param {value} key
+   * @param {number} newHit
    * @returns {IRateLimitCache}
    */
-  saveHit(key: string, value: number): IRateLimitCache;
+  saveHit(key: string, newHit: number): IRateLimitCache;
+
+  /**
+   * Update a HIT to a cache using the parameter key.
+   * This method needs to implement a logic that store hits, last_time_request and created_at
+   * @param {string} key
+   * @param {number} newHit
+   * @returns {IRateLimitCache}
+   */
+  updateHit(key: string, newHit: number): IRateLimitCache;
 
   /**
    * Delete a HIT to a cache using the parameter key.

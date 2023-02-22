@@ -57,7 +57,8 @@ export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
       SIXTY_SECONDS *
       ONE_SECOND_IN_MILLISECOND;
 
-    const lastTimeCacheInMilliseconds = this.responseRateLimitCache?.last_time;
+    const lastTimeCacheInMilliseconds =
+      this.responseRateLimitCache?.last_time_request;
 
     const nextWindowTime = Math.ceil(
       lastTimeCacheInMilliseconds + timeWaitInMilliseconds

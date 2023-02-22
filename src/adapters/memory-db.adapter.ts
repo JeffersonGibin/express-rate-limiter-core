@@ -8,22 +8,21 @@ export class MemoryDBAdapter implements ICache {
     this.databaseMemory = {};
   }
 
-  public saveHit(key: string, value: number): IRateLimitCache {
-    const ONE_HIT = 1;
-    if (this.databaseMemory[key] === undefined) {
-      this.databaseMemory[key] = {
-        hits: ONE_HIT,
-        last_time: Date.now(),
-        created_at: Date.now(),
-      };
+  public saveHit(key: string, newHit: number): IRateLimitCache {
+    this.databaseMemory[key] = {
+      hits: newHit,
+      last_time_request: Date.now(),
+      created_at: Date.now(),
+    };
 
-      return this.databaseMemory[key];
-    } else {
-      this.databaseMemory[key].hits = value;
-      this.databaseMemory[key].last_time = Date.now();
+    return this.databaseMemory[key];
+  }
 
-      return this.databaseMemory[key];
-    }
+  updateHit(key: string, newHit: number): IRateLimitCache {
+    this.databaseMemory[key].hits = newHit;
+    this.databaseMemory[key].last_time_request = Date.now();
+
+    return this.databaseMemory[key];
   }
 
   public getByKey(key: string): IRateLimitCache {

@@ -47,11 +47,11 @@ export class RateLimit {
       let totalHitsInCache = this.responseHit?.hits;
       if (this.policySettings?.maxRequests >= totalHitsInCache) {
         const newValue = (totalHitsInCache += RATE_LIMIT_ONE_HIT);
-        this.cacheAdapter?.saveHit(key, newValue);
+        this.cacheAdapter?.updateHit(key, newValue);
       }
     }
 
-    const lastTimeInMilissecond = this.responseHit?.last_time;
+    const lastTimeInMilissecond = this.responseHit?.last_time_request;
     const timeSinceLastRequest = timestampNow - lastTimeInMilissecond;
 
     // If the time wait for expiration then delete cache
