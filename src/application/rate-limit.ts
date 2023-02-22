@@ -1,5 +1,5 @@
 import { ICache, IResponseHit } from "../interfaces/cache";
-import { ONE_HIT, ONE_SECOND_IN_MILLISECOND } from "../constants/application";
+import { ONE_HIT, ONE_SECOND_IN_MILLISECOND } from "../constants";
 import { PolicieRateLimit } from "../interfaces/policies";
 
 export class RateLimit {

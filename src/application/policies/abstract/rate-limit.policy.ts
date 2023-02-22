@@ -1,5 +1,5 @@
 import { PolicieRateLimit } from "../../../interfaces/policies";
-import { ONE_SECOND_IN_MILLISECOND } from "../../../constants/application";
+import { ONE_SECOND_IN_MILLISECOND } from "../../../constants/time";
 
 export abstract class RateLimitPolicy {
   protected policy: PolicieRateLimit;
