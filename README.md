@@ -40,7 +40,7 @@ const rateLimit = RateLimitExpress({
 });
 
 /**
- * This is apply rate limit in the express.
+ * Apply rate limit in the express.
  */
 app.use(rateLimit.apply);
 
@@ -82,7 +82,7 @@ const rateLimit = RateLimitExpress({
 });
 
 /**
- * This is apply rate limit in the express.
+ * Apply rate limit in the express.
  */
 app.use(rateLimit.apply);
 
@@ -137,7 +137,7 @@ const rateLimit = RateLimitExpress({
 });
 
 /**
- * This is apply rate limit in the express.
+ * Apply rate limit in the express.
  */
 app.use(rateLimit.apply);
 
