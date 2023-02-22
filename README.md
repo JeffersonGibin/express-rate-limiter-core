@@ -20,12 +20,15 @@ npm install express-rate-limiter-core
 
 ## Exemples
 
+### Importing
+
+```javascript
+import { RateLimitExpress, MemoryDBAdapter } from "express-rate-limiter-core";
+```
+
 ### Request per Seconds or Minutes
 
 ```javascript
-import express from "express";
-import { MemoryDBAdapter, RateLimitExpress } from "express-rate-limiter-core";
-
 const app = express();
 
 const rateLimit = RateLimitExpress({
@@ -39,33 +42,11 @@ const rateLimit = RateLimitExpress({
     maxRequests: 10,
   },
 });
-
-/**
- * Apply rate limit in the express.
- */
-app.use(rateLimit.apply);
-
-// Rote exemple
-app.get("/user", (req, res) => {
-  res.status(200).json({
-    name: "Person",
-  });
-});
-
-// Server
-app.listen(8080, () => {
-  console.log("Server is ready!");
-});
 ```
 
 ### Request per Period
 
 ```javascript
-import express from "express";
-import { MemoryDBAdapter, RateLimitExpress } from "express-rate-limiter-core";
-
-const app = express();
-
 const rateLimit = RateLimitExpress({
   cache: new MemoryDBAdapter(),
   policy: {
@@ -80,23 +61,6 @@ const rateLimit = RateLimitExpress({
     // max requests allowed in the interval start and end
     maxRequests: 10,
   },
-});
-
-/**
- * Apply rate limit in the express.
- */
-app.use(rateLimit.apply);
-
-// Rote exemple
-app.get("/user", (req, res) => {
-  res.status(200).json({
-    name: "Person",
-  });
-});
-
-// Server
-app.listen(8080, () => {
-  console.log("Server is ready!");
 });
 ```
 
@@ -137,24 +101,17 @@ const rateLimit = RateLimitExpress({
     return false;
   },
 });
+```
 
+### How use ?
+
+```javascript
 /**
  * Apply rate limit in the express.
  */
 app.use(rateLimit.apply);
-
-// Rote exemple
-app.get("/user", (req, res) => {
-  res.status(200).json({
-    name: "Person",
-  });
-});
-
-// Server
-app.listen(8080, () => {
-  console.log("Server is ready!");
-});
 ```
+
 
 ## Constructor Parameters
 
