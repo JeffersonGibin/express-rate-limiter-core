@@ -1,4 +1,4 @@
-import { MemoryDBAdapter as MemoryDB } from "./adapters/memory-db.adapter";
+import { MemoryCacheAdapter as CacheMemory } from "./adapters/memory-cache.adapter";
 import { ICache, IRateLimitCache } from "./interfaces/cache";
 import { ISettings } from "./interfaces/settings";
 import { middleware } from "./middleware";
@@ -11,7 +11,7 @@ export const RateLimitExpress = middleware;
 /**
  * Adapter that works in memory.
  */
-export const MemoryDBAdapter = MemoryDB;
+export const MemoryCacheAdapter = CacheMemory;
 
 /**
  * Interfaces Types

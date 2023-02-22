@@ -1,7 +1,7 @@
 import { ICache, IRateLimitCache } from "../interfaces/cache";
 import { IDatabaseMemory } from "../interfaces/memory-cache";
 
-export class MemoryDBAdapter implements ICache {
+export class MemoryCacheAdapter implements ICache {
   private databaseMemory: IDatabaseMemory;
 
   constructor() {
