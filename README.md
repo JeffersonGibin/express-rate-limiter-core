@@ -1,4 +1,3 @@
-
 # <div align="center"> Express Rate Limit Core</div>
 
 A library to that disponibility is an easy middleware to limit request rate in the server express.
@@ -18,7 +17,6 @@ npm install express-rate-limiter-core
 - Rate limit per period
 - Block system to requets
 
-
 ## Cache available
 
 - MemoryCacheAdapter
@@ -28,7 +26,10 @@ npm install express-rate-limiter-core
 ### Importing
 
 ```javascript
-import { RateLimitExpress, MemoryCacheAdapter } from "express-rate-limiter-core";
+import {
+  RateLimitExpress,
+  MemoryCacheAdapter,
+} from "express-rate-limiter-core";
 ```
 
 ### Request per Seconds or Minutes
@@ -117,7 +118,6 @@ const rateLimit = RateLimitExpress({
 app.use(rateLimit.apply);
 ```
 
-
 ## Constructor Parameters
 
 |     Parameter      | Require |                                                                   Description                                                                   |
@@ -183,3 +183,14 @@ This library provides interfaces that can be used with TypeScript.
 | `X-RateLimit-Remaining` |       Yes       |                                                                                                                                   used to identify the quantity remaining max request limit                                                                                                                                    |
 |   `X-RateLimit-Reset`   |       No        | This header is used to identify when the limiter is reset and only is returned when the request limit hit. The value é represented in as ISO string. The header only is returned when the rate limit was hit. When the policy is `REQUEST_PER_PERIOD` the header returns the value of property `periodWindowEnd` as ISO string |
 |      `Retry-After`      |       No        |                           used to tells the client how long in seconds to wait before making another request. The header only is returned when the rate limit was hit. When the policy is `REQUEST_PER_PERIOD` the header returns difference between timestamp now and `periodWindowEnd` in seconds.                           |
+
+## Issues and Contributing
+
+- _Issues:_ If you encounter a bug or wish to see something added/changed, please [open an issue](https://github.com/JeffersonGibin/express-rate-limiter-core/issues/new)!
+
+- _Discussion:_ If you need assistance with anything related to the project, whether it's understanding how to use a particular feature, troubleshooting an issue, or anything [start a discussion here](https://github.com/JeffersonGibin/express-rate-limiter-core/discussions/new)!
+- _contributing:_ Please read [the contributing guide](contributing.md).
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
