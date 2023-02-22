@@ -1,8 +1,8 @@
 import { IValidationHandler } from "../../interfaces/validations";
-import { DatePropertyValidation } from "./date-property.validation";
-import { MissingPropertyValidation } from "./missing-property.validation";
-import { NumberPropertyValidation } from "./number-property.validation";
-import { StringPropertyValidation } from "./string-property.validation";
+import { DateValidation } from "./date.validation";
+import { MissingValidation } from "./missing.validation";
+import { NumberValidation } from "./number.validation";
+import { StringValidation } from "./string.validation";
 
 export class ValidationHandler {
   private inputArgs: IValidationHandler[];
@@ -18,33 +18,33 @@ export class ValidationHandler {
       for (let j = 0; j < argument.validations.length; j++) {
         const validationType = argument.validations[j];
 
-        // if validationType is is_instance_date then instance MissingPropertyValidation and execute
+        // if validationType is is_instance_date then instance MissingValidation and execute
         if (validationType === "exists_property") {
-          new MissingPropertyValidation({
+          new MissingValidation({
             propertyName: argument.propertyName,
             value: argument.value,
           }).execute();
         }
 
-        // if validationType is is_instance_date then instance StringPropertyValidation and execute
+        // if validationType is is_instance_date then instance StringValidation and execute
         if (validationType === "is_string") {
-          new StringPropertyValidation({
+          new StringValidation({
             propertyName: argument.propertyName,
             value: argument.value,
           }).execute();
         }
 
-        // if validationType is is_instance_date then instance NumberPropertyValidation and execute
+        // if validationType is is_instance_date then instance NumberValidation and execute
         if (validationType === "is_number") {
-          new NumberPropertyValidation({
+          new NumberValidation({
             propertyName: argument.propertyName,
             value: argument.value,
           }).execute();
         }
 
-        // if validationType is is_instance_date then instance DatePropertyValidation and execute
+        // if validationType is is_instance_date then instance DateValidation and execute
         if (validationType === "is_instance_date") {
-          new DatePropertyValidation({
+          new DateValidation({
             propertyName: argument.propertyName,
             value: argument.value,
           }).execute();

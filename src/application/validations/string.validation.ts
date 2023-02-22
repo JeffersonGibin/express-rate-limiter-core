@@ -2,7 +2,7 @@ import { MESSAGE_PLEASE_CHECK_CONFIGURATIONS } from "../../constants/message";
 import { PropertyNotStringException } from "../exceptions/property-not-string.exception";
 import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 
-export class StringPropertyValidation {
+export class StringValidation {
   private input: IPropertyDefinitionValidation;
 
   constructor(input: IPropertyDefinitionValidation) {
