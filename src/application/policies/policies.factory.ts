@@ -7,7 +7,7 @@ import { RateLimitPerSecondsPolicy } from "./rate-limit-per-seconds.policy";
 
 export class PoliciesFactory {
   private policy: PolicieRateLimit;
-  private responseHit: IRateLimitCache;
+  private responseRateLimitCache: IRateLimitCache;
 
   /**
    * Simple Factory class to create new instances of  policies classes
@@ -19,7 +19,7 @@ export class PoliciesFactory {
     responseRateLimitCache: IRateLimitCache
   ) {
     this.policy = policySettings;
-    this.responseHit = responseRateLimitCache;
+    this.responseRateLimitCache = responseRateLimitCache;
   }
 
   /**
@@ -28,15 +28,24 @@ export class PoliciesFactory {
    */
   create(): RateLimitPolicy {
     if (this.policy.type === "REQUEST_PER_SECONDS") {
-      return new RateLimitPerSecondsPolicy(this.policy, this.responseHit);
+      return new RateLimitPerSecondsPolicy(
+        this.policy,
+        this.responseRateLimitCache
+      );
     }
 
     if (this.policy.type === "REQUEST_PER_MINUTES") {
-      return new RateLimitPerMinutesPolicy(this.policy, this.responseHit);
+      return new RateLimitPerMinutesPolicy(
+        this.policy,
+        this.responseRateLimitCache
+      );
     }
 
     if (this.policy.type === "REQUEST_PER_PERIOD") {
-      return new RateLimitPerPeriodPolicy(this.policy, this.responseHit);
+      return new RateLimitPerPeriodPolicy(
+        this.policy,
+        this.responseRateLimitCache
+      );
     }
   }
 }
