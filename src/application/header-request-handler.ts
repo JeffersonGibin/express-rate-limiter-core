@@ -32,7 +32,7 @@ export class HeaderRequestHandler {
     this.response.setHeader("X-RateLimit-Limit", maxRequests.toString());
 
     // set custom header to define remaning request
-    const requestRemaning = this.policyInstance?.calculateRemaning();
+    const requestRemaning = this.policyInstance?.calculateRemaining();
 
     if (requestRemaning >= 0) {
       this.response?.setHeader("X-RateLimit-Remaining", requestRemaning);
