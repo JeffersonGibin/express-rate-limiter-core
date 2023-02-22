@@ -1,4 +1,4 @@
-import { IResponseHit } from "../interfaces/cache";
+import { IRateLimitCache } from "../interfaces/cache";
 import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { RateLimitPolicy } from "./policies/abstract/rate-limit.policy";
 import {
@@ -12,12 +12,12 @@ export class HeaderRequestHandler {
   private response: ResponseExpress;
   private next: NextFunctionExpress;
   private policyInstance: RateLimitPolicy;
-  private responseHits: IResponseHit;
+  private responseHits: IRateLimitCache;
 
   constructor(
     requestExpressDto: RequestExpressDTO,
     policyInstance: RateLimitPolicy,
-    responseHits: IResponseHit
+    responseHits: IRateLimitCache
   ) {
     this.request = requestExpressDto.req;
     this.response = requestExpressDto.res;

@@ -1,10 +1,10 @@
-import { ICache, IResponseHit } from "../interfaces/cache";
+import { ICache, IRateLimitCache } from "../interfaces/cache";
 import { ONE_HIT, ONE_SECOND_IN_MILLISECOND } from "../constants";
 import { PolicieRateLimit } from "../interfaces/policies";
 
 export class RateLimit {
   private policy: PolicieRateLimit;
-  private responseHit: IResponseHit;
+  private responseHit: IRateLimitCache;
   private cacheAdapter: ICache;
   private key: string;
 

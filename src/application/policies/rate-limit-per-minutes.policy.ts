@@ -1,4 +1,4 @@
-import { IResponseHit } from "../../interfaces/cache";
+import { IRateLimitCache } from "../../interfaces/cache";
 import { ONE_SECOND_IN_MILLISECOND, SIXTY_SECONDS } from "../../constants";
 import { IPolicyRequestPerMinutes } from "../../interfaces/policies";
 import { RateLimitPolicy } from "./abstract/rate-limit.policy";
@@ -6,9 +6,9 @@ import { ValidationHandler } from "../validations/validation-handler";
 
 export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
   protected policy: IPolicyRequestPerMinutes;
-  protected responseHit: IResponseHit;
+  protected responseHit: IRateLimitCache;
 
-  constructor(policy: IPolicyRequestPerMinutes, responseHit: IResponseHit) {
+  constructor(policy: IPolicyRequestPerMinutes, responseHit: IRateLimitCache) {
     super(responseHit?.hits);
     this.policy = policy;
     this.responseHit = responseHit;

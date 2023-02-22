@@ -1,4 +1,4 @@
-import { ICache, IResponseHit } from "../interfaces/cache";
+import { ICache, IRateLimitCache } from "../interfaces/cache";
 import { IDatabaseMemory } from "../interfaces/memory-cache";
 
 export class MemoryDBAdapter implements ICache {
@@ -8,7 +8,7 @@ export class MemoryDBAdapter implements ICache {
     this.databaseMemory = {};
   }
 
-  public saveHit(key: string, value: number): IResponseHit {
+  public saveHit(key: string, value: number): IRateLimitCache {
     const ONE_HIT = 1;
     if (this.databaseMemory[key] === undefined) {
       this.databaseMemory[key] = {
@@ -26,7 +26,7 @@ export class MemoryDBAdapter implements ICache {
     }
   }
 
-  public getByKey(key: string): IResponseHit {
+  public getByKey(key: string): IRateLimitCache {
     return this.databaseMemory[key];
   }
 

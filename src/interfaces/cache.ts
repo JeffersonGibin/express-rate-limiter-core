@@ -1,4 +1,4 @@
-export interface IResponseHit {
+export interface IRateLimitCache {
   /**
    * Total hits of request
    */
@@ -20,9 +20,9 @@ export interface ICache {
    * Save a HIT to a cache using the parameter key. This method needs to implement a logic that store timestamp now.
    * @param {string} key
    * @param {value} key
-   * @returns {IResponseHit}
+   * @returns {IRateLimitCache}
    */
-  saveHit(key: string, value: number): IResponseHit;
+  saveHit(key: string, value: number): IRateLimitCache;
 
   /**
    * Delete a HIT to a cache using the parameter key.
@@ -34,7 +34,7 @@ export interface ICache {
   /**
    * Get cache by key
    * @param {string} key
-   * @returns {IResponseHit}
+   * @returns {IRateLimitCache}
    */
-  getByKey(key: string): IResponseHit;
+  getByKey(key: string): IRateLimitCache;
 }

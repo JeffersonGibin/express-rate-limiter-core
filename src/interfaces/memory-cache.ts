@@ -1,5 +1,5 @@
-import { IResponseHit } from "./cache";
+import { IRateLimitCache } from "./cache";
 
 export interface IDatabaseMemory {
-  [key: string]: IResponseHit;
+  [key: string]: IRateLimitCache;
 }

@@ -1,5 +1,5 @@
 import { MemoryDBAdapter as MemoryDB } from "./adapters/memory-db.adapter";
-import { ICache, IResponseHit } from "./interfaces/cache";
+import { ICache, IRateLimitCache } from "./interfaces/cache";
 import { ISettings } from "./interfaces/settings";
 import { middleware } from "./middleware";
 
@@ -16,4 +16,4 @@ export const MemoryDBAdapter = MemoryDB;
 /**
  * Interfaces Types
  */
-export { ICache, IResponseHit, ISettings };
+export { ICache, IRateLimitCache as IResponseHit, ISettings };

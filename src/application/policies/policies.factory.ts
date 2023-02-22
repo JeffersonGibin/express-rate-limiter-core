@@ -1,4 +1,4 @@
-import { IResponseHit } from "../../interfaces/cache";
+import { IRateLimitCache } from "../../interfaces/cache";
 import { PolicieRateLimit } from "../../interfaces/policies";
 import { RateLimitPerMinutesPolicy } from "./rate-limit-per-minutes.policy";
 import { RateLimitPerPeriodPolicy } from "./rate-limit-per-period.policy";
@@ -6,9 +6,9 @@ import { RateLimitPerSecondsPolicy } from "./rate-limit-per-seconds.policy";
 
 export class PoliciesFactory {
   private policy: PolicieRateLimit;
-  private responseHit: IResponseHit;
+  private responseHit: IRateLimitCache;
 
-  constructor(policy: PolicieRateLimit, responseHit: IResponseHit) {
+  constructor(policy: PolicieRateLimit, responseHit: IRateLimitCache) {
     this.policy = policy;
     this.responseHit = responseHit;
   }
