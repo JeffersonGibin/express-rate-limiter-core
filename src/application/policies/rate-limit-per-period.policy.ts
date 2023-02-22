@@ -1,3 +1,4 @@
+import { RATE_LIMIT_ONE_HIT } from "../../constants";
 import { IRateLimitCache } from "../../interfaces/cache";
 import { IPolicyRequestPerPeriod } from "../../interfaces/policies";
 import { ValidationHandler } from "../validations/validation-handler";
@@ -16,16 +17,12 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
     policySettings: IPolicyRequestPerPeriod,
     responseRateLimitCache: IRateLimitCache
   ) {
-    super(responseRateLimitCache?.hits);
+    super(responseRateLimitCache);
+
     this.policySettings = policySettings;
     this.responseRateLimitCache = responseRateLimitCache;
   }
 
-  /**
-   * Implementation of an abstract model of RateLimitPolicy.
-   *  Must execute validations properties that the library receives in the instance.
-   * @returns {RateLimitPerMinutesPolicy} return this
-   */
   public validateProps(): RateLimitPerPeriodPolicy {
     // Validations properties
     new ValidationHandler([
@@ -49,27 +46,49 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
     return this;
   }
 
-  private diffPeriod(): number {
-    return (
-      this.policySettings?.periodWindowEnd.getTime() -
-      this.policySettings?.periodWindowStart.getTime()
-    );
+  /**
+   * @override method override
+   * @returns {number} timestmap periodWindoEnd
+   */
+  public calculateRateLimitReset(): number {
+    return this.policySettings?.periodWindowEnd.getTime();
+  }
+
+  public waitingTimeIsExpired(): boolean {
+    const timestampNow = Date.now();
+    const periodEnd = this.policySettings?.periodWindowEnd.getTime();
+
+    if (timestampNow >= periodEnd) {
+      return true;
+    }
+
+    return false;
   }
 
   /**
-   * Implementation of an abstract model of calculateRateLimitReset.
-   * @returns {RateLimitPerMinutesPolicy} return this
+   * @override
    */
-  public calculateRateLimitReset(): number {
-    const timeWaitInMilliseconds = this.diffPeriod();
+  public saveHit(key: string) {
+    const timestampNow = Date.now();
+    const periodWindowStart = this.policySettings?.periodWindowStart.getTime();
+    const timeIsStarted = timestampNow >= periodWindowStart;
 
-    const lastTimeCacheInMilliseconds =
-      this.responseRateLimitCache?.last_time_request;
+    if (timeIsStarted) {
+      // If don't exists cache then save with value ONE
+      if (!this.responseRateLimitCache?.hits) {
+        this.cacheAdapter?.saveHit(key, RATE_LIMIT_ONE_HIT);
+      } else {
+        // insert cache
+        let totalHitsInCache = this.responseRateLimitCache?.hits;
+        if (this.policySettings?.maxRequests >= totalHitsInCache) {
+          const newValue = (totalHitsInCache += RATE_LIMIT_ONE_HIT);
+          this.cacheAdapter?.updateHit(key, newValue);
+        }
+      }
 
-    const nextWindowTime = Math.ceil(
-      lastTimeCacheInMilliseconds + timeWaitInMilliseconds
-    );
-
-    return nextWindowTime;
+      if (this.waitingTimeIsExpired()) {
+        this.cacheAdapter?.deleteHit(key);
+      }
+    }
   }
 }

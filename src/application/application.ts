@@ -1,10 +1,8 @@
 import { ResponseExpress } from "../interfaces/express";
-import { RateLimit } from "./rate-limit";
 import { HeaderRequestHandler } from "./header-request-handler";
 import {
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_TOO_MANY_REQUESTS,
-  ONE_SECOND_IN_MILLISECOND,
 } from "../constants";
 import { PoliciesFactory } from "./policies/policies.factory";
 import { RequestExpressDTO } from "../dtos/request-express.dto";
@@ -45,16 +43,19 @@ export class Application {
    * @returns {number} total hits application
    */
   private rateLimitFlow(): number {
-    const cache = this.cache;
-    const { req } = this.requestExpressDto;
+    const cacheAdapter = this.cache;
     const policyProps = this.argumentsPolicyDto.policy;
 
-    // Find cache by key
-    const responseCache = cache?.getByKey(req?.ip);
+    const key = this.requestExpressDto.request?.ip;
+    const responseCache = cacheAdapter?.getByKey(key);
 
     // Create instance of Policy
     const factory = new PoliciesFactory(policyProps, responseCache);
     const policyInstanceClass = factory.create();
+
+    // set adapter cache to policy
+
+    policyInstanceClass.setAdapter(cacheAdapter).saveHit(key);
 
     // ResponseCache and Validate Props
     policyInstanceClass.validateProps();
@@ -65,14 +66,6 @@ export class Application {
       policyInstanceClass,
       responseCache
     );
-
-    const key = req?.ip;
-    const timeRetryInSeconds = policyInstanceClass?.calculateRetryAfter();
-
-    new RateLimit(key, policyProps)
-      .setAdapter(cache)
-      .setTimeRetry(timeRetryInSeconds)
-      .save();
 
     // Apply headers
     const maxRequests = policyProps.maxRequests;

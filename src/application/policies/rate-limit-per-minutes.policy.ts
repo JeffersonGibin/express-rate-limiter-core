@@ -13,10 +13,14 @@ export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
    * @param {PolicieRateLimit} policySettings object value of policy settings
    * @param {IRateLimitCache} responseRateLimitCache object value of result cache
    */
-  constructor(policy: IPolicyRequestPerMinutes, responseHit: IRateLimitCache) {
-    super(responseHit?.hits);
+  constructor(
+    policy: IPolicyRequestPerMinutes,
+    responseRateLimitCache: IRateLimitCache
+  ) {
+    super(responseRateLimitCache);
+
     this.policySettings = policy;
-    this.responseRateLimitCache = responseHit;
+    this.responseRateLimitCache = responseRateLimitCache;
   }
 
   /**
