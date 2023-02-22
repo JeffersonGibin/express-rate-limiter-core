@@ -1,15 +1,11 @@
 import { MESSAGE_MISSING_PROPERTY_SETTINGS } from "../../constants/message-error";
 import { PropertyNotStringException } from "../exceptions/property-not-string.exception";
-
-interface InputStringPropertyValidation {
-  propertyName: string;
-  value: string | number | Date;
-}
+import { IInputValidation } from "../../interfaces/validations";
 
 export class StringPropertyValidation {
-  private input: InputStringPropertyValidation;
+  private input: IInputValidation;
 
-  constructor(input: InputStringPropertyValidation) {
+  constructor(input: IInputValidation) {
     this.input = input;
   }
 

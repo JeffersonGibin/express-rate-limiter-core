@@ -1,15 +1,11 @@
 import { MESSAGE_MISSING_PROPERTY_SETTINGS } from "../../constants/message-error";
 import { MissingPropertyException } from "../exceptions/missing-property.exception";
-
-interface InputMissingPropertyValidation {
-  propertyName: string;
-  value: string | number | Date;
-}
+import { IInputValidation } from "../../interfaces/validations";
 
 export class MissingPropertyValidation {
-  private input: InputMissingPropertyValidation;
+  private input: IInputValidation;
 
-  constructor(input: InputMissingPropertyValidation) {
+  constructor(input: IInputValidation) {
     this.input = input;
   }
 

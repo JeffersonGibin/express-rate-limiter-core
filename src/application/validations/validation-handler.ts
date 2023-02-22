@@ -1,24 +1,13 @@
+import { IValidationHandler } from "../../interfaces/validations";
 import { DatePropertyValidation } from "./date-property.validation";
 import { MissingPropertyValidation } from "./missing-property.validation";
 import { NumberPropertyValidation } from "./number-property.validation";
 import { StringPropertyValidation } from "./string-property.validation";
 
-type Validations =
-  | "exists_property"
-  | "is_number"
-  | "is_string"
-  | "is_instance_date";
-
-interface InputValidationHandler {
-  propertyName: string;
-  value: string | number | Date;
-  validations: Validations[];
-}
-
 export class ValidationHandler {
-  private inputArgs: InputValidationHandler[];
+  private inputArgs: IValidationHandler[];
 
-  constructor(input: InputValidationHandler[]) {
+  constructor(input: IValidationHandler[]) {
     this.inputArgs = input;
   }
 
