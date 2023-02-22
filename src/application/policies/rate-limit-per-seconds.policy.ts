@@ -3,6 +3,7 @@ import { ONE_SECOND_IN_MILLISECOND } from "../../constants";
 import { IPolicyRequestPerSeconds } from "../../interfaces/policies";
 import { RateLimitPolicy } from "./abstract/rate-limit.policy";
 import { MissingPropertyException } from "../exceptions/missing-property.exception";
+import { getMessageMissingProperty } from "../utils/message-error";
 
 export class RateLimitPerSecondsPolicy extends RateLimitPolicy {
   protected policy: IPolicyRequestPerSeconds;
@@ -17,22 +18,19 @@ export class RateLimitPerSecondsPolicy extends RateLimitPolicy {
   public validateProps(): RateLimitPerSecondsPolicy {
     if (!this.policy?.periodWindow) {
       throw new MissingPropertyException(
-        "The policy doesn't find property [periodWindow]"
+        getMessageMissingProperty("periodWindow")
       );
     }
 
     if (!this.policy?.maxRequests) {
       throw new MissingPropertyException(
-        "The policy doesn't find property [maxRequests]"
+        getMessageMissingProperty("maxRequests")
       );
     }
 
     if (!this.policy?.type) {
-      throw new MissingPropertyException(
-        "The policy doesn't find property [type]"
-      );
+      throw new MissingPropertyException(getMessageMissingProperty("type"));
     }
-
     return this;
   }
 
