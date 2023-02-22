@@ -1,4 +1,5 @@
-# express-rate-limiter-core
+
+# <div align="center"> Express Rate Limit Core</div>
 
 A library to that disponibility is an easy middleware to limit request rate in the server express.
 
