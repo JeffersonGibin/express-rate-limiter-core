@@ -61,11 +61,11 @@ export class HeaderRequestHandler {
     const hits = this.responseHits?.hits;
 
     if (hits > maxRequests) {
-      const nextDateReset = new Date(
+      const dateToResetCache = new Date(
         this.policyInstance?.calculateRateLimitReset()
       ).toISOString();
 
-      this.response.setHeader("X-RateLimit-Reset", nextDateReset);
+      this.response.setHeader("X-RateLimit-Reset", dateToResetCache);
     }
 
     return this;
