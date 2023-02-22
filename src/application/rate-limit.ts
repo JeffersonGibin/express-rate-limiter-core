@@ -7,6 +7,7 @@ export class RateLimit {
   private responseHit: IRateLimitCache;
   private cacheAdapter: ICache;
   private key: string;
+  private timeRetryInSeconds: number;
 
   /**
    * Hits of Rate limit
@@ -29,15 +30,38 @@ export class RateLimit {
   }
 
   /**
+   * Set cache adapter
+   * @param cacheAdapter instance of adapter cache
+   * @returns {RateLimit} this
+   */
+  public setTimeRetry(timeRetryInSeconds: number): RateLimit {
+    this.timeRetryInSeconds = timeRetryInSeconds;
+    return this;
+  }
+
+  private timeExpiration(): boolean {
+    const timestampNow = Date.now();
+    const lastTimeRequestInMilissecond = this.responseHit?.last_time_request;
+
+    // TIME_RETRY_IN_SECONDS * 1000
+    const timeWaitInMilliseconds =
+      this.timeRetryInSeconds * ONE_SECOND_IN_MILLISECOND;
+
+    // TIMESTAMP_LAST_REQUEST + TIME_WAIT
+    const waitTime = lastTimeRequestInMilissecond + timeWaitInMilliseconds;
+
+    return timestampNow > waitTime;
+  }
+
+  /**
    * Save Hit inthe cache
    */
   public save() {
     const key = this.key;
-    const timestampNow = Date.now();
 
     this.responseHit = this.cacheAdapter?.getByKey(key);
-    const waitTime =
-      this.policySettings?.maxRequests * ONE_SECOND_IN_MILLISECOND;
+    // const waitTime =
+    //   this.policySettings?.maxRequests * ONE_SECOND_IN_MILLISECOND;
 
     // If don't exists cache then save with value ONE
     if (!this.responseHit?.hits) {
@@ -51,11 +75,7 @@ export class RateLimit {
       }
     }
 
-    const lastTimeInMilissecond = this.responseHit?.last_time_request;
-    const timeSinceLastRequest = timestampNow - lastTimeInMilissecond;
-
-    // If the time wait for expiration then delete cache
-    if (timeSinceLastRequest > waitTime) {
+    if (this.timeExpiration()) {
       this.cacheAdapter?.deleteHit(key);
     }
   }

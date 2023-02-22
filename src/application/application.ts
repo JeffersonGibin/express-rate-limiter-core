@@ -4,6 +4,7 @@ import { HeaderRequestHandler } from "./header-request-handler";
 import {
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_TOO_MANY_REQUESTS,
+  ONE_SECOND_IN_MILLISECOND,
 } from "../constants";
 import { PoliciesFactory } from "./policies/policies.factory";
 import { RequestExpressDTO } from "../dtos/request-express.dto";
@@ -65,9 +66,13 @@ export class Application {
       responseCache
     );
 
-    // process increment or deletehits
     const key = req?.ip;
-    new RateLimit(key, policyProps).setAdapter(cache).save();
+    const timeRetryInSeconds = policyInstanceClass?.calculateRetryAfter();
+
+    new RateLimit(key, policyProps)
+      .setAdapter(cache)
+      .setTimeRetry(timeRetryInSeconds)
+      .save();
 
     // Apply headers
     const maxRequests = policyProps.maxRequests;

@@ -38,7 +38,7 @@ export abstract class RateLimitPolicy {
 
   /**
    * Calculation the time "retry after"
-   * @return {number} retry after in in milisseconds
+   * @return {number} retry after in seconds
    */
   public calculateRetryAfter(): number {
     const now = Date.now();
