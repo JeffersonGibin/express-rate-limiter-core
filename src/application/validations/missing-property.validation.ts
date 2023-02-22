@@ -1,11 +1,11 @@
 import { MESSAGE_PLEASE_CHECK_CONFIGURATIONS } from "../../constants/message";
 import { MissingPropertyException } from "../exceptions/missing-property.exception";
-import { IInputValidation } from "../../interfaces/validations";
+import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 
 export class MissingPropertyValidation {
-  private input: IInputValidation;
+  private input: IPropertyDefinitionValidation;
 
-  constructor(input: IInputValidation) {
+  constructor(input: IPropertyDefinitionValidation) {
     this.input = input;
   }
 

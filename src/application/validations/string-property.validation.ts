@@ -1,11 +1,11 @@
 import { MESSAGE_PLEASE_CHECK_CONFIGURATIONS } from "../../constants/message";
 import { PropertyNotStringException } from "../exceptions/property-not-string.exception";
-import { IInputValidation } from "../../interfaces/validations";
+import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 
 export class StringPropertyValidation {
-  private input: IInputValidation;
+  private input: IPropertyDefinitionValidation;
 
-  constructor(input: IInputValidation) {
+  constructor(input: IPropertyDefinitionValidation) {
     this.input = input;
   }
 
