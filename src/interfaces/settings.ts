@@ -3,6 +3,8 @@ import { Request as IExpressRequest } from "express";
 import { ICache } from "./cache";
 import { PolicieRateLimit } from "./policies";
 
+export type BlockRequestRule = (req: IExpressRequest) => boolean;
+
 export interface ISettings {
   /**
    * This atributte  is opcional and needs to receive an adapter.
@@ -15,7 +17,7 @@ export interface ISettings {
    * @param {IExpressRequest} req
    * @returns {boolean}
    */
-  blockRequestRule?(req: IExpressRequest): boolean;
+  blockRequestRule?: BlockRequestRule;
 
   /**
    * The object with settings to policy rate limit.
