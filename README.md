@@ -165,6 +165,8 @@ app.listen(8080, () => {
 
 ### Policy to Request per Seconds
 
+Object Specification `policy`:
+
 |       Parameter       |         Type          | Require | Description                                                                                                                                                                      |
 | :-------------------: | :-------------------: | :-----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |     `policy.type`     | `REQUEST_PER_SECONDS` |  true   | type policy                                                                                                                                                                      |
@@ -173,6 +175,8 @@ app.listen(8080, () => {
 
 ### Policy to Request per Minutes
 
+Object Specification `policy`:
+
 |       Parameter       |         Type          | Require | Description                                                                                                                                                                      |
 | :-------------------: | :-------------------: | :-----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |     `policy.type`     | `REQUEST_PER_MINUTES` |  true   | type policy                                                                                                                                                                      |
@@ -180,6 +184,8 @@ app.listen(8080, () => {
 | `policy.maxRequests`  |        number         |  true   | is the number request that the client 'ip' to can receive                                                                                                                        |
 
 ### Policy to Request per Period
+
+Object Specification `policy`:
 
 |         Parameter          |         Type         | Require | Description                                               |
 | :------------------------: | :------------------: | :-----: | --------------------------------------------------------- |
