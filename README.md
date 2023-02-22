@@ -18,6 +18,11 @@ npm install express-rate-limiter-core
 - Rate limit per period
 - Block system to requets
 
+
+## Cache available
+
+- MemoryCacheAdapter
+
 ## Exemples
 
 ### Importing
