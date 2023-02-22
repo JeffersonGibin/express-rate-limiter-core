@@ -15,7 +15,7 @@ import {
   MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
 } from "../constants/message";
 
-interface InputApplication {
+interface IParametersApplication {
   requestExpressDto: RequestExpressDTO;
   argumentsPolicyDto: ArgumentsPolicyDTO;
   blockRequestRule: BlockRequestRule;
@@ -28,13 +28,21 @@ export class Application {
   private cache: ICache;
   private blockRequestRule: BlockRequestRule;
 
-  constructor(input: InputApplication) {
-    this.requestExpressDto = input.requestExpressDto;
-    this.argumentsPolicyDto = input.argumentsPolicyDto;
-    this.cache = input.cache;
-    this.blockRequestRule = input.blockRequestRule;
+  /**
+   * The start of the application
+   * @param {IParametersApplication} paramters
+   */
+  constructor(paramters: IParametersApplication) {
+    this.requestExpressDto = paramters.requestExpressDto;
+    this.argumentsPolicyDto = paramters.argumentsPolicyDto;
+    this.cache = paramters.cache;
+    this.blockRequestRule = paramters.blockRequestRule;
   }
 
+  /**
+   * Full 'rate limit' execution flow
+   * @returns {number} total hits application
+   */
   private rateLimitFlow(): number {
     const cache = this.cache;
     const { req } = this.requestExpressDto;
@@ -71,6 +79,10 @@ export class Application {
     return responseCache?.hits;
   }
 
+  /**
+   *
+   * @returns {ResponseExpress} It can return instance ResponseExpress
+   */
   public execute(): ResponseExpress {
     const { res, next } = this.requestExpressDto;
     const policyProps = this.argumentsPolicyDto.policy;
