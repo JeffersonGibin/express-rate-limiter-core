@@ -127,6 +127,7 @@ const rateLimit = RateLimitExpress({
    * The method to have request express object available to use response express
    */
   blockRequestRule: (requestExpress) => {
+    // this is only an example. You can implement of more forms
     const blackList = ["192.168.1.10", "192.168.1.11", "192.168.1.12"];
     if (blackList.includes(requestExpress.ip)) {
       return true;
