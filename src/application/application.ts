@@ -1,4 +1,4 @@
-import { Response as IExpressResponse } from "express";
+import { ResponseExpress } from "../interfaces/express";
 import { RateLimit } from "./rate-limit";
 import { HeaderRequestHandler } from "./header-request-handler";
 import {
@@ -67,7 +67,7 @@ export class Application {
     return responseCache?.hits;
   }
 
-  public execute(): IExpressResponse {
+  public execute(): ResponseExpress {
     const { res, next } = this.requestExpressDto;
     const policyProps = this.argumentsPolicyDto.policy;
     const maxRequests = policyProps?.maxRequests;

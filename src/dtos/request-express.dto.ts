@@ -1,18 +1,18 @@
 import {
-  NextFunction as INextFunctionExpress,
-  Request as IExpressRequest,
-  Response as IExpressResponse,
-} from "express";
+  RequestExpress,
+  ResponseExpress,
+  NextFunctionExpress,
+} from "../interfaces/express";
 
 export class RequestExpressDTO {
-  public readonly request: IExpressRequest;
-  public readonly response: IExpressResponse;
-  public readonly next: INextFunctionExpress;
+  public readonly request: RequestExpress;
+  public readonly response: ResponseExpress;
+  public readonly next: NextFunctionExpress;
 
   constructor(
-    readonly req: IExpressRequest,
-    readonly res: IExpressResponse,
-    next: INextFunctionExpress
+    readonly req: RequestExpress,
+    readonly res: ResponseExpress,
+    next: NextFunctionExpress
   ) {
     this.request = req;
     this.response = res;

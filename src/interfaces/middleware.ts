@@ -1,20 +1,20 @@
 import {
-  NextFunction as INextFunctionExpress,
-  Request as IExpressRequest,
-  Response as IExpressResponse,
-} from "express";
+  RequestExpress,
+  ResponseExpress,
+  NextFunctionExpress,
+} from "../interfaces/express";
 
 export interface IMiddleware {
   /**
    * Function that applies the execution of the rate limit logic, this function is in fact the initial function
-   * @param {Request} req request param express
-   * @param {Response} res response param express
-   * @param {NextFunction} next next param express
+   * @param {RequestExpress} req request param express
+   * @param {ResponseExpress} res response param express
+   * @param {NextFunctionExpress} next next param express
    * @returns {void}
    */
   apply: (
-    req: IExpressRequest,
-    res: IExpressResponse,
-    next: INextFunctionExpress
+    req: RequestExpress,
+    res: ResponseExpress,
+    next: NextFunctionExpress
   ) => void;
 }

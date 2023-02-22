@@ -1,23 +1,22 @@
-import {
-  type NextFunction as INextFunctionExpress,
-  type Request as IExpressRequest,
-  type Response as IExpressResponse,
-} from "express";
-
 import { Application } from "./application/application";
 import { HTTP_STATUS_INTERNAL_SERVER_ERROR } from "./constants";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
 
-import { type IMiddleware } from "./interfaces/middleware";
-import { type ISettings } from "./interfaces/settings";
+import { IMiddleware } from "./interfaces/middleware";
+import { ISettings } from "./interfaces/settings";
+import {
+  RequestExpress,
+  ResponseExpress,
+  NextFunctionExpress,
+} from "./interfaces/express";
 
 export const middleware = (settings: ISettings): IMiddleware => {
   return {
     apply: (
-      req: IExpressRequest,
-      res: IExpressResponse,
-      next: INextFunctionExpress
+      req: RequestExpress,
+      res: ResponseExpress,
+      next: NextFunctionExpress
     ) => {
       try {
         const cache = settings.cache;

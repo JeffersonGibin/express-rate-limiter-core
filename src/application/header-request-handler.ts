@@ -1,16 +1,16 @@
-import {
-  Request as IExpressRequest,
-  Response as IExpressResponse,
-  NextFunction as INextFunction,
-} from "express";
 import { IResponseHit } from "../interfaces/cache";
 import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { RateLimitPolicy } from "./policies/abstract/rate-limit.policy";
+import {
+  RequestExpress,
+  ResponseExpress,
+  NextFunctionExpress,
+} from "../interfaces/express";
 
 export class HeaderRequestHandler {
-  private request: IExpressRequest;
-  private response: IExpressResponse;
-  private next: INextFunction;
+  private request: RequestExpress;
+  private response: ResponseExpress;
+  private next: NextFunctionExpress;
   private policyInstance: RateLimitPolicy;
   private responseHits: IResponseHit;
 
