@@ -2,7 +2,7 @@ import { PolicieRateLimit } from "../../../interfaces/policies";
 import { ONE_SECOND_IN_MILLISECOND } from "../../../constants/time";
 
 export abstract class RateLimitPolicy {
-  protected policy: PolicieRateLimit;
+  protected policySettings: PolicieRateLimit;
   protected hits: number;
 
   /**
@@ -31,7 +31,7 @@ export abstract class RateLimitPolicy {
    */
   public calculateRemaining(): number {
     const hits = this.hits;
-    const diffHitsRemaning = this.policy?.maxRequests - hits;
+    const diffHitsRemaning = this.policySettings?.maxRequests - hits;
 
     return diffHitsRemaning;
   }

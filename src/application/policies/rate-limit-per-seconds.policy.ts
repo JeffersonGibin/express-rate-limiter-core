@@ -5,31 +5,44 @@ import { RateLimitPolicy } from "./abstract/rate-limit.policy";
 import { ValidationHandler } from "../validations/validation-handler";
 
 export class RateLimitPerSecondsPolicy extends RateLimitPolicy {
-  protected policy: IPolicyRequestPerSeconds;
-  protected responseHit: IRateLimitCache;
+  protected policySettings: IPolicyRequestPerSeconds;
+  protected responseRateLimitCache: IRateLimitCache;
 
-  constructor(policy: IPolicyRequestPerSeconds, responseHit: IRateLimitCache) {
-    super(responseHit?.hits);
-    this.policy = policy;
-    this.responseHit = responseHit;
+  /**
+   * This class represent policies to rate limit per seconds
+   * @param {PolicieRateLimit} policySettings object value of policy settings
+   * @param {IRateLimitCache} responseRateLimitCache object value of result cache
+   */
+  constructor(
+    policySettings: IPolicyRequestPerSeconds,
+    responseRateLimitCache: IRateLimitCache
+  ) {
+    super(responseRateLimitCache?.hits);
+    this.policySettings = policySettings;
+    this.responseRateLimitCache = responseRateLimitCache;
   }
 
+  /**
+   * Implementation of an abstract model of RateLimitPolicy.
+   *  Must execute validations properties that the library receives in the instance.
+   * @returns {RateLimitPerMinutesPolicy} return this
+   */
   public validateProps(): RateLimitPerSecondsPolicy {
     // Validations properties
     new ValidationHandler([
       {
         propertyName: "periodWindow",
-        value: this.policy?.periodWindow,
+        value: this.policySettings?.periodWindow,
         validations: ["exists_property", "is_number"],
       },
       {
         propertyName: "maxRequests",
-        value: this.policy?.maxRequests,
+        value: this.policySettings?.maxRequests,
         validations: ["exists_property", "is_number"],
       },
       {
         propertyName: "type",
-        value: this.policy?.type,
+        value: this.policySettings?.type,
         validations: ["exists_property", "is_string"],
       },
     ]).execute();
@@ -37,11 +50,15 @@ export class RateLimitPerSecondsPolicy extends RateLimitPolicy {
     return this;
   }
 
+  /**
+   * Implementation of an abstract model of calculateRateLimitReset.
+   * @returns {RateLimitPerMinutesPolicy} return this
+   */
   public calculateRateLimitReset(): number {
     const timeWaitInMilliseconds =
-      this.policy?.periodWindow * ONE_SECOND_IN_MILLISECOND;
+      this.policySettings?.periodWindow * ONE_SECOND_IN_MILLISECOND;
 
-    const lastTimeCacheInMilliseconds = this.responseHit?.last_time;
+    const lastTimeCacheInMilliseconds = this.responseRateLimitCache?.last_time;
 
     const nextWindowTime = Math.ceil(
       lastTimeCacheInMilliseconds + timeWaitInMilliseconds

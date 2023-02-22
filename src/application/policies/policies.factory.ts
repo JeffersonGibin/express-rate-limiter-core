@@ -11,14 +11,14 @@ export class PoliciesFactory {
 
   /**
    * Simple Factory class to create new instances of  policies classes
-   * @param {PolicieRateLimit} policy object value of settings library
+   * @param {PolicieRateLimit} policySettings object value of policy settings
    * @param {IRateLimitCache} responseRateLimitCache object value of result cache
    */
   constructor(
-    policy: PolicieRateLimit,
+    policySettings: PolicieRateLimit,
     responseRateLimitCache: IRateLimitCache
   ) {
-    this.policy = policy;
+    this.policy = policySettings;
     this.responseHit = responseRateLimitCache;
   }
 
