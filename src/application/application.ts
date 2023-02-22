@@ -13,7 +13,7 @@ import { BlockRequestRule } from "../interfaces/settings";
 import {
   MESSAGE_DEFAULT_TOOMANY_REQUEST,
   MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
-} from "src/constants/message";
+} from "../constants/message";
 
 interface InputApplication {
   requestExpressDto: RequestExpressDTO;
