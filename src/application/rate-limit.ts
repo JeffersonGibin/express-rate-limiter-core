@@ -1,5 +1,5 @@
 import { ICache, IRateLimitCache } from "../interfaces/cache";
-import { ONE_HIT, ONE_SECOND_IN_MILLISECOND } from "../constants";
+import { RATE_LIMIT_ONE_HIT, ONE_SECOND_IN_MILLISECOND } from "../constants";
 import { PolicieRateLimit } from "../interfaces/policies";
 
 export class RateLimit {
@@ -26,12 +26,12 @@ export class RateLimit {
     const waitTime = this.policy?.maxRequests * ONE_SECOND_IN_MILLISECOND;
 
     if (!this.responseHit?.hits) {
-      this.cacheAdapter?.saveHit(key, ONE_HIT);
+      this.cacheAdapter?.saveHit(key, RATE_LIMIT_ONE_HIT);
     } else {
       // insert cache
       let totalHitsInCache = this.responseHit?.hits;
       if (this.policy?.maxRequests >= totalHitsInCache) {
-        const newValue = (totalHitsInCache += ONE_HIT);
+        const newValue = (totalHitsInCache += RATE_LIMIT_ONE_HIT);
         this.cacheAdapter?.saveHit(key, newValue);
       }
     }
