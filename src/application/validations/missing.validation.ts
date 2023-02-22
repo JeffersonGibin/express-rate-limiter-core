@@ -5,6 +5,10 @@ import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 export class MissingValidation {
   private input: IPropertyDefinitionValidation;
 
+  /**
+   * Represent Class validation to missing value
+   * @param {IPropertyDefinitionValidation} input
+   */
   constructor(input: IPropertyDefinitionValidation) {
     this.input = input;
   }

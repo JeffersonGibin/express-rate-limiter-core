@@ -7,10 +7,18 @@ import { StringValidation } from "./string.validation";
 export class ValidationHandler {
   private inputArgs: IValidationHandler[];
 
+  /**
+   * Represent Class validation handler. This class is a handler the use of class validations
+   * @param {IPropertyDefinitionValidation} input
+   */
   constructor(input: IValidationHandler[]) {
     this.inputArgs = input;
   }
 
+  /**
+   * Execute Handler
+   * @param {IPropertyDefinitionValidation} input
+   */
   public execute() {
     for (let i = 0; i < this.inputArgs.length; i++) {
       const argument = this.inputArgs[i];

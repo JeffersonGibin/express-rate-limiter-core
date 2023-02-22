@@ -5,6 +5,10 @@ import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 export class NumberValidation {
   private input: IPropertyDefinitionValidation;
 
+  /**
+   * Represent Class validation to Number
+   * @param {IPropertyDefinitionValidation} input
+   */
   constructor(input: IPropertyDefinitionValidation) {
     this.input = input;
   }
