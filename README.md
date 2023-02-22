@@ -28,7 +28,7 @@ npm install express-rate-limiter-core
 ### Importing
 
 ```javascript
-import { RateLimitExpress, MemoryDBAdapter } from "express-rate-limiter-core";
+import { RateLimitExpress, MemoryCacheAdapter } from "express-rate-limiter-core";
 ```
 
 ### Request per Seconds or Minutes
@@ -37,7 +37,7 @@ import { RateLimitExpress, MemoryDBAdapter } from "express-rate-limiter-core";
 const app = express();
 
 const rateLimit = RateLimitExpress({
-  cache: new MemoryDBAdapter(),
+  cache: new MemoryCacheAdapter(),
   policy: {
     type: "REQUEST_PER_SECONDS", // REQUEST_PER_SECONDS, REQUEST_PER_MINUTES
 
@@ -53,7 +53,7 @@ const rateLimit = RateLimitExpress({
 
 ```javascript
 const rateLimit = RateLimitExpress({
-  cache: new MemoryDBAdapter(),
+  cache: new MemoryCacheAdapter(),
   policy: {
     type: "REQUEST_PER_PERIOD",
 
@@ -78,7 +78,7 @@ import { MemoryDBAdapter, RateLimitExpress } from "express-rate-limiter-core";
 const app = express();
 
 const rateLimit = RateLimitExpress({
-  cache: new MemoryDBAdapter(),
+  cache: new MemoryCacheAdapter(),
   policy: {
     type: "REQUEST_PER_PERIOD",
 
