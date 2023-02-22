@@ -1,4 +1,4 @@
-import { MESSAGE_MISSING_PROPERTY_SETTINGS } from "../../constants/message-error";
+import { MESSAGE_PLEASE_CHECK_CONFIGURATIONS } from "../../constants/message";
 import { PropertyNotDateException } from "../exceptions/property-not-date.exception";
 import { IInputValidation } from "../../interfaces/validations";
 
@@ -16,7 +16,7 @@ export class DatePropertyValidation {
   public execute() {
     if (this.input.value && !this.isInstanceOfDate()) {
       throw new PropertyNotDateException(
-        `The property '${this.input.propertyName}' must to be a instance Date.${MESSAGE_MISSING_PROPERTY_SETTINGS}`
+        `The property '${this.input.propertyName}' must to be a instance Date.${MESSAGE_PLEASE_CHECK_CONFIGURATIONS}`
       );
     }
   }
