@@ -3,6 +3,8 @@ import {
   Response as IExpressResponse,
   NextFunction as INextFunction,
 } from "express";
+import { IResponseHit } from "../interfaces/cache";
+import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { RateLimitPolicy } from "./policies/abstract/rate-limit.policy";
 
 export class HeaderRequestHandler {
@@ -10,30 +12,22 @@ export class HeaderRequestHandler {
   private response: IExpressResponse;
   private next: INextFunction;
   private policyInstance: RateLimitPolicy;
+  private responseHits: IResponseHit;
 
-  public setRequest(
-    req: IExpressRequest,
-    res: IExpressResponse,
-    next: INextFunction
-  ): HeaderRequestHandler {
-    this.request = req;
-    this.response = res;
-    this.next = next;
+  constructor(
+    requestExpressDto: RequestExpressDTO,
+    policyInstance: RateLimitPolicy,
+    responseHits: IResponseHit
+  ) {
+    this.request = requestExpressDto.req;
+    this.response = requestExpressDto.res;
+    this.next = requestExpressDto.next;
 
-    return this;
-  }
-
-  public setPolicyInstance(
-    policyInstance: RateLimitPolicy
-  ): HeaderRequestHandler {
     this.policyInstance = policyInstance;
-
-    return this;
+    this.responseHits = responseHits;
   }
 
-  public applyCommonHeaders(): HeaderRequestHandler {
-    const maxRequests = this.policyInstance.getPolicy().maxRequests;
-
+  public applyCommonHeaders(maxRequests: number): HeaderRequestHandler {
     // set custom header to identify max request limit
     this.response.setHeader("X-RateLimit-Limit", maxRequests.toString());
 
@@ -47,13 +41,12 @@ export class HeaderRequestHandler {
     return this;
   }
 
-  public applyRateLimitReset(): HeaderRequestHandler {
-    const maxRequests = this.policyInstance.getPolicy()?.maxRequests;
-    const hits = this.policyInstance.getResponseHit()?.hits;
+  public applyRateLimitReset(maxRequests: number): HeaderRequestHandler {
+    const hits = this.responseHits?.hits;
 
     if (hits > maxRequests) {
       const nextDateReset = new Date(
-        this.policyInstance?.calculateRateLimitWindow()
+        this.policyInstance?.calculateRateLimitReset()
       ).toISOString();
 
       this.response.setHeader("X-RateLimit-Reset", nextDateReset);
@@ -62,9 +55,8 @@ export class HeaderRequestHandler {
     return this;
   }
 
-  public applyRetryAfter(): HeaderRequestHandler {
-    const maxRequests = this.policyInstance.getPolicy()?.maxRequests;
-    const hits = this.policyInstance.getResponseHit()?.hits;
+  public applyRetryAfter(maxRequests: number): HeaderRequestHandler {
+    const hits = this.responseHits?.hits;
 
     if (hits > maxRequests) {
       // tells the client how long in seconds to wait before making another request.

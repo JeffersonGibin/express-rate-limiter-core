@@ -7,6 +7,12 @@ export class RateLimitPerSecondsPolicy extends RateLimitPolicy {
   protected policy: IPolicyRequestPerSeconds;
   protected responseHit: IResponseHit;
 
+  constructor(policy: IPolicyRequestPerSeconds, responseHit: IResponseHit) {
+    super(responseHit?.hits);
+    this.policy = policy;
+    this.responseHit = responseHit;
+  }
+
   public validateProps(): RateLimitPerSecondsPolicy {
     if (!this.policy?.periodWindow) {
       throw new Error("The policy doesn't find property [periodWindow]");
@@ -23,7 +29,7 @@ export class RateLimitPerSecondsPolicy extends RateLimitPolicy {
     return this;
   }
 
-  public calculateRateLimitWindow(): number {
+  public calculateRateLimitReset(): number {
     const timeWaitInMilliseconds =
       this.policy?.periodWindow * ONE_SECOND_IN_MILLISECOND;
 

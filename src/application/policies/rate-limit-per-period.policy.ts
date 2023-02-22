@@ -6,6 +6,12 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
   protected policy: IPolicyRequestPerPeriod;
   protected responseHit: IResponseHit;
 
+  constructor(policy: IPolicyRequestPerPeriod, responseHit: IResponseHit) {
+    super(responseHit?.hits);
+    this.policy = policy;
+    this.responseHit = responseHit;
+  }
+
   public validateProps(): RateLimitPerPeriodPolicy {
     if (!this.policy?.periodWindowStart) {
       throw new Error("The policy doesn't find property [periodWindowStart]");
@@ -29,7 +35,7 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
     );
   }
 
-  public calculateRateLimitWindow(): number {
+  public calculateRateLimitReset(): number {
     const timeWaitInMilliseconds = this.diffPeriod();
 
     const lastTimeCacheInMilliseconds = this.responseHit?.last_time;

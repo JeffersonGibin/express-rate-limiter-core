@@ -1,36 +1,20 @@
-import { IPolicieRateLimit } from "../../../interfaces/policies";
-import { IResponseHit } from "../../../interfaces/cache";
+import { PolicieRateLimit } from "../../../interfaces/policies";
 import { ONE_SECOND_IN_MILLISECOND } from "../../../constants/application";
 
 export abstract class RateLimitPolicy {
-  protected policy: IPolicieRateLimit;
-  protected responseHit: IResponseHit;
+  protected policy: PolicieRateLimit;
+  protected hits: number;
 
-  public setResponseHit(responseHit: IResponseHit): RateLimitPolicy {
-    this.responseHit = responseHit;
-    return this;
+  constructor(hits: number) {
+    this.hits = hits;
   }
 
-  public setPolicy(policy: IPolicieRateLimit): RateLimitPolicy {
-    this.policy = policy;
-
-    return this;
-  }
-
-  public getPolicy() {
-    return this.policy;
-  }
-
-  public getResponseHit() {
-    return this.responseHit;
-  }
-
-  public abstract calculateRateLimitWindow(): number;
+  public abstract calculateRateLimitReset(): number;
 
   public abstract validateProps(): RateLimitPolicy;
 
   public calculateRemaning(): number {
-    const hits = this.responseHit?.hits;
+    const hits = this.hits;
     const diffHitsRemaning = this.policy?.maxRequests - hits;
 
     return diffHitsRemaning;
@@ -38,7 +22,7 @@ export abstract class RateLimitPolicy {
 
   public calculateRetryAfter() {
     const now = Date.now();
-    const nextWindow = this.calculateRateLimitWindow();
+    const nextWindow = this.calculateRateLimitReset();
     const diff = nextWindow - now;
 
     const timeWaitInSeconds = Math.ceil(diff / ONE_SECOND_IN_MILLISECOND);

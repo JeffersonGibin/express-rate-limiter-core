@@ -1,75 +1,68 @@
-import {
-  NextFunction as INextFunctionExpress,
-  Request as IExpressRequest,
-  Response as IExpressResponse,
-} from "express";
-import { ISettings } from "../interfaces/settings";
+import { Response as IExpressResponse } from "express";
 import { RateLimit } from "./rate-limit";
 import { HeaderRequestHandler } from "./header-request-handler";
 import { HTTP_STATUS_TOO_MANY_REQUESTS } from "../constants/application";
 import { PoliciesFactory } from "./policies/policies.factory";
-
-export interface RequestParams {
-  readonly req: IExpressRequest;
-  readonly res: IExpressResponse;
-  readonly next: INextFunctionExpress;
-}
-
-export interface InputInterceptor {
-  requestParam: RequestParams;
-  settings: ISettings;
-}
+import { RequestExpressDTO } from "../dtos/request-express.dto";
+import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
+import { ICache } from "../interfaces/cache";
 
 export class RequestInterceptor {
-  private input: InputInterceptor;
+  private requestExpressDto: RequestExpressDTO;
+  private argumentsPolicyDto: ArgumentsPolicyDTO;
+  private cache: ICache;
 
-  constructor(input: InputInterceptor) {
-    this.input = input;
+  constructor(
+    requestExpressDto: RequestExpressDTO,
+    argumentsPolicyDto: ArgumentsPolicyDTO,
+    cache: ICache
+  ) {
+    this.requestExpressDto = requestExpressDto;
+    this.argumentsPolicyDto = argumentsPolicyDto;
+    this.cache = cache;
   }
 
   public execute(): IExpressResponse {
-    const { req, res, next } = this.input.requestParam;
-    const { policy, cache } = this.input.settings;
-    const policyProps = policy;
+    const cache = this.cache;
+    const { req, res, next } = this.requestExpressDto;
+    const policyProps = this.argumentsPolicyDto.policy;
 
-    // Find key by IP
+    // Find cache by key
     const responseCache = cache?.getByKey(req?.ip);
 
-    const factory = new PoliciesFactory(policyProps.type);
+    // Create instance of Policy
+    const factory = new PoliciesFactory(policyProps, responseCache);
     const policyInstanceClass = factory.create();
 
-    // Set Policy, ResponseCache and Validate Props
-    policyInstanceClass
-      .setPolicy(policyProps)
-      .setResponseHit(responseCache)
-      .validateProps();
+    // ResponseCache and Validate Props
+    policyInstanceClass.validateProps();
 
     // Set RequestProps and policyInstanceClass
-    const instanceHeaderRequestHandler = new HeaderRequestHandler()
-      .setRequest(req, res, next)
-      .setPolicyInstance(policyInstanceClass);
+    const instanceHeaderRequestHandler = new HeaderRequestHandler(
+      this.requestExpressDto,
+      policyInstanceClass,
+      responseCache
+    );
 
     // process increment or deletehits
-    new RateLimit()
-      .setPolicy(policyProps)
-      .setAdapter(this.input.settings?.cache)
-      .setRequest(req, res, next)
-      .processIncrementOrDeleteHits();
+    const key = req?.ip;
+    new RateLimit(key, policyProps).setAdapter(cache).save();
 
     // Apply headers
+    const maxRequests = policyProps.maxRequests;
     instanceHeaderRequestHandler
-      .applyCommonHeaders()
-      .applyRateLimitReset()
-      .applyRetryAfter();
+      .applyCommonHeaders(maxRequests)
+      .applyRateLimitReset(maxRequests)
+      .applyRetryAfter(maxRequests);
 
-    const maxRequests = policyInstanceClass.getPolicy()?.maxRequests;
-    const hits = policyInstanceClass.getResponseHit()?.hits;
+    const hits = responseCache?.hits;
 
     // Too many requests response
     if (hits > maxRequests) {
-      return res
-        .status(HTTP_STATUS_TOO_MANY_REQUESTS)
-        .send({ message: "Too many requests" });
+      return res.status(HTTP_STATUS_TOO_MANY_REQUESTS).send({
+        message:
+          "Too many requests. You've exceeded the rate limit for requests",
+      });
     }
 
     next();

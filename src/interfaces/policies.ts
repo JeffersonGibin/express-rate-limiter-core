@@ -24,7 +24,7 @@ export interface IPolicyRequestPerPeriod extends IPolicyDefault {
   periodWindowEnd: Date;
 }
 
-export type IPolicieRateLimit =
+export type PolicieRateLimit =
   | IPolicyRequestPerSeconds
   | IPolicyRequestPerMinutes
   | IPolicyRequestPerPeriod;

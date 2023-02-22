@@ -6,6 +6,9 @@ import {
 
 import { RequestInterceptor } from "./application/request-interceptor";
 import { HTTP_STATUS_FORBIDDEN } from "./constants/application";
+import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
+import { RequestExpressDTO } from "./dtos/request-express.dto";
+
 import { type IMiddleware } from "./interfaces/middleware";
 import { type ISettings } from "./interfaces/settings";
 
@@ -16,19 +19,19 @@ export const middleware = (settings: ISettings): IMiddleware => {
       res: IExpressResponse,
       next: INextFunctionExpress
     ) => {
-      const interceptor = new RequestInterceptor({
-        requestParam: {
-          req,
-          res,
-          next,
-        },
-        settings,
-      });
+      const requestExpressDto = new RequestExpressDTO(req, res, next);
+      const argumentsPolicyDto = new ArgumentsPolicyDTO(settings.policy);
+      const cache = settings.cache;
+
+      const interceptor = new RequestInterceptor(
+        requestExpressDto,
+        argumentsPolicyDto,
+        cache
+      );
 
       const requestBlocked = settings?.blockRequestRule(req);
 
       if (requestBlocked) {
-        res.setHeader("X-Request-Blocked", "Yes");
         res.status(HTTP_STATUS_FORBIDDEN).send({
           message: "Request don't authorized!",
         });

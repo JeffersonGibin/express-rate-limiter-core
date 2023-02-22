@@ -1,7 +1,7 @@
 import { Request as IExpressRequest } from "express";
 
 import { ICache } from "./cache";
-import { IPolicieRateLimit } from "./policies";
+import { PolicieRateLimit } from "./policies";
 
 export interface ISettings {
   /**
@@ -18,7 +18,7 @@ export interface ISettings {
   blockRequestRule?(req: IExpressRequest): boolean;
 
   /**
-   * A list with policy rate limit
+   * The object with settings to policy rate limit.
    */
-  policy: IPolicieRateLimit;
+  policy: PolicieRateLimit;
 }
