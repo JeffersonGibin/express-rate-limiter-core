@@ -51,6 +51,9 @@ describe("middleware unit test", () => {
     expect(requestExpressDtoFn).toBeCalled();
     expect(spyGetInstance).toBeCalled();
     expect(spyApply).toBeCalled();
+
+    spyApply.mockRestore();
+    spyGetInstance.mockRestore();
   });
 
   test("it's should call apply function correctly when receive custom cache", () => {
@@ -71,6 +74,8 @@ describe("middleware unit test", () => {
     expect(argumentsPolicyftoFn).toBeCalled();
     expect(requestExpressDtoFn).toBeCalled();
     expect(spyApply).toBeCalled();
+
+    spyApply.mockRestore();
   });
 
   test("it's should call apply function correctly when receive blockRequestRule", () => {
@@ -94,12 +99,16 @@ describe("middleware unit test", () => {
     expect(argumentsPolicyftoFn).toBeCalled();
     expect(requestExpressDtoFn).toBeCalled();
     expect(spyApply).toBeCalled();
+
+    spyApply.mockRestore();
   });
 
   test("it's should catch and handle errors", () => {
-    jest.spyOn(Application.prototype, "execute").mockImplementation(() => {
-      throw new Error("Simulate Error!");
-    });
+    const executeSpy = jest
+      .spyOn(Application.prototype, "execute")
+      .mockImplementation(() => {
+        throw new Error("Simulate Error!");
+      });
 
     middleware({
       policy: {
@@ -115,5 +124,7 @@ describe("middleware unit test", () => {
       type: "Error",
       message: "Simulate Error!",
     });
+
+    executeSpy.mockRestore();
   });
 });

@@ -3,7 +3,7 @@ import { PropertyNotStringException } from "../exceptions/property-not-string.ex
 import { StringValidation } from "./string.validation";
 
 describe("string.validation unit test", () => {
-  it("it should throw PropertyNotStringException if value is not a string", () => {
+  test("it should throw PropertyNotStringException if value is not a string", () => {
     const input: IPropertyDefinitionValidation = {
       propertyName: "value",
       value: 1,
@@ -16,7 +16,7 @@ describe("string.validation unit test", () => {
     }).toThrowError(PropertyNotStringException);
   });
 
-  it("it should not throw PropertyNotStringException if value is a string", () => {
+  test("it should not throw PropertyNotStringException if value is a string", () => {
     const input: IPropertyDefinitionValidation = {
       propertyName: "value",
       value: "1",

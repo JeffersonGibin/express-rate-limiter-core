@@ -3,7 +3,7 @@ import { PropertyNotDateException } from "../exceptions/property-not-date.except
 import { DateValidation } from "./date.validation";
 
 describe("date.validation unit test", () => {
-  it("it should throw PropertyNotDateException if value is not a date", () => {
+  test("it should throw PropertyNotDateException if value is not a date", () => {
     const input: IPropertyDefinitionValidation = {
       propertyName: "date",
       value: "not a date",
@@ -16,7 +16,7 @@ describe("date.validation unit test", () => {
     }).toThrowError(PropertyNotDateException);
   });
 
-  it("it should not throw PropertyNotDateException if value is a date", () => {
+  test("it should not throw PropertyNotDateException if value is a date", () => {
     const input: IPropertyDefinitionValidation = {
       propertyName: "date",
       value: new Date(),

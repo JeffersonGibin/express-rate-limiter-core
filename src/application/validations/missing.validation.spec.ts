@@ -3,7 +3,7 @@ import { MissingPropertyException } from "../exceptions/missing-property.excepti
 import { MissingValidation } from "./missing.validation";
 
 describe("missing.validation unit test", () => {
-  it("it should throw MissingPropertyException if value is missing", () => {
+  test("it should throw MissingPropertyException if value is missing", () => {
     const input = {
       propertyName: "date",
       value: undefined,
@@ -18,7 +18,7 @@ describe("missing.validation unit test", () => {
     }).toThrowError(MissingPropertyException);
   });
 
-  it("it should not throw MissingPropertyException if value exists", () => {
+  test("it should not throw MissingPropertyException if value exists", () => {
     const input: IPropertyDefinitionValidation = {
       propertyName: "date",
       value: 1,

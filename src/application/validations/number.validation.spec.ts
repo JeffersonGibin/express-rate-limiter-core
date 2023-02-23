@@ -3,7 +3,7 @@ import { PropertyNotNumberException } from "../exceptions/property-not-number.ex
 import { NumberValidation } from "./number.validation";
 
 describe("number.validation unit test", () => {
-  it("it should throw PropertyNotNumberException if value is not a number", () => {
+  test("it should throw PropertyNotNumberException if value is not a number", () => {
     const input: IPropertyDefinitionValidation = {
       propertyName: "value",
       value: "1",
@@ -16,7 +16,7 @@ describe("number.validation unit test", () => {
     }).toThrowError(PropertyNotNumberException);
   });
 
-  it("it should not throw PropertyNotNumberException if value is a number", () => {
+  test("it should not throw PropertyNotNumberException if value is a number", () => {
     const input: IPropertyDefinitionValidation = {
       propertyName: "date",
       value: 1,
