@@ -23,7 +23,7 @@ export abstract class RateLimitPolicy {
   }
 
   /**
-   * This model to calculate when the rate limit reset. It must be implemented  in new policy classes
+   * This model to calculate when the rate-limit reset. It must be implemented  in new policy classes
    * @abstract
    * @return {number} in milisseconds
    */

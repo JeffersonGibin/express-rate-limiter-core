@@ -55,12 +55,12 @@ export interface IPolicyRequestPerPeriod extends IPolicyDefault {
   type: "REQUEST_PER_PERIOD";
 
   /**
-   * Represent when the rate limit  will be start
+   * Represent when the rate-limit  will be start
    */
   periodWindowStart: Date;
 
   /**
-   * Represent when the rate limit  will be end
+   * Represent when the rate-limit  will be end
    */
   periodWindowEnd: Date;
 }

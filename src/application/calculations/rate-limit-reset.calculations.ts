@@ -1,7 +1,7 @@
 import { ONE_SECOND_IN_MILLISECOND, SIXTY_SECONDS } from "../../constants/time";
 
 /**
- * Calculates the time that client goes reset rate limit
+ * Calculates the time that client goes reset rate-limit
  * @param parameters
  * @returns {number} time in milliseconds
  */

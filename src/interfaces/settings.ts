@@ -20,7 +20,7 @@ export interface ISettings {
   blockRequestRule?: BlockRequestRule;
 
   /**
-   * The object with settings to policy rate limit.
+   * The object with settings to policy rate-limit.
    */
   policy: PolicieRateLimit;
 }

@@ -10,7 +10,7 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
   protected repositoryCache: ICache;
 
   /**
-   * This class represent policies to rate limit per period
+   * This class represent policies to rate-limit per period
    * @param {PolicieRateLimit} policySettings object value of policy settings
    * @param {IRateLimitCache} responseRateLimitCache object value of result cache
    * @param {ICache} repositoryCache repository cache
@@ -51,7 +51,7 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
   }
 
   /**
-   * Get rate limit reset  value
+   * Get rate-limit reset  value
    * @override method override
    * @returns {number} time in milliseconds
    */

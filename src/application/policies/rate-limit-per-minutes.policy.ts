@@ -9,7 +9,7 @@ export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
   protected responseRateLimitCache: IRateLimitCache;
 
   /**
-   * This class represent policies to rate limit per minutes
+   * This class represent policies to rate-limit per minutes
    * @param {PolicieRateLimit} policySettings object value of policy settings
    * @param {IRateLimitCache} responseRateLimitCache object value of result cache
    * @param {ICache} repositoryCache repository cache
@@ -54,7 +54,7 @@ export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
   }
 
   /**
-   * Get rate limit reset  value
+   * Get rate-limit reset  value
    * Note: this is a implementation of an abstract model of calculateRateLimitReset.
    * @returns {number} time in milliseconds
    */
