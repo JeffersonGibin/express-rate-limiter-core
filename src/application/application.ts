@@ -59,9 +59,6 @@ export class Application {
     // factory
     const policyInstanceClass = factory.create();
 
-    // save Hit
-    await policyInstanceClass.saveHit(key);
-
     // ResponseCache and Validate Props
     policyInstanceClass.validateProps();
 
@@ -78,6 +75,9 @@ export class Application {
       .applyCommonHeaders(maxRequests)
       .applyRateLimitReset(maxRequests)
       .applyRetryAfter(maxRequests);
+
+    // [Note]: The 'saveHits' method needs to be after the headers are applied.
+    await policyInstanceClass.saveHit(key);
 
     return responseCache?.hits;
   }
