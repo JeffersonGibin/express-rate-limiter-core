@@ -1,9 +1,8 @@
-import { Request as IExpressRequest } from "express";
-
 import { ICache } from "./cache";
+import { RequestExpress } from "./express";
 import { PolicieRateLimit } from "./policies";
 
-export type BlockRequestRule = (req: IExpressRequest) => boolean;
+export type BlockRequestRule = (req: RequestExpress) => boolean;
 
 export interface ISettings {
   /**
