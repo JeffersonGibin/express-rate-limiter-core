@@ -23,7 +23,7 @@ export interface ICache {
    * @param {number} newHit
    * @returns {IRateLimitCache}
    */
-  saveHit(key: string, newHit: number): IRateLimitCache;
+  saveHit(key: string, newHit: number): Promise<IRateLimitCache>;
 
   /**
    * Update a HIT to a cache using the parameter key.
@@ -32,19 +32,19 @@ export interface ICache {
    * @param {number} newHit
    * @returns {IRateLimitCache}
    */
-  updateHit(key: string, newHit: number): IRateLimitCache;
+  updateHit(key: string, newHit: number): Promise<IRateLimitCache>;
 
   /**
    * Delete a HIT to a cache using the parameter key.
    * @param {string} key
    * @returns {boolean}
    */
-  deleteHit(key: string): boolean;
+  deleteHit(key: string): Promise<boolean>;
 
   /**
    * Get cache by key
    * @param {string} key
    * @returns {IRateLimitCache}
    */
-  getByKey(key: string): IRateLimitCache;
+  getByKey(key: string): Promise<IRateLimitCache>;
 }

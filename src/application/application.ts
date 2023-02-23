@@ -42,12 +42,12 @@ export class Application {
    * Full 'rate limit' execution flow
    * @returns {number} total hits application
    */
-  private rateLimitFlow(): number {
+  private async rateLimitFlow(): Promise<number> {
     const cacheAdapter = this.cache;
     const policyProps = this.argumentsPolicyDto.policy;
 
     const key = this.requestExpressDto.request?.ip;
-    const responseCache = cacheAdapter?.getByKey(key);
+    const responseCache = await cacheAdapter?.getByKey(key);
 
     // Create instance of Policy
     const factory = new PoliciesFactory(policyProps, responseCache);
@@ -81,7 +81,7 @@ export class Application {
    *
    * @returns {ResponseExpress} It can return instance ResponseExpress
    */
-  public execute(): ResponseExpress {
+  public async execute(): Promise<ResponseExpress> {
     const { res, next } = this.requestExpressDto;
     const policyProps = this.argumentsPolicyDto.policy;
     const maxRequests = policyProps?.maxRequests;
@@ -101,7 +101,7 @@ export class Application {
     }
 
     // Process All flow to Rate Limit
-    const hits = this.rateLimitFlow();
+    const hits = await this.rateLimitFlow();
 
     // Too many requests response
     if (hits > maxRequests) {

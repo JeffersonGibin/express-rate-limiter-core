@@ -68,7 +68,7 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
   /**
    * @override
    */
-  public saveHit(key: string) {
+  public async saveHit(key: string) {
     const timestampNow = Date.now();
     const periodWindowStart = this.policySettings?.periodWindowStart.getTime();
     const timeIsStarted = timestampNow >= periodWindowStart;
@@ -76,18 +76,18 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
     if (timeIsStarted) {
       // If don't exists cache then save with value ONE
       if (!this.responseRateLimitCache?.hits) {
-        this.cacheAdapter?.saveHit(key, RATE_LIMIT_ONE_HIT);
+        await this.cacheAdapter?.saveHit(key, RATE_LIMIT_ONE_HIT);
       } else {
         // insert cache
         let totalHitsInCache = this.responseRateLimitCache?.hits;
         if (this.policySettings?.maxRequests >= totalHitsInCache) {
           const newValue = (totalHitsInCache += RATE_LIMIT_ONE_HIT);
-          this.cacheAdapter?.updateHit(key, newValue);
+          await this.cacheAdapter?.updateHit(key, newValue);
         }
       }
 
       if (this.waitingTimeIsExpired()) {
-        this.cacheAdapter?.deleteHit(key);
+        await this.cacheAdapter?.deleteHit(key);
       }
     }
   }

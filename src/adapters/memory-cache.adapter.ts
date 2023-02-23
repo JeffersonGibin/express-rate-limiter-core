@@ -8,7 +8,7 @@ export class MemoryCacheAdapter implements ICache {
     this.databaseMemory = {};
   }
 
-  public saveHit(key: string, newHit: number): IRateLimitCache {
+  public async saveHit(key: string, newHit: number): Promise<IRateLimitCache> {
     this.databaseMemory[key] = {
       hits: newHit,
       last_time_request: Date.now(),
@@ -18,18 +18,21 @@ export class MemoryCacheAdapter implements ICache {
     return this.databaseMemory[key];
   }
 
-  updateHit(key: string, newHit: number): IRateLimitCache {
+  public async updateHit(
+    key: string,
+    newHit: number
+  ): Promise<IRateLimitCache> {
     this.databaseMemory[key].hits = newHit;
     this.databaseMemory[key].last_time_request = Date.now();
 
     return this.databaseMemory[key];
   }
 
-  public getByKey(key: string): IRateLimitCache {
+  public async getByKey(key: string): Promise<IRateLimitCache> {
     return this.databaseMemory[key];
   }
 
-  public deleteHit(key: string): boolean {
+  public async deleteHit(key: string): Promise<boolean> {
     delete this.databaseMemory[key];
 
     return this.databaseMemory[key] === undefined;
