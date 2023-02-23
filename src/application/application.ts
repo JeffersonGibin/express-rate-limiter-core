@@ -17,7 +17,7 @@ import {
 interface IParametersApplication {
   requestExpressDto: RequestExpressDTO;
   argumentsPolicyDto: ArgumentsPolicyDTO;
-  blockRequestRule: BlockRequestRule;
+  blockRequestRule?: BlockRequestRule;
   cache: ICache;
 }
 
@@ -55,6 +55,8 @@ export class Application {
       responseCache,
       repositoryCache
     );
+
+    // factory
     const policyInstanceClass = factory.create();
 
     // save Hit
@@ -96,11 +98,9 @@ export class Application {
         : false;
 
     if (requestBlocked) {
-      return this.requestExpressDto.response
-        .status(HTTP_STATUS_FORBIDDEN)
-        .send({
-          message: MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
-        });
+      return res.status(HTTP_STATUS_FORBIDDEN).json({
+        message: MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
+      });
     }
 
     // Process All flow to Rate Limit
@@ -108,7 +108,7 @@ export class Application {
 
     // Too many requests response
     if (hits > maxRequests) {
-      return res.status(HTTP_STATUS_TOO_MANY_REQUESTS).send({
+      return res.status(HTTP_STATUS_TOO_MANY_REQUESTS).json({
         message: MESSAGE_DEFAULT_TOOMANY_REQUEST,
       });
     }

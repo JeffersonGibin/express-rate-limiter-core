@@ -57,6 +57,7 @@ export abstract class RateLimitPolicy {
    */
   public timeWaitToRetryAfter(): number {
     const nextWindow = this.whenTimeRateLimitReset();
+
     return retryAfterCalculations(nextWindow);
   }
 

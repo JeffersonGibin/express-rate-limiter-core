@@ -2,6 +2,7 @@ import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { RateLimitPolicy } from "./policies/abstract/rate-limit.policy";
 import { HeaderRequestHandler } from "./header-request-handler";
 import { RequestExpress, ResponseExpress } from "../interfaces/express";
+import { transformHeaderCallsInObject } from "../utils/test.utils";
 
 // 2023-02-23T13:20:00.000Z
 const MOCK_LAST_TIME_REQUEST = 1677158400000;
@@ -14,14 +15,6 @@ const res = {
   status: jest.fn().mockReturnThis(),
   setHeader: setHeaderFn,
 } as unknown as ResponseExpress;
-
-const transformHeaderCallsInObject = () => {
-  return setHeaderFn.mock.calls.reduce((obj, call) => {
-    const [key, value] = call;
-    obj[key] = value;
-    return obj;
-  }, {});
-};
 
 describe("header-request-handler unit test", () => {
   beforeEach(() => {
@@ -44,7 +37,7 @@ describe("header-request-handler unit test", () => {
 
       headerInstance.applyCommonHeaders(10);
 
-      const headersResult = transformHeaderCallsInObject();
+      const headersResult = transformHeaderCallsInObject(setHeaderFn);
 
       expect(headersResult).toEqual({
         "X-RateLimit-Limit": "10",
@@ -67,7 +60,7 @@ describe("header-request-handler unit test", () => {
 
       headerInstance.applyCommonHeaders(10);
 
-      const headersResult = transformHeaderCallsInObject();
+      const headersResult = transformHeaderCallsInObject(setHeaderFn);
 
       expect(headersResult).toEqual({
         "X-RateLimit-Limit": "10",
@@ -93,7 +86,7 @@ describe("header-request-handler unit test", () => {
 
       headerInstance.applyRateLimitReset(10);
 
-      const headersResult = transformHeaderCallsInObject();
+      const headersResult = transformHeaderCallsInObject(setHeaderFn);
 
       expect(headersResult).toEqual({
         "X-RateLimit-Reset": "2023-02-23T13:20:00.000Z",
@@ -117,7 +110,7 @@ describe("header-request-handler unit test", () => {
 
       headerInstance.applyRetryAfter(10);
 
-      const headersResult = transformHeaderCallsInObject();
+      const headersResult = transformHeaderCallsInObject(setHeaderFn);
 
       expect(headersResult).toEqual({
         "Retry-After": 600,

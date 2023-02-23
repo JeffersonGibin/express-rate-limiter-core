@@ -8,9 +8,9 @@ export const MESSAGE_PLEASE_CHECK_CONFIGURATIONS =
  * Message default to represent too many requests
  */
 export const MESSAGE_DEFAULT_TOOMANY_REQUEST =
-  "Too many requests. You've exceeded the rate-limit for requests";
+  "Too many requests. You've exceeded the rate-limit for requests.";
 
 /**
  * Message default to represent Unauthorized Request
  */
-export const MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST = "Unauthorized Request!";
+export const MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST = "Unauthorized Request.";

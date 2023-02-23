@@ -6,7 +6,7 @@ import { RateLimitPerPeriodPolicy } from "./rate-limit-per-period.policy";
 import { RateLimitPerSecondsPolicy } from "./rate-limit-per-seconds.policy";
 
 export class PoliciesFactory {
-  private policy: PolicieRateLimit;
+  private policySettings: PolicieRateLimit;
   private responseRateLimitCache: IRateLimitCache;
   private repositoryCache: ICache;
 
@@ -20,7 +20,7 @@ export class PoliciesFactory {
     responseRateLimitCache: IRateLimitCache,
     repositoryCache: ICache
   ) {
-    this.policy = policySettings;
+    this.policySettings = policySettings;
     this.responseRateLimitCache = responseRateLimitCache;
     this.repositoryCache = repositoryCache;
   }
@@ -30,25 +30,25 @@ export class PoliciesFactory {
    * @returns {RateLimitPolicy} instance
    */
   create(): RateLimitPolicy {
-    if (this.policy.type === "REQUEST_PER_SECONDS") {
+    if (this.policySettings.type === "REQUEST_PER_SECONDS") {
       return new RateLimitPerSecondsPolicy(
-        this.policy,
+        this.policySettings,
         this.responseRateLimitCache,
         this.repositoryCache
       );
     }
 
-    if (this.policy.type === "REQUEST_PER_MINUTES") {
+    if (this.policySettings.type === "REQUEST_PER_MINUTES") {
       return new RateLimitPerMinutesPolicy(
-        this.policy,
+        this.policySettings,
         this.responseRateLimitCache,
         this.repositoryCache
       );
     }
 
-    if (this.policy.type === "REQUEST_PER_PERIOD") {
+    if (this.policySettings.type === "REQUEST_PER_PERIOD") {
       return new RateLimitPerPeriodPolicy(
-        this.policy,
+        this.policySettings,
         this.responseRateLimitCache,
         this.repositoryCache
       );
