@@ -1,4 +1,4 @@
-import { IRateLimitCache } from "../../interfaces/cache";
+import { ICache, IRateLimitCache } from "../../interfaces/cache";
 import { IPolicyRequestPerMinutes } from "../../interfaces/policies";
 import { RateLimitPolicy } from "./abstract/rate-limit.policy";
 import { ValidationHandler } from "../validations/validation-handler";
@@ -10,14 +10,16 @@ export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
 
   /**
    * This class represent policies to rate limit per minutes
-   * @param {PolicieRateLimit} policy object value of policy settings
+   * @param {PolicieRateLimit} policySettings object value of policy settings
    * @param {IRateLimitCache} responseRateLimitCache object value of result cache
+   * @param {ICache} repositoryCache repository cache
    */
   constructor(
     policy: IPolicyRequestPerMinutes,
-    responseRateLimitCache: IRateLimitCache
+    responseRateLimitCache: IRateLimitCache,
+    repositoryCache: ICache
   ) {
-    super(responseRateLimitCache);
+    super(responseRateLimitCache, repositoryCache);
 
     this.policySettings = policy;
     this.responseRateLimitCache = responseRateLimitCache;

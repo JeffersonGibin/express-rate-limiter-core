@@ -43,18 +43,19 @@ export class Application {
    * @returns {number} total hits application
    */
   private async rateLimitFlow(): Promise<number> {
-    const cacheAdapter = this.cache;
+    const repositoryCache = this.cache;
     const policyProps = this.argumentsPolicyDto.policy;
 
     const key = this.requestExpressDto.request?.ip;
-    const responseCache = await cacheAdapter?.getByKey(key);
+    const responseCache = await repositoryCache?.getByKey(key);
 
     // Create instance of Policy
-    const factory = new PoliciesFactory(policyProps, responseCache);
+    const factory = new PoliciesFactory(
+      policyProps,
+      responseCache,
+      repositoryCache
+    );
     const policyInstanceClass = factory.create();
-
-    // set adapter cache to policy
-    policyInstanceClass.setAdapter(cacheAdapter);
 
     // save Hit
     await policyInstanceClass.saveHit(key);

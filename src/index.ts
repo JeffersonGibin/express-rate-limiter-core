@@ -1,4 +1,4 @@
-import { MemoryCacheAdapter as CacheMemory } from "./adapters/memory-cache.adapter";
+import { MemoryCacheRepository } from "./repositories/memory-cache.repository";
 import { ICache, IRateLimitCache } from "./interfaces/cache";
 import { ISettings } from "./interfaces/settings";
 import { middleware } from "./middleware";
@@ -9,9 +9,9 @@ import { middleware } from "./middleware";
 export const RateLimitExpress = middleware;
 
 /**
- * Adapter that works in memory.
+ * Repository that works in memory.
  */
-export const MemoryCacheAdapter = CacheMemory;
+export const MemoryCache = MemoryCacheRepository;
 
 /**
  * Interfaces Types

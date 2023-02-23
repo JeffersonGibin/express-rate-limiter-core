@@ -7,25 +7,19 @@ import { retryAfterCalculations } from "../../../application/calculations/retry-
 
 export abstract class RateLimitPolicy {
   protected policySettings: PolicieRateLimit;
-  protected cacheAdapter: ICache;
   protected responseRateLimitCache: IRateLimitCache;
+  protected repositoryCache: ICache;
 
   /**
    * This model. All new policy classes must extend this class.
    * @param responseRateLimitCache
    */
-  constructor(responseRateLimitCache: IRateLimitCache) {
+  constructor(
+    responseRateLimitCache: IRateLimitCache,
+    repositoryCache: ICache
+  ) {
     this.responseRateLimitCache = responseRateLimitCache;
-  }
-
-  /**
-   * Set cache adapter
-   * @param cacheAdapter instance of adapter cache
-   * @returns {RateLimitPolicy} this
-   */
-  public setAdapter(cacheAdapter: ICache): RateLimitPolicy {
-    this.cacheAdapter = cacheAdapter;
-    return this;
+    this.repositoryCache = repositoryCache;
   }
 
   /**
@@ -85,20 +79,20 @@ export abstract class RateLimitPolicy {
   public async saveHit(key: string): Promise<void> {
     // If don't exists cache then save with value hit as ONE
     if (!this.responseRateLimitCache?.hits) {
-      await this.cacheAdapter?.saveHit(key, RATE_LIMIT_ONE_HIT);
+      await this.repositoryCache?.saveHit(key, RATE_LIMIT_ONE_HIT);
     } else {
       let totalHitsInCache = this.responseRateLimitCache?.hits;
 
       // if the number max requests is more or equal to the number of hits registered in the cache then update 'hit'.
       if (this.policySettings?.maxRequests >= totalHitsInCache) {
         const newValue = (totalHitsInCache += RATE_LIMIT_ONE_HIT);
-        await this.cacheAdapter?.updateHit(key, newValue);
+        await this.repositoryCache?.updateHit(key, newValue);
       }
     }
 
     // if time wait is expired then delete hit cache
     if (this.waitingTimeIsExpired()) {
-      await this.cacheAdapter?.deleteHit(key);
+      await this.repositoryCache?.deleteHit(key);
     }
   }
 }
