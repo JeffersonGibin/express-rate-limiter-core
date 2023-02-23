@@ -58,6 +58,10 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
     const timestampNow = Date.now();
     const periodEnd = this.policySettings?.periodWindowEnd.getTime();
 
+    /**
+     * If timestamp current is more or equal to the timestamp to period end than return 'true'.
+     * This represent that waiting time is expired
+     */
     if (timestampNow >= periodEnd) {
       return true;
     }
@@ -68,17 +72,18 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
   /**
    * @override
    */
-  public async saveHit(key: string) {
+  public async saveHit(key: string): Promise<void> {
     const timestampNow = Date.now();
     const periodWindowStart = this.policySettings?.periodWindowStart.getTime();
-    const timeIsStarted = timestampNow >= periodWindowStart;
+    const periodWindowStarted = timestampNow >= periodWindowStart;
 
-    if (timeIsStarted) {
-      // If don't exists cache then save with value ONE
+    // If the period window will be started then save or update hit
+    if (periodWindowStarted) {
+      // If don't exists cache then save with value hit as ONE
       if (!this.responseRateLimitCache?.hits) {
         await this.cacheAdapter?.saveHit(key, RATE_LIMIT_ONE_HIT);
       } else {
-        // insert cache
+        // if the number max requests is more or equal to the number of hits registered in the cache then update 'hit'.
         let totalHitsInCache = this.responseRateLimitCache?.hits;
         if (this.policySettings?.maxRequests >= totalHitsInCache) {
           const newValue = (totalHitsInCache += RATE_LIMIT_ONE_HIT);
@@ -86,6 +91,7 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
         }
       }
 
+      // if time wait is expired then delete hit cache
       if (this.waitingTimeIsExpired()) {
         await this.cacheAdapter?.deleteHit(key);
       }

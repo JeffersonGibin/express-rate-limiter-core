@@ -54,8 +54,10 @@ export class Application {
     const policyInstanceClass = factory.create();
 
     // set adapter cache to policy
+    policyInstanceClass.setAdapter(cacheAdapter);
 
-    policyInstanceClass.setAdapter(cacheAdapter).saveHit(key);
+    // save Hit
+    await policyInstanceClass.saveHit(key);
 
     // ResponseCache and Validate Props
     policyInstanceClass.validateProps();

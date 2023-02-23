@@ -86,21 +86,23 @@ export abstract class RateLimitPolicy {
    * Save or Delete Hit
    * @param {string} key
    */
-  public saveHit(key: string): void {
-    // If don't exists cache then save with value ONE
+  public async saveHit(key: string): Promise<void> {
+    // If don't exists cache then save with value hit as ONE
     if (!this.responseRateLimitCache?.hits) {
-      this.cacheAdapter?.saveHit(key, RATE_LIMIT_ONE_HIT);
+      await this.cacheAdapter?.saveHit(key, RATE_LIMIT_ONE_HIT);
     } else {
-      // insert cache
       let totalHitsInCache = this.responseRateLimitCache?.hits;
+
+      // if the number max requests is more or equal to the number of hits registered in the cache then update 'hit'.
       if (this.policySettings?.maxRequests >= totalHitsInCache) {
         const newValue = (totalHitsInCache += RATE_LIMIT_ONE_HIT);
-        this.cacheAdapter?.updateHit(key, newValue);
+        await this.cacheAdapter?.updateHit(key, newValue);
       }
     }
 
+    // if time wait is expired then delete hit cache
     if (this.waitingTimeIsExpired()) {
-      this.cacheAdapter?.deleteHit(key);
+      await this.cacheAdapter?.deleteHit(key);
     }
   }
 }
