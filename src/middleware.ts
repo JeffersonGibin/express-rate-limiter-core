@@ -10,6 +10,7 @@ import {
   ResponseExpress,
   NextFunctionExpress,
 } from "./interfaces/express";
+import { MemoryCacheRepository } from "./repositories/memory-cache.repository";
 
 export const middleware = (settings: ISettings): IMiddleware => {
   return {
@@ -19,10 +20,14 @@ export const middleware = (settings: ISettings): IMiddleware => {
       next: NextFunctionExpress
     ) => {
       try {
-        const cache = settings.cache;
         const requestExpressDto = new RequestExpressDTO(req, res, next);
         const argumentsPolicyDto = new ArgumentsPolicyDTO(settings.policy);
         const blockRequestRule = settings?.blockRequestRule;
+
+        // if the cache was defined in a library instance use that was defined otherwise use repository in memory
+        const cache = settings?.cache
+          ? settings?.cache
+          : MemoryCacheRepository.getInstance();
 
         const app = new Application({
           blockRequestRule,

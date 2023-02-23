@@ -10,7 +10,7 @@ export interface ISettings {
    * You can implement a custom Cache if you want as long as the interface is respected
    * @default MemoryCache
    */
-  cache: ICache;
+  cache?: ICache;
 
   /**
    * This function can to be implemented to forbidden a request.

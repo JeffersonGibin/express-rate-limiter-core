@@ -4,8 +4,17 @@ import { IDatabaseMemory } from "../interfaces/memory-cache";
 export class MemoryCacheRepository implements ICache {
   private databaseMemory: IDatabaseMemory;
 
+  private static instance: MemoryCacheRepository;
+
   constructor() {
     this.databaseMemory = {};
+  }
+
+  static getInstance(): MemoryCacheRepository {
+    if (!MemoryCacheRepository.instance) {
+      MemoryCacheRepository.instance = new MemoryCacheRepository();
+    }
+    return MemoryCacheRepository.instance;
   }
 
   public async saveHit(key: string, newHit: number): Promise<IRateLimitCache> {
