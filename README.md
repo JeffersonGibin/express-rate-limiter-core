@@ -22,6 +22,17 @@ npm install express-rate-limiter-core
 - Cache in Memory: Memory cache: it does not have support to scale this is only a simple cache that will be in your server.
 - Custom Cache: The library available an interface `CustomCache` with this interface you can implement your owner cache manager.
 
+
+## TypeScript Support
+
+This library provides interfaces that can be used with TypeScript.
+
+|    Interface     |                                       Description                                       |
+| :--------------: | :-------------------------------------------------------------------------------------: |
+| CustomCache:     | the interface provides a model for the implementation custom cache.                     |
+| RateLimitCache:  |           interface provides a model for the response of the CustomCache.               |
+| Settings:        |       interface provides a model for the construction parameters of the library.        |
+
 ## Exemples
 
 ### Importing
@@ -154,15 +165,6 @@ Object Specification `policy`:
 | `policy.periodWindowStart` |         Date         |  true   | date representing when rate-limit will be start           |
 |  `policy.periodWindowEnd`  |         Date         |  true   | date representing when rate-limit will be end             |
 
-## TypeScript Support
-
-This library provides interfaces that can be used with TypeScript.
-
-|    Interface     |                                       Description                                       |
-| :--------------: | :-------------------------------------------------------------------------------------: |
-|     CustomCache:      | the interface provides a model for the implementation custom cache. |
-| RateLimitCache: |           interface provides a model for the response of the CustomCache.            |
-|    Settings:    |       interface provides a model for the construction parameters of the library.        |
 
 ## Response
 
