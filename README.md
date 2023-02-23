@@ -122,7 +122,7 @@ app.use(rateLimit.apply);
 
 |     Parameter      | Require |                                                                   Description                                                                   |
 | :----------------: | :-----: | :---------------------------------------------------------------------------------------------------------------------------------------------: |
-|      `cache`       |   Yes   | A custom cache instance used to store rate limiting information. For example, the `MemoryDBAdapter` stores rate limiting information in memory. |
+|      `cache`       |   Yes   | A custom cache instance used to store rate limiting information. For example, the `MemoryCacheAdapter` stores rate limiting information in memory. |
 |      `policy`      |   Yes   |                                                         A object with policy to service                                                         |
 | `blockRequestRule` |   No    |     function optional to implement the rule of locking in your service. The function receives the property 'request' of the object express.     |
 
