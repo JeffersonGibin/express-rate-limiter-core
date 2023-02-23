@@ -20,11 +20,7 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
     responseRateLimitCache: IRateLimitCache,
     repositoryCache: ICache
   ) {
-    super(responseRateLimitCache, repositoryCache);
-
-    this.policySettings = policySettings;
-    this.responseRateLimitCache = responseRateLimitCache;
-    this.repositoryCache = repositoryCache;
+    super(policySettings, responseRateLimitCache, repositoryCache);
   }
 
   public validateProps(): RateLimitPerPeriodPolicy {

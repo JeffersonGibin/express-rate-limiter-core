@@ -15,14 +15,11 @@ export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
    * @param {ICache} repositoryCache repository cache
    */
   constructor(
-    policy: IPolicyRequestPerMinutes,
+    policySettings: IPolicyRequestPerMinutes,
     responseRateLimitCache: IRateLimitCache,
     repositoryCache: ICache
   ) {
-    super(responseRateLimitCache, repositoryCache);
-
-    this.policySettings = policy;
-    this.responseRateLimitCache = responseRateLimitCache;
+    super(policySettings, responseRateLimitCache, repositoryCache);
   }
 
   /**

@@ -12,14 +12,18 @@ export abstract class RateLimitPolicy {
 
   /**
    * This model. All new policy classes must extend this class.
-   * @param responseRateLimitCache
+   * @param {PolicieRateLimit} policySettings object value of policy settings
+   * @param {IRateLimitCache} responseRateLimitCache object value of result cache
+   * @param {ICache} repositoryCache repository cache
    */
   constructor(
+    policySettings: PolicieRateLimit,
     responseRateLimitCache: IRateLimitCache,
     repositoryCache: ICache
   ) {
     this.responseRateLimitCache = responseRateLimitCache;
     this.repositoryCache = repositoryCache;
+    this.policySettings = policySettings;
   }
 
   /**

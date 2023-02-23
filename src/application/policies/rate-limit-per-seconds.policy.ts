@@ -19,10 +19,7 @@ export class RateLimitPerSecondsPolicy extends RateLimitPolicy {
     responseRateLimitCache: IRateLimitCache,
     repositoryCache: ICache
   ) {
-    super(responseRateLimitCache, repositoryCache);
-
-    this.policySettings = policySettings;
-    this.responseRateLimitCache = responseRateLimitCache;
+    super(policySettings, responseRateLimitCache, repositoryCache);
   }
 
   /**
