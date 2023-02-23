@@ -189,7 +189,7 @@ This library provides interfaces that can be used with TypeScript.
 - *Issues:* If you encounter a bug or wish to see something added/changed, please [open an issue](https://github.com/JeffersonGibin/express-rate-limiter-core/issues/new)!
 
 - *Discussion:* If you need assistance with anything related to the project, whether it's understanding how to use a particular feature, troubleshooting an issue, or anything [start a discussion here](https://github.com/JeffersonGibin/express-rate-limiter-core/discussions/new)!
-- *Contributing*: To contributing read please read [the guide](contributing.md).
+- *Contributing*: To contributing please read [the guide](contributing.md).
 
 ## License
 
