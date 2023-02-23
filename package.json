@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint --ext .ts .",
-    "unit:test": "jest .",
+    "unit:test": "jest --maxWorkers 2 .",
     "patch:version": "npm version patch -m 'Bump patch version to %s'",
     "minor:version": "npm version minor -m 'Bump minor version to %s'",
     "major:version": "npm version major -m 'Bump major version to %s'"
