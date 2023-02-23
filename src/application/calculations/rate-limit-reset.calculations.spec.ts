@@ -1,6 +1,7 @@
 import { rateLimitResetCalculations } from "./rate-limit-reset.calculations";
 
-const MOCK_LAST_TIME_REQUEST = 1677158416250;
+// 2023-02-23T13:20:00.000Z
+const MOCK_LAST_TIME_REQUEST = 1677158400000;
 
 describe("rate-limit-reset unit test", () => {
   beforeEach(() => {
@@ -19,13 +20,9 @@ describe("rate-limit-reset unit test", () => {
       periodWindowIn: "SECONDS",
     });
 
-    /**
-     * 10: ten seconds
-     * 1000: one second in milliseconds
-     */
-    const expected = MOCK_LAST_TIME_REQUEST + 10 * 1000;
-
-    expect(result).toBe(expected);
+    // 2023-02-23T13:20:10.000Z variation the 10 seconds
+    const expectedResult = 1677158410000;
+    expect(result).toBe(expectedResult);
   });
 
   test("it's should calculate rate-limit reset when receive period window in minutes", () => {
@@ -40,13 +37,9 @@ describe("rate-limit-reset unit test", () => {
       periodWindowIn: "MINUTES",
     });
 
-    /**
-     * 10: ten minutes
-     * 60: one minute in seconds
-     * 1000: one second in milliseconds
-     */
-    const expected = MOCK_LAST_TIME_REQUEST + 10 * 60 * 1000;
+    // 2023-02-23T13:10:00.000Z variation the 10 minutes
+    const expectedResult = 1677159000000;
 
-    expect(result).toBe(expected);
+    expect(result).toBe(expectedResult);
   });
 });
