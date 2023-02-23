@@ -8,7 +8,12 @@ export const requestRemainingCalculations = (
   numberMaxRequets: number,
   hitsRegistredInCache: number
 ): number => {
+  const ZERO = 0;
   const diffHitsRemaning = numberMaxRequets - hitsRegistredInCache;
+
+  if (diffHitsRemaning < ZERO) {
+    return ZERO;
+  }
 
   return diffHitsRemaning;
 };
