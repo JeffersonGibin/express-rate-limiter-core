@@ -20,7 +20,7 @@ npm install express-rate-limiter-core
 ## Cache
 
 - Cache in Memory: Memory cache: it does not have support to scale this is only a simple cache that will be in your server.
-- Custom Cache: The library available an interface `CustomCache` with this interface you can implement your owner cache manager.
+- Custom Cache: the library available an interface `CustomCache` with this interface you can implement your owner cache manager.
 
 
 ## TypeScript Support
