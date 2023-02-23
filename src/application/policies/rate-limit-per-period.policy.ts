@@ -47,13 +47,18 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
   }
 
   /**
+   * Get rate limit reset  value
    * @override method override
-   * @returns {number} timestmap periodWindoEnd
+   * @returns {number} time in milliseconds
    */
-  public calculateRateLimitReset(): number {
+  public whenTimeRateLimitReset(): number {
     return this.policySettings?.periodWindowEnd.getTime();
   }
 
+  /**
+   * Check if waiting time is expired
+   * @returns {boolean}
+   */
   public waitingTimeIsExpired(): boolean {
     const timestampNow = Date.now();
     const periodEnd = this.policySettings?.periodWindowEnd.getTime();

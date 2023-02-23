@@ -1,7 +1,9 @@
 import { PolicieRateLimit } from "../../../interfaces/policies";
-import { ONE_SECOND_IN_MILLISECOND } from "../../../constants/time";
 import { ICache, IRateLimitCache } from "../../../interfaces/cache";
 import { RATE_LIMIT_ONE_HIT } from "../../../constants";
+import { timeWaitingCalculations } from "../../../application/calculations/time-waiting.calculations";
+import { requestRemainingCalculations } from "../../../application/calculations/request-remaining.calculations";
+import { retryAfterCalculations } from "../../../application/calculations/retry-after.calculations";
 
 export abstract class RateLimitPolicy {
   protected policySettings: PolicieRateLimit;
@@ -9,22 +11,12 @@ export abstract class RateLimitPolicy {
   protected responseRateLimitCache: IRateLimitCache;
 
   /**
-   * It represents a model that new policy classes must extend */
+   * This model. All new policy classes must extend this class.
+   * @param responseRateLimitCache
+   */
   constructor(responseRateLimitCache: IRateLimitCache) {
     this.responseRateLimitCache = responseRateLimitCache;
   }
-
-  /**
-   * It's an abstract model to calculate the rate limit reset. It must be implemented  in new policy classes
-   * @return {number} the return must to be in milisseconds
-   */
-  public abstract calculateRateLimitReset(): number;
-
-  /**
-   * It's an abstract model for property validations. It must implemented  in new policy classes
-   * @return {RateLimitPolicy} this
-   */
-  public abstract validateProps(): RateLimitPolicy;
 
   /**
    * Set cache adapter
@@ -37,49 +29,53 @@ export abstract class RateLimitPolicy {
   }
 
   /**
-   * Calculation the Request Remaining
-   * @return {number} requests remaining in integer
+   * This model to calculate when the rate limit reset. It must be implemented  in new policy classes
+   * @abstract
+   * @return {number} in milisseconds
    */
-  public calculateRemaining(): number {
-    const hits = this.responseRateLimitCache?.hits;
-    const diffHitsRemaning = this.policySettings?.maxRequests - hits;
+  public abstract whenTimeRateLimitReset(): number;
 
-    return diffHitsRemaning;
+  /**
+   * This model for property validations. It must implemented  in new policy classes
+   * @abstract
+   * @return {RateLimitPolicy} this
+   */
+  public abstract validateProps(): RateLimitPolicy;
+
+  /**
+   * Get amount request remaining
+   * @return {number}
+   */
+  public amountRequestRemaining(): number {
+    return requestRemainingCalculations(
+      this.policySettings?.maxRequests,
+      this.responseRateLimitCache?.hits
+    );
   }
 
   /**
-   * Calculation the time "retry after"
+   * Get seconds wait to Retry After
    * @return {number} retry after in seconds
    */
-  public calculateRetryAfter(): number {
-    const now = Date.now();
-    const nextWindow = this.calculateRateLimitReset();
-    const diff = nextWindow - now;
-
-    const timeWaitInSeconds = Math.ceil(diff / ONE_SECOND_IN_MILLISECOND);
-
-    return timeWaitInSeconds;
+  public timeWaitToRetryAfter(): number {
+    const nextWindow = this.whenTimeRateLimitReset();
+    return retryAfterCalculations(nextWindow);
   }
 
   /**
-   * Calculation the time is expired
-   * @returns
+   * Check if waiting time is expired
+   * @returns {boolean}
    */
   public waitingTimeIsExpired(): boolean {
     const timestampNow = Date.now();
-    const lastTimeRequestInMilissecond =
-      this.responseRateLimitCache?.last_time_request;
+    const timeRetryInSeconds = this.timeWaitToRetryAfter();
 
-    const timeRetryInSeconds = this.calculateRetryAfter();
+    const timeWaitting = timeWaitingCalculations(
+      this.responseRateLimitCache?.last_time_request,
+      timeRetryInSeconds
+    );
 
-    // TIME_RETRY_IN_SECONDS * 1000
-    const timeWaitInMilliseconds =
-      timeRetryInSeconds * ONE_SECOND_IN_MILLISECOND;
-
-    // TIMESTAMP_LAST_REQUEST + TIME_WAIT
-    const waitTime = lastTimeRequestInMilissecond + timeWaitInMilliseconds;
-
-    return timestampNow > waitTime;
+    return timestampNow > timeWaitting;
   }
 
   /**

@@ -1,8 +1,8 @@
 import { IRateLimitCache } from "../../interfaces/cache";
-import { ONE_SECOND_IN_MILLISECOND } from "../../constants";
 import { IPolicyRequestPerSeconds } from "../../interfaces/policies";
 import { RateLimitPolicy } from "./abstract/rate-limit.policy";
 import { ValidationHandler } from "../validations/validation-handler";
+import { rateLimitResetCalculations } from "../calculations/rate-limit-reset.calculations";
 
 export class RateLimitPerSecondsPolicy extends RateLimitPolicy {
   protected policySettings: IPolicyRequestPerSeconds;
@@ -52,20 +52,16 @@ export class RateLimitPerSecondsPolicy extends RateLimitPolicy {
   }
 
   /**
-   * Implementation of an abstract model of calculateRateLimitReset.
-   * @returns {RateLimitPerMinutesPolicy} return this
+   * Get rate limit reset  value
+   * Note: this is a implementation of an abstract model of calculateRateLimitReset.
+   * @returns {number} time in milliseconds
    */
-  public calculateRateLimitReset(): number {
-    const timeWaitInMilliseconds =
-      this.policySettings?.periodWindow * ONE_SECOND_IN_MILLISECOND;
-
-    const lastTimeCacheInMilliseconds =
-      this.responseRateLimitCache?.last_time_request;
-
-    const nextWindowTime = Math.ceil(
-      lastTimeCacheInMilliseconds + timeWaitInMilliseconds
-    );
-
-    return nextWindowTime;
+  public whenTimeRateLimitReset(): number {
+    return rateLimitResetCalculations({
+      periodWindowIn: "SECONDS",
+      periodWindow: this.policySettings?.periodWindow,
+      lastTimeRequestInMilliseconds:
+        this.responseRateLimitCache?.last_time_request,
+    });
   }
 }

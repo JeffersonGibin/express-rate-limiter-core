@@ -1,8 +1,8 @@
 import { IRateLimitCache } from "../../interfaces/cache";
-import { ONE_SECOND_IN_MILLISECOND, SIXTY_SECONDS } from "../../constants";
 import { IPolicyRequestPerMinutes } from "../../interfaces/policies";
 import { RateLimitPolicy } from "./abstract/rate-limit.policy";
 import { ValidationHandler } from "../validations/validation-handler";
+import { rateLimitResetCalculations } from "../calculations/rate-limit-reset.calculations";
 
 export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
   protected policySettings: IPolicyRequestPerMinutes;
@@ -10,7 +10,7 @@ export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
 
   /**
    * This class represent policies to rate limit per minutes
-   * @param {PolicieRateLimit} policySettings object value of policy settings
+   * @param {PolicieRateLimit} policy object value of policy settings
    * @param {IRateLimitCache} responseRateLimitCache object value of result cache
    */
   constructor(
@@ -52,22 +52,16 @@ export class RateLimitPerMinutesPolicy extends RateLimitPolicy {
   }
 
   /**
-   * Implementation of an abstract model of calculateRateLimitReset.
-   * @returns {RateLimitPerMinutesPolicy} return this
+   * Get rate limit reset  value
+   * Note: this is a implementation of an abstract model of calculateRateLimitReset.
+   * @returns {number} time in milliseconds
    */
-  public calculateRateLimitReset(): number {
-    const timeWaitInMilliseconds =
-      this.policySettings?.periodWindow *
-      SIXTY_SECONDS *
-      ONE_SECOND_IN_MILLISECOND;
-
-    const lastTimeCacheInMilliseconds =
-      this.responseRateLimitCache?.last_time_request;
-
-    const nextWindowTime = Math.ceil(
-      lastTimeCacheInMilliseconds + timeWaitInMilliseconds
-    );
-
-    return nextWindowTime;
+  public whenTimeRateLimitReset(): number {
+    return rateLimitResetCalculations({
+      periodWindowIn: "MINUTES",
+      periodWindow: this.policySettings?.periodWindow,
+      lastTimeRequestInMilliseconds:
+        this.responseRateLimitCache?.last_time_request,
+    });
   }
 }

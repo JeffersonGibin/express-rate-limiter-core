@@ -43,7 +43,7 @@ export class HeaderRequestHandler {
     this.response.setHeader("X-RateLimit-Limit", maxRequests.toString());
 
     // set custom header to define remaning request
-    const requestRemaning = this.policyInstance?.calculateRemaining();
+    const requestRemaning = this.policyInstance?.amountRequestRemaining();
 
     if (requestRemaning >= 0) {
       this.response?.setHeader("X-RateLimit-Remaining", requestRemaning);
@@ -62,7 +62,7 @@ export class HeaderRequestHandler {
 
     if (hits > maxRequests) {
       const dateToResetCache = new Date(
-        this.policyInstance?.calculateRateLimitReset()
+        this.policyInstance?.whenTimeRateLimitReset()
       ).toISOString();
 
       this.response.setHeader("X-RateLimit-Reset", dateToResetCache);
@@ -83,7 +83,7 @@ export class HeaderRequestHandler {
       // tells the client how long in seconds to wait before making another request.
       this.response.setHeader(
         "Retry-After",
-        this.policyInstance?.calculateRetryAfter()
+        this.policyInstance?.timeWaitToRetryAfter()
       );
     }
 
