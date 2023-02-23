@@ -17,9 +17,10 @@ npm install express-rate-limiter-core
 - Rate limit per period
 - Block system to requets
 
-## Cache available
+## Cache
 
-- MemoryCacheAdapter
+- Cache in Memory: Memory cache: it does not have support to scale this is only a simple cache that will be in your server.
+- Custom Cache: The library available an interface `CustomCache` with this interface you can implement your owner cache manager.
 
 ## Exemples
 
@@ -28,7 +29,6 @@ npm install express-rate-limiter-core
 ```javascript
 import {
   RateLimitExpress,
-  MemoryCacheAdapter,
 } from "express-rate-limiter-core";
 ```
 
@@ -38,7 +38,6 @@ import {
 const app = express();
 
 const rateLimit = RateLimitExpress({
-  cache: new MemoryCacheAdapter(),
   policy: {
     type: "REQUEST_PER_SECONDS", // REQUEST_PER_SECONDS, REQUEST_PER_MINUTES
 
@@ -54,7 +53,6 @@ const rateLimit = RateLimitExpress({
 
 ```javascript
 const rateLimit = RateLimitExpress({
-  cache: new MemoryCacheAdapter(),
   policy: {
     type: "REQUEST_PER_PERIOD",
 
@@ -74,12 +72,11 @@ const rateLimit = RateLimitExpress({
 
 ```javascript
 import express from "express";
-import { MemoryDBAdapter, RateLimitExpress } from "express-rate-limiter-core";
+import { RateLimitExpress } from "express-rate-limiter-core";
 
 const app = express();
 
 const rateLimit = RateLimitExpress({
-  cache: new MemoryCacheAdapter(),
   policy: {
     type: "REQUEST_PER_PERIOD",
 
@@ -122,7 +119,7 @@ app.use(rateLimit.apply);
 
 |     Parameter      | Require |                                                                   Description                                                                   |
 | :----------------: | :-----: | :---------------------------------------------------------------------------------------------------------------------------------------------: |
-|      `cache`       |   Yes   | A custom cache instance used to store rate limiting information. For example, the `MemoryCacheAdapter` stores rate limiting information in memory. |
+|      `cache`       |   No   | Accepts a custom cache instance is used to store rate-limiting information. When the property doesn't define the cache used is in memory. |
 |      `policy`      |   Yes   |                                                         A object with policy to service                                                         |
 | `blockRequestRule` |   No    |     function optional to implement the rule of locking in your service. The function receives the property 'request' of the object express.     |
 
@@ -163,9 +160,9 @@ This library provides interfaces that can be used with TypeScript.
 
 |    Interface     |                                       Description                                       |
 | :--------------: | :-------------------------------------------------------------------------------------: |
-|     ICache:      | interface provides a model for adapters. Any new adapter must implement this interface. |
-| IRateLimitCache: |           interface provides a model for the response of the ICache adapter.            |
-|    ISettings:    |       interface provides a model for the construction parameters of the library.        |
+|     CustomCache:      | the interface provides a model for the implementation custom cache. |
+| RateLimitCache: |           interface provides a model for the response of the CustomCache.            |
+|    Settings:    |       interface provides a model for the construction parameters of the library.        |
 
 ## Response
 
