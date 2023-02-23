@@ -1,5 +1,5 @@
 /**
- * Type  of policies supported
+ * The types of policies supported are:
  * @exemple REQUEST_PER_SECONDS
  * @exemple REQUEST_PER_MINUTES
  * @exemple REQUEST_PER_PERIOD
@@ -26,24 +26,24 @@ export interface IPolicyDefault {
 
 export interface IPolicyRequestPerSeconds extends IPolicyDefault {
   /**
-   * Represent the type REQUEST_PER_SECONDS
+   * Represent the type Policy
    */
   type: "REQUEST_PER_SECONDS";
 
   /**
-   * Represent the time utilized to calculate the wait window
+   * Represent the time wait that the client needs to wait when rate-limit hit
    */
   periodWindow: number;
 }
 
 export interface IPolicyRequestPerMinutes extends IPolicyDefault {
   /**
-   * Represent the type REQUEST_PER_MINUTES
+   * Represent the type Policy
    */
   type: "REQUEST_PER_MINUTES";
 
   /**
-   * Represent the time utilized to calculate the wait window
+   * Represent the time wait that the client needs to wait when rate-limit hit
    */
   periodWindow: number;
 }
