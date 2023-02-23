@@ -15,7 +15,10 @@ jest.mock("./dtos/arguments-policy.dto");
 jest.mock("./dtos/request-express.dto");
 
 const req = {} as IExpressRequest;
-const res = { send: jest.fn() } as unknown as IExpressResponse;
+const res = {
+  json: jest.fn(),
+  status: jest.fn().mockReturnThis(),
+} as unknown as IExpressResponse;
 const nextFn = jest.fn<INextFunctionExpress, []>();
 
 const requestExpressDtoFn = jest.fn();
@@ -24,8 +27,6 @@ const constructorApplication = jest.fn();
 
 describe("middleware unit test", () => {
   beforeEach(() => {
-    jest.resetAllMocks();
-
     (Application as jest.Mock).mockImplementation(constructorApplication);
     (RequestExpressDTO as jest.Mock).mockImplementation(requestExpressDtoFn);
     (ArgumentsPolicyDTO as jest.Mock).mockImplementation(argumentsPolicyftoFn);
@@ -93,5 +94,26 @@ describe("middleware unit test", () => {
     expect(argumentsPolicyftoFn).toBeCalled();
     expect(requestExpressDtoFn).toBeCalled();
     expect(spyApply).toBeCalled();
+  });
+
+  test("it's should catch and handle errors", () => {
+    jest.spyOn(Application.prototype, "execute").mockImplementation(() => {
+      throw new Error("Simulate Error!");
+    });
+
+    middleware({
+      policy: {
+        type: "REQUEST_PER_SECONDS",
+        maxRequests: 10,
+        periodWindow: 10,
+      },
+    }).apply(req, res, nextFn);
+
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith({
+      from: "Express Rate Limit Core",
+      type: "Error",
+      message: "Simulate Error!",
+    });
   });
 });
