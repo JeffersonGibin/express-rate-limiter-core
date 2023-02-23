@@ -1,6 +1,9 @@
 import { MemoryCacheRepository } from "./repositories/memory-cache.repository";
-import { ICache, IRateLimitCache } from "./interfaces/cache";
-import { ISettings } from "./interfaces/settings";
+import {
+  ICache as CustomCache,
+  IRateLimitCache as RateLimitCache,
+} from "./interfaces/cache";
+import { ISettings as Settings } from "./interfaces/settings";
 import { middleware } from "./middleware";
 
 /**
@@ -16,4 +19,4 @@ export const MemoryCache = MemoryCacheRepository;
 /**
  * Interfaces Types
  */
-export { ICache, IRateLimitCache, ISettings };
+export { CustomCache, RateLimitCache, Settings };
