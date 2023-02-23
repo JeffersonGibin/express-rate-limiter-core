@@ -12,9 +12,9 @@ npm install express-rate-limiter-core
 
 ## Features
 
-- Rate limit per second
-- Rate limit per minutes
-- Rate limit per period
+- Rate-limit per second
+- Rate-limit per minutes
+- Rate-limit per period
 - Block system to requets
 
 ## Cache
@@ -56,10 +56,10 @@ const rateLimit = RateLimitExpress({
   policy: {
     type: "REQUEST_PER_PERIOD",
 
-    // date representing when rate limit will be start
+    // date representing when rate-limit will be start
     periodWindowStart: new Date("2023-02-22T19:02:57.087Z"),
 
-    //date representing when rate limit will be end
+    //date representing when rate-limit will be end
     periodWindowEnd: new Date("2023-02-22T19:06:57.087Z"),
 
     // max requests allowed in the interval start and end
@@ -80,10 +80,10 @@ const rateLimit = RateLimitExpress({
   policy: {
     type: "REQUEST_PER_PERIOD",
 
-    // date representing when rate limit will be start
+    // date representing when rate-limit will be start
     periodWindowStart: new Date("2023-02-22T19:02:57.087Z"),
 
-    //date representing when rate limit will be end
+    //date representing when rate-limit will be end
     periodWindowEnd: new Date("2023-02-22T19:06:57.087Z"),
 
     // max requests allowed in the interval start and end
@@ -110,7 +110,7 @@ const rateLimit = RateLimitExpress({
 
 ```javascript
 /**
- * Apply rate limit in the express.
+ * Apply rate-limit in the express.
  */
 app.use(rateLimit.apply);
 ```
@@ -151,8 +151,8 @@ Object Specification `policy`:
 | :------------------------: | :------------------: | :-----: | --------------------------------------------------------- |
 |       `policy.type`        | `REQUEST_PER_PERIOD` |  true   | type policy                                               |
 |    `policy.maxRequests`    |        number        |  true   | is the number request that the client 'ip' to can receive |
-| `policy.periodWindowStart` |         Date         |  true   | date representing when rate limit will be start           |
-|  `policy.periodWindowEnd`  |         Date         |  true   | date representing when rate limit will be end             |
+| `policy.periodWindowStart` |         Date         |  true   | date representing when rate-limit will be start           |
+|  `policy.periodWindowEnd`  |         Date         |  true   | date representing when rate-limit will be end             |
 
 ## TypeScript Support
 
@@ -168,7 +168,7 @@ This library provides interfaces that can be used with TypeScript.
 
 | Status code |                            message                             |                                                                                                               description                                                                                                               |
 | :---------: | :------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|     429     | Too many requests. You've exceeded the rate limit for requests |                                                                          This message is returned to all types of policies when the request limit is exceeded.                                                                          |
+|     429     | Too many requests. You've exceeded the rate-limit for requests |                                                                          This message is returned to all types of policies when the request limit is exceeded.                                                                          |
 |     403     |                     Unauthorized Request!                      |                                                     This message is returned only when the property `blockRequestRule` is passed in the instance of the library and returns `True`.                                                     |
 |     500     |                     Unauthorized Request!                      | This message is returned ever that a property doesn't is passed correctly in the instance of the library. Possible scenaries: `MISSING_PROPERTY`,`PROPERTY_IS_NOT_INSTANCE_DATE`,`PROPERTY_IS_NOT_NUMBER` and `PROPERTY_IS_NOT_STRING`, |
 
@@ -178,8 +178,8 @@ This library provides interfaces that can be used with TypeScript.
 | :---------------------: | :-------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 |   `X-RateLimit-Limit`   |       Yes       |                                                                                                                                               used to identify max request limit                                                                                                                                               |
 | `X-RateLimit-Remaining` |       Yes       |                                                                                                                                   used to identify the quantity remaining max request limit                                                                                                                                    |
-|   `X-RateLimit-Reset`   |       No        | This header is used to identify when the limiter is reset and only is returned when the request limit hit. The value é represented in as ISO string. The header only is returned when the rate limit was hit. When the policy is `REQUEST_PER_PERIOD` the header returns the value of property `periodWindowEnd` as ISO string |
-|      `Retry-After`      |       No        |                           used to tells the client how long in seconds to wait before making another request. The header only is returned when the rate limit was hit. When the policy is `REQUEST_PER_PERIOD` the header returns difference between timestamp now and `periodWindowEnd` in seconds.                           |
+|   `X-RateLimit-Reset`   |       No        | This header is used to identify when the limiter is reset and only is returned when the request limit hit. The value é represented in as ISO string. The header only is returned when the rate-limit was hit. When the policy is `REQUEST_PER_PERIOD` the header returns the value of property `periodWindowEnd` as ISO string |
+|      `Retry-After`      |       No        |                           used to tells the client how long in seconds to wait before making another request. The header only is returned when the rate-limit was hit. When the policy is `REQUEST_PER_PERIOD` the header returns difference between timestamp now and `periodWindowEnd` in seconds.                           |
 
 ## Issues and Contributing
 
