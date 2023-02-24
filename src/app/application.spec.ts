@@ -4,7 +4,7 @@ import {
   ResponseExpress,
 } from "../core/interfaces/express";
 import { Application } from "./application";
-import { transformHeaderCallsInObject } from "../utils/test.utils";
+import { transformHeaderCallsInObject } from "./utils/test.utils";
 import {
   HTTP_STATUS_TOO_MANY_REQUESTS,
   MESSAGE_DEFAULT_TOOMANY_REQUEST,

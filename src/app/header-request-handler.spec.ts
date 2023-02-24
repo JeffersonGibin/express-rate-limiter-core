@@ -1,5 +1,5 @@
 import { HeaderRequestHandler } from "./header-request-handler";
-import { transformHeaderCallsInObject } from "../utils/test.utils";
+import { transformHeaderCallsInObject } from "./utils/test.utils";
 import { RequestExpressDTO } from "../app/dtos/request-express.dto";
 import { RequestExpress, ResponseExpress } from "../core/interfaces/express";
 import { RateLimitPolicy } from "../core/policies/abstract/rate-limit.policy";
