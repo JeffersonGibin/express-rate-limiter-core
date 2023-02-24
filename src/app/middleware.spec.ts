@@ -1,8 +1,3 @@
-import {
-  NextFunction as INextFunctionExpress,
-  Request as IExpressRequest,
-  Response as IExpressResponse,
-} from "express";
 import { Application } from "./application";
 
 import { middleware } from "./middleware";
@@ -11,17 +6,22 @@ import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
 import { MemoryCacheRepository } from "../shared/repositories/memory-cache.repository";
 import { ICache } from "../shared/interfaces/cache";
+import {
+  RequestExpress,
+  ResponseExpress,
+  NextFunctionExpress,
+} from "../core/interfaces/express";
 
 jest.mock("./application");
 jest.mock("./dtos/arguments-policy.dto");
 jest.mock("./dtos/request-express.dto");
 
-const req = {} as IExpressRequest;
+const req = {} as RequestExpress;
 const res = {
   json: jest.fn(),
   status: jest.fn().mockReturnThis(),
-} as unknown as IExpressResponse;
-const nextFn = jest.fn<INextFunctionExpress, []>();
+} as unknown as ResponseExpress;
+const nextFn = jest.fn<NextFunctionExpress, []>();
 
 const requestExpressDtoFn = jest.fn();
 const argumentsPolicyftoFn = jest.fn();
