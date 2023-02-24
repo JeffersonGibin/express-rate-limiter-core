@@ -1,4 +1,4 @@
-import { MESSAGE_PLEASE_CHECK_CONFIGURATIONS } from "../../constants/message";
+import { MESSAGE_PLEASE_CHECK_CONFIGURATIONS } from "../constants/message";
 import { PropertyNotStringException } from "../exceptions/property-not-string.exception";
 import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 

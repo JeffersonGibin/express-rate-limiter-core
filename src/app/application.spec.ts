@@ -1,11 +1,3 @@
-import {
-  HTTP_STATUS_FORBIDDEN,
-  HTTP_STATUS_TOO_MANY_REQUESTS,
-} from "../constants";
-import {
-  MESSAGE_DEFAULT_TOOMANY_REQUEST,
-  MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
-} from "../constants/message";
 import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { ICache } from "../interfaces/cache";
@@ -16,6 +8,12 @@ import {
 } from "../interfaces/express";
 import { Application } from "./application";
 import { transformHeaderCallsInObject } from "../utils/test.utils";
+import {
+  HTTP_STATUS_TOO_MANY_REQUESTS,
+  MESSAGE_DEFAULT_TOOMANY_REQUEST,
+  HTTP_STATUS_FORBIDDEN,
+  MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
+} from "../core/constants";
 
 // jest function to represent express response next
 const nextFn = jest.fn<NextFunctionExpress, []>();

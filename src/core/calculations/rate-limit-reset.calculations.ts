@@ -1,4 +1,4 @@
-import { ONE_SECOND_IN_MILLISECOND, SIXTY_SECONDS } from "../../constants/time";
+import { ONE_SECOND_IN_MILLISECOND, SIXTY_SECONDS } from "../constants/time";
 
 /**
  * Calculates the time that client goes reset rate-limit

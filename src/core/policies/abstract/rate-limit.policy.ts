@@ -1,6 +1,6 @@
 import { PolicieRateLimit } from "../../../interfaces/policies";
 import { ICache, IRateLimitCache } from "../../../interfaces/cache";
-import { RATE_LIMIT_ONE_HIT } from "../../../constants";
+import { RATE_LIMIT_ONE_HIT } from "../../constants";
 import { requestRemainingCalculations } from "../../calculations/request-remaining.calculations";
 import { retryAfterCalculations } from "../../calculations/retry-after.calculations";
 import { timeWaitingCalculations } from "../../calculations/time-waiting.calculations";

@@ -3,16 +3,14 @@ import { ResponseExpress } from "../interfaces/express";
 import {
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_TOO_MANY_REQUESTS,
-} from "../constants";
+  MESSAGE_DEFAULT_TOOMANY_REQUEST,
+  MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
+} from "../core/constants";
 import { PoliciesFactory } from "../core/policies/policies.factory";
 import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
 import { ICache } from "../interfaces/cache";
 import { BlockRequestRule } from "../interfaces/settings";
-import {
-  MESSAGE_DEFAULT_TOOMANY_REQUEST,
-  MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
-} from "../constants/message";
 import { HeaderRequestHandler } from "../core/header-request-handler";
 
 interface IParametersApplication {

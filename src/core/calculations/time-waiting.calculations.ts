@@ -1,4 +1,4 @@
-import { ONE_SECOND_IN_MILLISECOND } from "../../constants";
+import { ONE_SECOND_IN_MILLISECOND } from "../constants";
 
 /**
  *  Calculates time waitting
