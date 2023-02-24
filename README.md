@@ -1,5 +1,14 @@
 # <div align="center"> Express Rate Limit Core</div>
 
+<div align="center">
+
+[![Pipeline Workflow](https://github.com/JeffersonGibin/express-rate-limiter-core/actions/workflows/pipeline.yml/badge.svg)](https://github.com/JeffersonGibin/express-rate-limiter-core/actions/workflows/pipeline.yml)
+[![npm version](https://img.shields.io/npm/v/express-rate-limiter-core.svg)](https://www.npmjs.com/package/express-rate-limiter-core 'View this project on NPM')
+
+</div>
+
+
+
 A library to that disponibility is an easy middleware to limit request rate in the server express.
 
 ## Install
