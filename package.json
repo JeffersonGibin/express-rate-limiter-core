@@ -12,6 +12,7 @@
     "lint": "eslint --ext .ts .",
     "unit:test": "jest --maxWorkers 2 .",
     "test:watch": "jest --watch",
+    "prepush": "npm run build && npm run lint && npm run unit:test",
     "patch:version": "npm version patch -m 'Bump patch version to %s'",
     "minor:version": "npm version minor -m 'Bump minor version to %s'",
     "major:version": "npm version major -m 'Bump major version to %s'"
