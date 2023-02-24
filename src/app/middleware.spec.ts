@@ -7,9 +7,10 @@ import { Application } from "./application";
 
 import { ICache } from "../core/interfaces/cache";
 import { middleware } from "./middleware";
-import { MemoryCacheRepository } from "../repositories/memory-cache.repository";
+
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
+import { MemoryCacheRepository } from "../shared/repositories/memory-cache.repository";
 
 jest.mock("./application");
 jest.mock("./dtos/arguments-policy.dto");

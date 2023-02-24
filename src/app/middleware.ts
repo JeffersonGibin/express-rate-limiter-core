@@ -8,7 +8,7 @@ import {
   ResponseExpress,
   NextFunctionExpress,
 } from "../core/interfaces/express";
-import { MemoryCacheRepository } from "../repositories/memory-cache.repository";
+import { MemoryCacheRepository } from "../shared/repositories/memory-cache.repository";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
 
