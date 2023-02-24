@@ -1,5 +1,5 @@
 import { ResponseExpress } from "../interfaces/express";
-import { HeaderRequestHandler } from "../application/header-request-handler";
+
 import {
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_TOO_MANY_REQUESTS,
@@ -13,6 +13,7 @@ import {
   MESSAGE_DEFAULT_TOOMANY_REQUEST,
   MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
 } from "../constants/message";
+import { HeaderRequestHandler } from "../core/header-request-handler";
 
 interface IParametersApplication {
   requestExpressDto: RequestExpressDTO;
