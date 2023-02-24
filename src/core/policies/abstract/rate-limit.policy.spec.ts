@@ -2,13 +2,13 @@ import { ICache, IRateLimitCache } from "../../../interfaces/cache";
 import { PolicieRateLimit } from "../../../interfaces/policies";
 
 import { RateLimitPolicy } from "../abstract/rate-limit.policy";
-import { timeWaitingCalculations } from "../../../application/calculations/time-waiting.calculations";
-import { requestRemainingCalculations } from "../../../application/calculations/request-remaining.calculations";
-import { retryAfterCalculations } from "../../../application/calculations/retry-after.calculations";
+import { timeWaitingCalculations } from "../../calculations/time-waiting.calculations";
+import { requestRemainingCalculations } from "../../calculations/request-remaining.calculations";
+import { retryAfterCalculations } from "../../calculations/retry-after.calculations";
 
-jest.mock("../../../application/calculations/request-remaining.calculations");
-jest.mock("../../../application/calculations/retry-after.calculations");
-jest.mock("../../../application/calculations/time-waiting.calculations");
+jest.mock("../../calculations/request-remaining.calculations");
+jest.mock("../../calculations/retry-after.calculations");
+jest.mock("../../calculations/time-waiting.calculations");
 
 class TestRateLimitPolicy extends RateLimitPolicy {
   constructor(

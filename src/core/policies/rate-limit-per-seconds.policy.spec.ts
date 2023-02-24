@@ -1,10 +1,10 @@
 import { ICache } from "../../interfaces/cache";
 import { RateLimitPerSecondsPolicy } from "./rate-limit-per-seconds.policy";
 import { ValidationHandler } from "../../core/validations/validation-handler";
-import { rateLimitResetCalculations } from "../../application/calculations/rate-limit-reset.calculations";
+import { rateLimitResetCalculations } from "../calculations/rate-limit-reset.calculations";
 
 jest.mock("../../core/validations/validation-handler");
-jest.mock("../../application/calculations/rate-limit-reset.calculations");
+jest.mock("../calculations/rate-limit-reset.calculations");
 
 describe("rate-limit-per-seconds.policy unit test", () => {
   beforeEach(() => {
