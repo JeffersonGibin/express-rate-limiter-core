@@ -1,4 +1,4 @@
-import { Application } from "./application/application";
+import { Application } from "./app/application";
 import { HTTP_STATUS_INTERNAL_SERVER_ERROR } from "./constants";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";

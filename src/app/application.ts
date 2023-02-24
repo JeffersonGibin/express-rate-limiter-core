@@ -1,10 +1,10 @@
 import { ResponseExpress } from "../interfaces/express";
-import { HeaderRequestHandler } from "./header-request-handler";
+import { HeaderRequestHandler } from "../application/header-request-handler";
 import {
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_TOO_MANY_REQUESTS,
 } from "../constants";
-import { PoliciesFactory } from "./policies/policies.factory";
+import { PoliciesFactory } from "../application/policies/policies.factory";
 import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
 import { ICache } from "../interfaces/cache";
