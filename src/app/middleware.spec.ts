@@ -5,7 +5,7 @@ import {
 } from "express";
 import { Application } from "./application";
 
-import { ICache } from "../interfaces/cache";
+import { ICache } from "../core/interfaces/cache";
 import { middleware } from "./middleware";
 import { MemoryCacheRepository } from "../repositories/memory-cache.repository";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";

@@ -2,7 +2,7 @@ import {
   RequestExpress,
   ResponseExpress,
   NextFunctionExpress,
-} from "../../interfaces/express";
+} from "../../core/interfaces/express";
 
 export class RequestExpressDTO {
   public readonly request: RequestExpress;

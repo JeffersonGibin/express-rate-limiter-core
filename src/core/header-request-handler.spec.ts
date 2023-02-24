@@ -1,8 +1,9 @@
 import { HeaderRequestHandler } from "./header-request-handler";
-import { RequestExpress, ResponseExpress } from "../interfaces/express";
+
 import { transformHeaderCallsInObject } from "../utils/test.utils";
 import { RateLimitPolicy } from "./policies/abstract/rate-limit.policy";
 import { RequestExpressDTO } from "../app/dtos/request-express.dto";
+import { RequestExpress, ResponseExpress } from "./interfaces/express";
 
 // 2023-02-23T13:20:00.000Z
 const MOCK_LAST_TIME_REQUEST = 1677158400000;

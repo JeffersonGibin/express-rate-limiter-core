@@ -1,4 +1,4 @@
-import { IValidationHandler } from "../../interfaces/validations";
+import { IValidationHandler } from "../interfaces/validations";
 import { DateValidation } from "./date.validation";
 import { MissingValidation } from "./missing.validation";
 import { NumberValidation } from "./number.validation";

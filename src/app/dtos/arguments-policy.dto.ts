@@ -1,4 +1,4 @@
-import { PolicieRateLimit } from "../../interfaces/policies";
+import { PolicieRateLimit } from "../../core/interfaces/policies";
 
 export class ArgumentsPolicyDTO {
   public readonly policy: PolicieRateLimit;

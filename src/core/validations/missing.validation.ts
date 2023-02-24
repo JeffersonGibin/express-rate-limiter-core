@@ -1,6 +1,6 @@
 import { MESSAGE_PLEASE_CHECK_CONFIGURATIONS } from "../constants/message";
 import { MissingPropertyException } from "../exceptions/missing-property.exception";
-import { IPropertyDefinitionValidation } from "../../interfaces/validations";
+import { IPropertyDefinitionValidation } from "../interfaces/validations";
 
 export class MissingValidation {
   private input: IPropertyDefinitionValidation;

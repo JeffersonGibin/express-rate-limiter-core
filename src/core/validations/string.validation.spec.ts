@@ -1,5 +1,5 @@
-import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 import { PropertyNotStringException } from "../exceptions/property-not-string.exception";
+import { IPropertyDefinitionValidation } from "../interfaces/validations";
 import { StringValidation } from "./string.validation";
 
 describe("string.validation unit test", () => {

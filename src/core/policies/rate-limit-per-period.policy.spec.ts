@@ -1,6 +1,6 @@
-import { ICache, IRateLimitCache } from "../../interfaces/cache";
 import { RateLimitPerPeriodPolicy } from "./rate-limit-per-period.policy";
 import { ValidationHandler } from "../validations/validation-handler";
+import { ICache, IRateLimitCache } from "../interfaces/cache";
 
 jest.mock("../validations/validation-handler");
 

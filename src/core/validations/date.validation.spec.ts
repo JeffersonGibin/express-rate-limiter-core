@@ -1,5 +1,5 @@
-import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 import { PropertyNotDateException } from "../exceptions/property-not-date.exception";
+import { IPropertyDefinitionValidation } from "../interfaces/validations";
 import { DateValidation } from "./date.validation";
 
 describe("date.validation unit test", () => {

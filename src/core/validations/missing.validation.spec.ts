@@ -1,5 +1,5 @@
-import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 import { MissingPropertyException } from "../exceptions/missing-property.exception";
+import { IPropertyDefinitionValidation } from "../interfaces/validations";
 import { MissingValidation } from "./missing.validation";
 
 describe("missing.validation unit test", () => {

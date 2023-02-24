@@ -2,8 +2,8 @@ import { MemoryCacheRepository } from "./repositories/memory-cache.repository";
 import {
   ICache as CustomCache,
   IRateLimitCache as RateLimitCache,
-} from "./interfaces/cache";
-import { ISettings as Settings } from "./interfaces/settings";
+} from "./core/interfaces/cache";
+import { ISettings as Settings } from "./core/interfaces/settings";
 import { middleware } from "./app/middleware";
 
 /**

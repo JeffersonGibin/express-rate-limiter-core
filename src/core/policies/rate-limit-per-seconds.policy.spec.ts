@@ -1,7 +1,7 @@
-import { ICache } from "../../interfaces/cache";
 import { RateLimitPerSecondsPolicy } from "./rate-limit-per-seconds.policy";
 import { ValidationHandler } from "../../core/validations/validation-handler";
 import { rateLimitResetCalculations } from "../calculations/rate-limit-reset.calculations";
+import { ICache } from "../interfaces/cache";
 
 jest.mock("../../core/validations/validation-handler");
 jest.mock("../calculations/rate-limit-reset.calculations");

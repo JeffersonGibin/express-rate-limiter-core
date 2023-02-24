@@ -1,9 +1,9 @@
-import { ICache } from "../interfaces/cache";
+import { ICache } from "../core/interfaces/cache";
 import {
   NextFunctionExpress,
   RequestExpress,
   ResponseExpress,
-} from "../interfaces/express";
+} from "../core/interfaces/express";
 import { Application } from "./application";
 import { transformHeaderCallsInObject } from "../utils/test.utils";
 import {

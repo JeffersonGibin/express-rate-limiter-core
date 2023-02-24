@@ -1,5 +1,5 @@
-import { ICache, IRateLimitCache } from "../interfaces/cache";
-import { IDatabaseMemory } from "../interfaces/memory-cache";
+import { ICache, IRateLimitCache } from "../core/interfaces/cache";
+import { IDatabaseMemory } from "../core/interfaces/memory-cache";
 
 export class MemoryCacheRepository implements ICache {
   private databaseMemory: IDatabaseMemory;

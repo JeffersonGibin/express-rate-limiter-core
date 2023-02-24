@@ -1,6 +1,7 @@
 import { RATE_LIMIT_ONE_HIT } from "../constants";
-import { ICache, IRateLimitCache } from "../../interfaces/cache";
-import { IPolicyRequestPerPeriod } from "../../interfaces/policies";
+import { IRateLimitCache, ICache } from "../interfaces/cache";
+import { IPolicyRequestPerPeriod } from "../interfaces/policies";
+
 import { ValidationHandler } from "../validations/validation-handler";
 import { RateLimitPolicy } from "./abstract/rate-limit.policy";
 

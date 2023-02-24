@@ -1,13 +1,13 @@
 import { Application } from "./application";
 import { HTTP_STATUS_INTERNAL_SERVER_ERROR } from "../core/constants";
 
-import { IMiddleware } from "../interfaces/middleware";
-import { ISettings } from "../interfaces/settings";
+import { IMiddleware } from "../core/interfaces/middleware";
+import { ISettings } from "../core/interfaces/settings";
 import {
   RequestExpress,
   ResponseExpress,
   NextFunctionExpress,
-} from "../interfaces/express";
+} from "../core/interfaces/express";
 import { MemoryCacheRepository } from "../repositories/memory-cache.repository";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";

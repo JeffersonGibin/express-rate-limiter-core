@@ -1,5 +1,5 @@
-import { ICache, IRateLimitCache } from "../../../interfaces/cache";
-import { PolicieRateLimit } from "../../../interfaces/policies";
+import { ICache, IRateLimitCache } from "../../interfaces/cache";
+import { PolicieRateLimit } from "../../interfaces/policies";
 
 import { RateLimitPolicy } from "../abstract/rate-limit.policy";
 import { timeWaitingCalculations } from "../../calculations/time-waiting.calculations";

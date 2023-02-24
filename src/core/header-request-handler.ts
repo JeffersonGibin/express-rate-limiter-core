@@ -1,12 +1,12 @@
-import { IRateLimitCache } from "../interfaces/cache";
-
 import { RateLimitPolicy } from "../core/policies/abstract/rate-limit.policy";
+
+import { RequestExpressDTO } from "../app/dtos/request-express.dto";
+import { IRateLimitCache } from "./interfaces/cache";
 import {
+  NextFunctionExpress,
   RequestExpress,
   ResponseExpress,
-  NextFunctionExpress,
-} from "../interfaces/express";
-import { RequestExpressDTO } from "../app/dtos/request-express.dto";
+} from "./interfaces/express";
 
 export class HeaderRequestHandler {
   private request: RequestExpress;

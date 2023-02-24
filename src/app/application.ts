@@ -1,5 +1,3 @@
-import { ResponseExpress } from "../interfaces/express";
-
 import {
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_TOO_MANY_REQUESTS,
@@ -8,11 +6,12 @@ import {
 } from "../core/constants";
 import { PoliciesFactory } from "../core/policies/policies.factory";
 
-import { ICache } from "../interfaces/cache";
-import { BlockRequestRule } from "../interfaces/settings";
 import { HeaderRequestHandler } from "../core/header-request-handler";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
+import { ICache } from "../core/interfaces/cache";
+import { ResponseExpress } from "../core/interfaces/express";
+import { BlockRequestRule } from "../core/interfaces/settings";
 
 interface IParametersApplication {
   requestExpressDto: RequestExpressDTO;
