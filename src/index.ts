@@ -1,7 +1,11 @@
-import { MemoryDBAdapter as MemoryDB } from "./adapters/memory-db.adapter";
-import { ICache, IResponseHit } from "./interfaces/cache";
-import { ISettings } from "./interfaces/settings";
-import { middleware } from "./middleware";
+import { MemoryCacheRepository } from "./shared/repositories/memory-cache.repository";
+import {
+  ICache as CustomCache,
+  IRateLimitCache as RateLimitCache,
+} from "./shared/interfaces/cache";
+
+import { ISettings as Settings } from "./shared/interfaces/settings";
+import { middleware } from "./shared/middleware";
 
 /**
  * Application
@@ -9,11 +13,11 @@ import { middleware } from "./middleware";
 export const RateLimitExpress = middleware;
 
 /**
- * Adapter that works in memory.
+ * Repository that works in memory.
  */
-export const MemoryDBAdapter = MemoryDB;
+export const MemoryCache = MemoryCacheRepository;
 
 /**
  * Interfaces Types
  */
-export { ICache, IResponseHit, ISettings };
+export { CustomCache, RateLimitCache, Settings };
