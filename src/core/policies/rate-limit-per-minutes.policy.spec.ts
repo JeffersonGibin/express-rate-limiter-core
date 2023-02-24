@@ -1,4 +1,4 @@
-import { ICache } from "../interfaces/cache";
+import { ICache } from "../../shared/interfaces/cache";
 import { RateLimitPerMinutesPolicy } from "./rate-limit-per-minutes.policy";
 import { ValidationHandler } from "../../core/validations/validation-handler";
 import { rateLimitResetCalculations } from "../calculations/rate-limit-reset.calculations";

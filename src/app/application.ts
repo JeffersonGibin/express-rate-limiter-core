@@ -9,9 +9,10 @@ import { PoliciesFactory } from "../core/policies/policies.factory";
 import { HeaderRequestHandler } from "../core/header-request-handler";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
-import { ICache } from "../core/interfaces/cache";
+
 import { ResponseExpress } from "../core/interfaces/express";
-import { BlockRequestRule } from "../core/interfaces/settings";
+import { BlockRequestRule } from "../shared/interfaces/settings";
+import { ICache } from "../shared/interfaces/cache";
 
 interface IParametersApplication {
   requestExpressDto: RequestExpressDTO;

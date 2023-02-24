@@ -1,4 +1,4 @@
-import { ICache } from "../interfaces/cache";
+import { ICache } from "../../shared/interfaces/cache";
 import { PoliciesFactory } from "./policies.factory";
 import { RateLimitPerMinutesPolicy } from "./rate-limit-per-minutes.policy";
 import { RateLimitPerPeriodPolicy } from "./rate-limit-per-period.policy";

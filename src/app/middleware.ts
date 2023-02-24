@@ -2,7 +2,7 @@ import { Application } from "./application";
 import { HTTP_STATUS_INTERNAL_SERVER_ERROR } from "../core/constants";
 
 import { IMiddleware } from "../core/interfaces/middleware";
-import { ISettings } from "../core/interfaces/settings";
+
 import {
   RequestExpress,
   ResponseExpress,
@@ -11,6 +11,7 @@ import {
 import { MemoryCacheRepository } from "../shared/repositories/memory-cache.repository";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
+import { ISettings } from "../shared/interfaces/settings";
 
 export const middleware = (settings: ISettings): IMiddleware => {
   return {

@@ -1,4 +1,3 @@
-import { ICache } from "../core/interfaces/cache";
 import {
   NextFunctionExpress,
   RequestExpress,
@@ -14,6 +13,7 @@ import {
 } from "../core/constants";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
+import { ICache } from "../shared/interfaces/cache";
 
 // jest function to represent express response next
 const nextFn = jest.fn<NextFunctionExpress, []>();

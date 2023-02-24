@@ -5,12 +5,12 @@ import {
 } from "express";
 import { Application } from "./application";
 
-import { ICache } from "../core/interfaces/cache";
 import { middleware } from "./middleware";
 
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
 import { MemoryCacheRepository } from "../shared/repositories/memory-cache.repository";
+import { ICache } from "../shared/interfaces/cache";
 
 jest.mock("./application");
 jest.mock("./dtos/arguments-policy.dto");

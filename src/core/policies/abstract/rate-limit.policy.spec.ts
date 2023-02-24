@@ -1,4 +1,4 @@
-import { ICache, IRateLimitCache } from "../../interfaces/cache";
+import { ICache, IRateLimitCache } from "../../../shared/interfaces/cache";
 import { PolicieRateLimit } from "../../interfaces/policies";
 
 import { RateLimitPolicy } from "../abstract/rate-limit.policy";

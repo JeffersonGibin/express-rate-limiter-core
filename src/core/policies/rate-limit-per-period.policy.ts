@@ -1,5 +1,5 @@
 import { RATE_LIMIT_ONE_HIT } from "../constants";
-import { IRateLimitCache, ICache } from "../interfaces/cache";
+import { IRateLimitCache, ICache } from "../../shared/interfaces/cache";
 import { IPolicyRequestPerPeriod } from "../interfaces/policies";
 
 import { ValidationHandler } from "../validations/validation-handler";

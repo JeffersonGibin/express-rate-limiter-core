@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
+import { RequestExpress } from "../../core/interfaces/express";
+import { PolicieRateLimit } from "../../core/interfaces/policies";
 import { ICache } from "./cache";
-import { RequestExpress } from "./express";
-import { PolicieRateLimit } from "./policies";
 
 export type BlockRequestRule = (req: RequestExpress) => boolean;
 

@@ -1,7 +1,7 @@
 import { RateLimitPolicy } from "./abstract/rate-limit.policy";
 import { ValidationHandler } from "../validations/validation-handler";
 import { rateLimitResetCalculations } from "../calculations/rate-limit-reset.calculations";
-import { IRateLimitCache, ICache } from "../interfaces/cache";
+import { IRateLimitCache, ICache } from "../../shared/interfaces/cache";
 import { IPolicyRequestPerMinutes } from "../interfaces/policies";
 
 export class RateLimitPerMinutesPolicy extends RateLimitPolicy {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export interface IRateLimitCache {
   /**
    * Total hits of request
