@@ -6,7 +6,7 @@ import {
 } from "../core/constants";
 import { PoliciesFactory } from "../core/policies/policies.factory";
 
-import { HeaderRequestHandler } from "../core/header-request-handler";
+import { HeaderRequestHandler } from "./header-request-handler";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
 
