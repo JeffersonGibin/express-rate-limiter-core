@@ -4,7 +4,7 @@ import {
   IRateLimitCache as RateLimitCache,
 } from "./interfaces/cache";
 import { ISettings as Settings } from "./interfaces/settings";
-import { middleware } from "./middleware";
+import { middleware } from "./app/middleware";
 
 /**
  * Application

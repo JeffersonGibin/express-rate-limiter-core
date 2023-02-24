@@ -3,16 +3,16 @@ import {
   Request as IExpressRequest,
   Response as IExpressResponse,
 } from "express";
-import { Application } from "./app/application";
-import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
-import { RequestExpressDTO } from "./dtos/request-express.dto";
-import { ICache } from "./interfaces/cache";
+import { Application } from "./application";
+import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
+import { RequestExpressDTO } from "../dtos/request-express.dto";
+import { ICache } from "../interfaces/cache";
 import { middleware } from "./middleware";
-import { MemoryCacheRepository } from "./repositories/memory-cache.repository";
+import { MemoryCacheRepository } from "../repositories/memory-cache.repository";
 
-jest.mock("./app/application");
-jest.mock("./dtos/arguments-policy.dto");
-jest.mock("./dtos/request-express.dto");
+jest.mock("./application");
+jest.mock("../dtos/arguments-policy.dto");
+jest.mock("../dtos/request-express.dto");
 
 const req = {} as IExpressRequest;
 const res = {
