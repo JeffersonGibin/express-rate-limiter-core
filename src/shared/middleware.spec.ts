@@ -1,9 +1,7 @@
-import { Application } from "./application";
-
 import { middleware } from "./middleware";
 
-import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
-import { RequestExpressDTO } from "./dtos/request-express.dto";
+import { ArgumentsPolicyDTO } from "../app/dtos/arguments-policy.dto";
+import { RequestExpressDTO } from "../app/dtos/request-express.dto";
 import { MemoryCacheRepository } from "../shared/repositories/memory-cache.repository";
 import { ICache } from "../shared/interfaces/cache";
 import {
@@ -11,10 +9,11 @@ import {
   ResponseExpress,
   NextFunctionExpress,
 } from "../core/interfaces/express";
+import { Application } from "../app/application";
 
-jest.mock("./application");
-jest.mock("./dtos/arguments-policy.dto");
-jest.mock("./dtos/request-express.dto");
+jest.mock("../app/application");
+jest.mock("../app/dtos/arguments-policy.dto");
+jest.mock("../app/dtos/request-express.dto");
 
 const req = {} as RequestExpress;
 const res = {

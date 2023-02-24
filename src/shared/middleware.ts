@@ -1,4 +1,4 @@
-import { Application } from "./application";
+import { Application } from "../app/application";
 import { HTTP_STATUS_INTERNAL_SERVER_ERROR } from "../core/constants";
 
 import { IMiddleware } from "../core/interfaces/middleware";
@@ -8,10 +8,10 @@ import {
   ResponseExpress,
   NextFunctionExpress,
 } from "../core/interfaces/express";
-import { MemoryCacheRepository } from "../shared/repositories/memory-cache.repository";
-import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
-import { RequestExpressDTO } from "./dtos/request-express.dto";
-import { ISettings } from "../shared/interfaces/settings";
+import { MemoryCacheRepository } from "./repositories/memory-cache.repository";
+import { ArgumentsPolicyDTO } from "../app/dtos/arguments-policy.dto";
+import { RequestExpressDTO } from "../app/dtos/request-express.dto";
+import { ISettings } from "./interfaces/settings";
 
 export const middleware = (settings: ISettings): IMiddleware => {
   return {

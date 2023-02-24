@@ -5,7 +5,7 @@ import {
 } from "./shared/interfaces/cache";
 
 import { ISettings as Settings } from "./shared/interfaces/settings";
-import { middleware } from "./app/middleware";
+import { middleware } from "./shared/middleware";
 
 /**
  * Application
