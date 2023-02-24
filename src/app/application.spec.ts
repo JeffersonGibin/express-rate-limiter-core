@@ -1,5 +1,3 @@
-import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
-import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { ICache } from "../interfaces/cache";
 import {
   NextFunctionExpress,
@@ -14,6 +12,8 @@ import {
   HTTP_STATUS_FORBIDDEN,
   MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
 } from "../core/constants";
+import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
+import { RequestExpressDTO } from "./dtos/request-express.dto";
 
 // jest function to represent express response next
 const nextFn = jest.fn<NextFunctionExpress, []>();

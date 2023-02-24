@@ -7,11 +7,12 @@ import {
   MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
 } from "../core/constants";
 import { PoliciesFactory } from "../core/policies/policies.factory";
-import { RequestExpressDTO } from "../dtos/request-express.dto";
-import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
+
 import { ICache } from "../interfaces/cache";
 import { BlockRequestRule } from "../interfaces/settings";
 import { HeaderRequestHandler } from "../core/header-request-handler";
+import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
+import { RequestExpressDTO } from "./dtos/request-express.dto";
 
 interface IParametersApplication {
   requestExpressDto: RequestExpressDTO;
