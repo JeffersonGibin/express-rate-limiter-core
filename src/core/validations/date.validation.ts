@@ -1,5 +1,5 @@
 import { MESSAGE_PLEASE_CHECK_CONFIGURATIONS } from "../../constants/message";
-import { PropertyNotDateException } from "../exceptions/property-not-date.exception";
+import { PropertyNotDateException } from "../../application/exceptions/property-not-date.exception";
 import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 
 export class DateValidation {

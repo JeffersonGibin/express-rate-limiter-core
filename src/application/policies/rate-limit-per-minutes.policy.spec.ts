@@ -1,9 +1,9 @@
 import { ICache } from "../../interfaces/cache";
 import { RateLimitPerMinutesPolicy } from "./rate-limit-per-minutes.policy";
-import { ValidationHandler } from "../validations/validation-handler";
+import { ValidationHandler } from "../../core/validations/validation-handler";
 import { rateLimitResetCalculations } from "../calculations/rate-limit-reset.calculations";
 
-jest.mock("../validations/validation-handler");
+jest.mock("../../core/validations/validation-handler");
 jest.mock("../calculations/rate-limit-reset.calculations");
 
 describe("rate-limit-per-minutes.policy unit test", () => {

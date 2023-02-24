@@ -1,8 +1,8 @@
 import { ICache, IRateLimitCache } from "../../interfaces/cache";
 import { RateLimitPerPeriodPolicy } from "./rate-limit-per-period.policy";
-import { ValidationHandler } from "../validations/validation-handler";
+import { ValidationHandler } from "../../core/validations/validation-handler";
 
-jest.mock("../validations/validation-handler");
+jest.mock("../../core/validations/validation-handler");
 jest.mock("../calculations/rate-limit-reset.calculations");
 
 // 2023-02-23T13:20:00.000Z

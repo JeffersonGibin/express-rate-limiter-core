@@ -1,5 +1,5 @@
 import { MESSAGE_PLEASE_CHECK_CONFIGURATIONS } from "../../constants/message";
-import { PropertyNotStringException } from "../exceptions/property-not-string.exception";
+import { PropertyNotStringException } from "../../application/exceptions/property-not-string.exception";
 import { IPropertyDefinitionValidation } from "../../interfaces/validations";
 
 export class StringValidation {

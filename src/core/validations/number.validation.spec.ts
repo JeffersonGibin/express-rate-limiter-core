@@ -1,5 +1,5 @@
 import { IPropertyDefinitionValidation } from "../../interfaces/validations";
-import { PropertyNotNumberException } from "../exceptions/property-not-number.exception";
+import { PropertyNotNumberException } from "../../application/exceptions/property-not-number.exception";
 import { NumberValidation } from "./number.validation";
 
 describe("number.validation unit test", () => {
