@@ -1,6 +1,6 @@
 import { IRateLimitCache } from "../interfaces/cache";
 import { RequestExpressDTO } from "../dtos/request-express.dto";
-import { RateLimitPolicy } from "./policies/abstract/rate-limit.policy";
+import { RateLimitPolicy } from "../core/policies/abstract/rate-limit.policy";
 import {
   RequestExpress,
   ResponseExpress,

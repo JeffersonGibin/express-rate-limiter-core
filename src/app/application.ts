@@ -4,7 +4,7 @@ import {
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_TOO_MANY_REQUESTS,
 } from "../constants";
-import { PoliciesFactory } from "../application/policies/policies.factory";
+import { PoliciesFactory } from "../core/policies/policies.factory";
 import { RequestExpressDTO } from "../dtos/request-express.dto";
 import { ArgumentsPolicyDTO } from "../dtos/arguments-policy.dto";
 import { ICache } from "../interfaces/cache";

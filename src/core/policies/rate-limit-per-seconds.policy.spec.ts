@@ -1,12 +1,12 @@
 import { ICache } from "../../interfaces/cache";
-import { RateLimitPerMinutesPolicy } from "./rate-limit-per-minutes.policy";
+import { RateLimitPerSecondsPolicy } from "./rate-limit-per-seconds.policy";
 import { ValidationHandler } from "../../core/validations/validation-handler";
-import { rateLimitResetCalculations } from "../calculations/rate-limit-reset.calculations";
+import { rateLimitResetCalculations } from "../../application/calculations/rate-limit-reset.calculations";
 
 jest.mock("../../core/validations/validation-handler");
-jest.mock("../calculations/rate-limit-reset.calculations");
+jest.mock("../../application/calculations/rate-limit-reset.calculations");
 
-describe("rate-limit-per-minutes.policy unit test", () => {
+describe("rate-limit-per-seconds.policy unit test", () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -17,9 +17,9 @@ describe("rate-limit-per-minutes.policy unit test", () => {
         ValidationHandler.prototype,
         "execute"
       );
-      const instance = new RateLimitPerMinutesPolicy(
+      const instance = new RateLimitPerSecondsPolicy(
         {
-          type: "REQUEST_PER_MINUTES",
+          type: "REQUEST_PER_SECONDS",
           maxRequests: 10,
           periodWindow: 10,
         },
@@ -46,9 +46,9 @@ describe("rate-limit-per-minutes.policy unit test", () => {
         rateLimitResetCalculationsFn
       );
 
-      const instance = new RateLimitPerMinutesPolicy(
+      const instance = new RateLimitPerSecondsPolicy(
         {
-          type: "REQUEST_PER_MINUTES",
+          type: "REQUEST_PER_SECONDS",
           maxRequests: 10,
           periodWindow: 10,
         },

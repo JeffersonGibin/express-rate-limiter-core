@@ -1,9 +1,10 @@
 import { ICache, IRateLimitCache } from "../../../interfaces/cache";
 import { PolicieRateLimit } from "../../../interfaces/policies";
-import { requestRemainingCalculations } from "../../calculations/request-remaining.calculations";
-import { retryAfterCalculations } from "../../calculations/retry-after.calculations";
+
 import { RateLimitPolicy } from "../abstract/rate-limit.policy";
 import { timeWaitingCalculations } from "../../../application/calculations/time-waiting.calculations";
+import { requestRemainingCalculations } from "../../../application/calculations/request-remaining.calculations";
+import { retryAfterCalculations } from "../../../application/calculations/retry-after.calculations";
 
 jest.mock("../../../application/calculations/request-remaining.calculations");
 jest.mock("../../../application/calculations/retry-after.calculations");
