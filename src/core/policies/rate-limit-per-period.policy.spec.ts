@@ -126,10 +126,6 @@ describe("rate-limit-per-period.policy unit test", () => {
   });
 
   describe("method class saveHit", () => {
-    beforeEach(() => {
-      jest.resetAllMocks();
-    });
-
     test("It's should call method saveHit the cache", async () => {
       // 2023-02-23T13:19:50.000Z
       const periodWindowStartMock = MOCK_LAST_TIME_REQUEST - 10000;
@@ -223,6 +219,12 @@ describe("rate-limit-per-period.policy unit test", () => {
     test("It's shouldn't execute nothing when the period don't start", async () => {
       // 2023-02-23T13:19:50.000Z
       const periodDontStart = MOCK_LAST_TIME_REQUEST - 10000;
+
+      // 2023-02-23T13:20:00.000Z
+      const mockDate = new Date(MOCK_LAST_TIME_REQUEST);
+
+      jest.resetAllMocks();
+      jest.spyOn(mockDate, "getTime").mockReturnValue(MOCK_LAST_TIME_REQUEST);
       jest.spyOn(Date, "now").mockReturnValue(periodDontStart);
 
       jest

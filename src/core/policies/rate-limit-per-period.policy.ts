@@ -82,7 +82,6 @@ export class RateLimitPerPeriodPolicy extends RateLimitPolicy {
     const timestampNow = Date.now();
     const periodWindowStart = this.policySettings?.periodWindowStart.getTime();
     const periodWindowStarted = timestampNow >= periodWindowStart;
-
     // If the period window will be started then save or update hit
     if (periodWindowStarted) {
       // If don't exists cache then save with value hit as ONE
