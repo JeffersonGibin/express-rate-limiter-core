@@ -5,7 +5,7 @@
 [![Build Status](https://github.com/JeffersonGibin/express-rate-limiter-core/actions/workflows/pipeline.yml/badge.svg)](https://github.com/JeffersonGibin/express-rate-limiter-core/actions/workflows/pipeline.yml)
 [![npm](https://img.shields.io/npm/v/express-rate-limiter-core.svg)](https://www.npmjs.com/package/express-rate-limiter-core 'View this project on NPM')
 [![npm download count](https://img.shields.io/npm/dm/express-rate-limiter-core)](https://www.npmjs.com/package/express-rate-limiter-core)
-[![MIT License](https://img.shields.io/npm/l/puppeteer-cluster.svg)](#license)
+[![MIT License](https://img.shields.io/npm/l/express-rate-limiter-core.svg)](#license)
 
 </div>
 
