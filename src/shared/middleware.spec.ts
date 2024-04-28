@@ -8,6 +8,7 @@ import {
   ResponseExpress,
   NextFunctionExpress,
 } from "../core/interfaces/express";
+
 import { getStrategyCache } from "./get-strategy-cache";
 import { Application } from "../app/application";
 
@@ -160,6 +161,7 @@ describe("middleware unit test", () => {
       .mockImplementation(() => {
         throw new Error("Simulate Error!");
       });
+
 
     middleware({
       policy: {
