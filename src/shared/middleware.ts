@@ -1,6 +1,7 @@
 import { Application } from "../app/application";
 import { HTTP_STATUS_INTERNAL_SERVER_ERROR } from "../core/constants";
 import { IMiddleware } from "../core/interfaces/middleware";
+
 import {
   RequestExpress,
   ResponseExpress,
