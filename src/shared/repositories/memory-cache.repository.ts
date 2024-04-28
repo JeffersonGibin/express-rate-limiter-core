@@ -23,8 +23,8 @@ export class MemoryCacheRepository implements ICache {
   public async saveHit(key: string, newHit: number): Promise<IRateLimitCache> {
     this.databaseMemory[key] = {
       hits: newHit,
-      last_time_request: Date.now(),
-      created_at: Date.now(),
+      lastTimeRequest: Date.now(),
+      createdAt: Date.now(),
     };
 
     return this.databaseMemory[key];
@@ -35,7 +35,7 @@ export class MemoryCacheRepository implements ICache {
     newHit: number
   ): Promise<IRateLimitCache> {
     this.databaseMemory[key].hits = newHit;
-    this.databaseMemory[key].last_time_request = Date.now();
+    this.databaseMemory[key].lastTimeRequest = Date.now();
 
     return this.databaseMemory[key];
   }

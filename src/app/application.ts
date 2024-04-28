@@ -1,8 +1,10 @@
 import {
+  HTTP_STATUS_BAD_REQUEST,
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_TOO_MANY_REQUESTS,
   MESSAGE_DEFAULT_TOOMANY_REQUEST,
   MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
+  MESSAGE_INVALID_IP,
 } from "../core/constants";
 import { PoliciesFactory } from "../core/policies/policies.factory";
 
@@ -13,6 +15,7 @@ import { RequestExpressDTO } from "./dtos/request-express.dto";
 import { ResponseExpress } from "../core/interfaces/express";
 import { BlockRequestRule } from "../shared/interfaces/settings";
 import { ICache } from "../shared/interfaces/cache";
+import { Ip } from "./ip";
 
 interface IParametersApplication {
   requestExpressDto: RequestExpressDTO;
@@ -26,6 +29,7 @@ export class Application {
   private argumentsPolicyDto: ArgumentsPolicyDTO;
   private cache: ICache;
   private blockRequestRule: BlockRequestRule;
+  private ip: string;
 
   /**
    * The start of the application
@@ -42,11 +46,11 @@ export class Application {
    * Full 'rate limit' execution flow
    * @returns {number} total hits application
    */
-  private async rateLimitFlow(): Promise<number> {
+  private async rateLimitFlow(ip: string): Promise<number> {
     const repositoryCache = this.cache;
     const policyProps = this.argumentsPolicyDto.policy;
 
-    const key = this.requestExpressDto.request?.ip;
+    const key = ip;
     const responseCache = await repositoryCache?.getByKey(key);
 
     // Create instance of Policy
@@ -87,9 +91,17 @@ export class Application {
    * @returns {ResponseExpress} It can return instance ResponseExpress
    */
   public async execute(): Promise<ResponseExpress> {
-    const { res, next } = this.requestExpressDto;
+    const { req, res, next } = this.requestExpressDto;
     const policyProps = this.argumentsPolicyDto.policy;
     const maxRequests = policyProps?.maxRequests;
+
+    const ipInstance = new Ip(req);
+
+    if (!ipInstance.isIP(req.ip)) {
+      return res.status(HTTP_STATUS_BAD_REQUEST).json({
+        message: MESSAGE_INVALID_IP,
+      });
+    }
 
     // Block Request
     const requestBlocked =
@@ -104,7 +116,8 @@ export class Application {
     }
 
     // Process All flow to Rate Limit
-    const hits = await this.rateLimitFlow();
+    const ip = ipInstance.getIp();
+    const hits = await this.rateLimitFlow(ip);
 
     // Too many requests response
     if (hits > maxRequests) {

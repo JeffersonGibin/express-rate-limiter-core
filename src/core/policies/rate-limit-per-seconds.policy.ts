@@ -60,7 +60,7 @@ export class RateLimitPerSecondsPolicy extends RateLimitPolicy {
       periodWindowIn: "SECONDS",
       periodWindow: this.policySettings?.periodWindow,
       lastTimeRequestInMilliseconds:
-        this.responseRateLimitCache?.last_time_request,
+        this.responseRateLimitCache?.lastTimeRequest,
     });
   }
 }
