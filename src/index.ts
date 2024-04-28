@@ -1,8 +1,6 @@
+import * as Redis from "redis";
 import { MemoryCacheRepository } from "./shared/repositories/memory-cache.repository";
-import {
-  ICache as CustomCache,
-  IRateLimitCache as RateLimitCache,
-} from "./shared/interfaces/cache";
+import { ICache as CustomCache, IRateLimitCache as RateLimitCache } from "./shared/interfaces/cache";
 
 import { ISettings as Settings } from "./shared/interfaces/settings";
 import { middleware } from "./shared/middleware";
@@ -20,4 +18,4 @@ export const MemoryCache = MemoryCacheRepository;
 /**
  * Interfaces Types
  */
-export { CustomCache, RateLimitCache, Settings };
+export { CustomCache, RateLimitCache, Settings, Redis };

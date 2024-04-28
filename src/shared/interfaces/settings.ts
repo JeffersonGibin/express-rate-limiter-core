@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars */
 import { RequestExpress } from "../../core/interfaces/express";
 import { PolicieRateLimit } from "../../core/interfaces/policies";
-import { ICache } from "./cache";
+import { CacheStrategy, ICache, RedisCache } from "./cache";
 
 export type BlockRequestRule = (req: RequestExpress) => boolean;
 
-export interface ISettings {
+interface ISettingsBase {
+  strategyCache?: CacheStrategy;
+
   /**
-   * This atributte  is opcional and needs to receive an classe to type ICache.
-   * You can implement a custom Cache if you want as long as the interface is respected
-   * @default MemoryCache
+   * The object with settings to policy rate-limit.
    */
-  cache?: ICache;
+  policy: PolicieRateLimit;
 
   /**
    * This function can to be implemented to forbidden a request.
@@ -19,9 +19,42 @@ export interface ISettings {
    * @returns {boolean}
    */
   blockRequestRule?: BlockRequestRule;
+}
+
+interface ISettingsMemoryCache extends ISettingsBase {
+  /**
+   * Specifies the type of cache to use.
+   * @default IN_MEMORY
+   */
+  strategyCache?: "IN_MEMORY";
+}
+
+interface ISettingsRedisCache extends ISettingsBase {
+  redis: RedisCache;
 
   /**
-   * The object with settings to policy rate-limit.
+   * Specifies the type of cache to use.
+   * @default IN_MEMORY
    */
-  policy: PolicieRateLimit;
+  strategyCache?: "REDIS";
 }
+
+interface ISettingsCustomCache extends ISettingsBase {
+  /**
+   * Specifies the type of cache to use.
+   * @default IN_MEMORY
+   */
+  strategyCache?: "CUSTOM";
+
+  /**
+   * This atributte  is opcional and needs to receive an classe to type ICache.
+   * You can implement a custom Cache if you want as long as the interface is respected
+   * @default MemoryCache
+   */
+  cache: ICache;
+}
+
+export type ISettings =
+  | ISettingsMemoryCache
+  | ISettingsRedisCache
+  | ISettingsCustomCache;
