@@ -14,3 +14,8 @@ export const MESSAGE_DEFAULT_TOOMANY_REQUEST =
  * Message default to represent Unauthorized Request
  */
 export const MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST = "Unauthorized Request.";
+
+/**
+ * Message default to represent invalid ip
+ */
+export const MESSAGE_INVALID_IP = "An invalid 'request.ip' was detected!";

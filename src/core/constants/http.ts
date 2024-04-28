@@ -1,6 +1,11 @@
 /**
  * Represent HTTP status code 429 TOO MANY REQUESTS
  */
+export const HTTP_STATUS_BAD_REQUEST = 400;
+
+/**
+ * Represent HTTP status code 429 TOO MANY REQUESTS
+ */
 export const HTTP_STATUS_TOO_MANY_REQUESTS = 429;
 
 /**

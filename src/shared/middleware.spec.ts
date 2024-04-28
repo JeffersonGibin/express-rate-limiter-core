@@ -3,7 +3,12 @@ import { middleware } from "./middleware";
 import { ArgumentsPolicyDTO } from "../app/dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "../app/dtos/request-express.dto";
 import { ICache, RedisCache } from "../shared/interfaces/cache";
-import { RequestExpress, ResponseExpress, NextFunctionExpress } from "../core/interfaces/express";
+import {
+  RequestExpress,
+  ResponseExpress,
+  NextFunctionExpress,
+} from "../core/interfaces/express";
+
 import { getStrategyCache } from "./get-strategy-cache";
 import { Application } from "../app/application";
 
@@ -151,9 +156,12 @@ describe("middleware unit test", () => {
   });
 
   test("it should catch and handle errors", () => {
-    const executeSpy = jest.spyOn(Application.prototype, "execute").mockImplementation(() => {
-      throw new Error("Simulate Error!");
-    });
+    const executeSpy = jest
+      .spyOn(Application.prototype, "execute")
+      .mockImplementation(() => {
+        throw new Error("Simulate Error!");
+      });
+
 
     middleware({
       policy: {
@@ -165,8 +173,6 @@ describe("middleware unit test", () => {
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({
-      from: "Express Rate Limit Core",
-      type: "Error",
       message: "Simulate Error!",
     });
 

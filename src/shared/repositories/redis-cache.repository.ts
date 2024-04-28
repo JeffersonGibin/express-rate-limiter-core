@@ -29,8 +29,8 @@ export class RedisCacheRepository implements ICache {
   async saveHit(key: string, newHit: number): Promise<IRateLimitCache> {
     const data: IRateLimitCache = {
       hits: newHit,
-      last_time_request: Date.now(),
-      created_at: Date.now(),
+      lastTimeRequest: Date.now(),
+      createdAt: Date.now(),
     };
     await this.client.set(key, JSON.stringify(data));
 
@@ -40,8 +40,8 @@ export class RedisCacheRepository implements ICache {
   async updateHit(key: string, newHit: number): Promise<IRateLimitCache> {
     const data: IRateLimitCache = {
       hits: newHit,
-      last_time_request: Date.now(),
-      created_at: Date.now(),
+      lastTimeRequest: Date.now(),
+      createdAt: Date.now(),
     };
 
     await this.client.set(key, JSON.stringify(data));

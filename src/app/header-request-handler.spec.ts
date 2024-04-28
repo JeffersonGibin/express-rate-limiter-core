@@ -30,8 +30,8 @@ describe("header-request-handler unit test", () => {
         } as unknown as RateLimitPolicy,
         {
           hits: 10,
-          created_at: Date.now(),
-          last_time_request: Date.now(),
+          createdAt: Date.now(),
+          lastTimeRequest: Date.now(),
         }
       );
 
@@ -53,8 +53,8 @@ describe("header-request-handler unit test", () => {
         } as unknown as RateLimitPolicy,
         {
           hits: 10,
-          created_at: Date.now(),
-          last_time_request: Date.now(),
+          createdAt: Date.now(),
+          lastTimeRequest: Date.now(),
         }
       );
 
@@ -79,8 +79,8 @@ describe("header-request-handler unit test", () => {
         } as unknown as RateLimitPolicy,
         {
           hits: 11,
-          created_at: Date.now(),
-          last_time_request: Date.now(),
+          createdAt: Date.now(),
+          lastTimeRequest: Date.now(),
         }
       );
 
@@ -103,8 +103,8 @@ describe("header-request-handler unit test", () => {
         } as unknown as RateLimitPolicy,
         {
           hits: 11,
-          created_at: Date.now(),
-          last_time_request: Date.now(),
+          createdAt: Date.now(),
+          lastTimeRequest: Date.now(),
         }
       );
 
