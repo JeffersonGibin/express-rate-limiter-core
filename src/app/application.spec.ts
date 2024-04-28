@@ -6,10 +6,12 @@ import {
 import { Application } from "./application";
 import { transformHeaderCallsInObject } from "./utils/test.utils";
 import {
+  HTTP_STATUS_BAD_REQUEST,
+  HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_TOO_MANY_REQUESTS,
   MESSAGE_DEFAULT_TOOMANY_REQUEST,
-  HTTP_STATUS_FORBIDDEN,
   MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
+  MESSAGE_INVALID_IP,
 } from "../core/constants";
 import { ArgumentsPolicyDTO } from "./dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "./dtos/request-express.dto";
@@ -45,7 +47,7 @@ describe("application - integration test", () => {
     jest.resetAllMocks();
   });
 
-  test("it's should return too many requests", async () => {
+  test("it should return too many requests", async () => {
     const res = {
       json: jest.fn(),
       setHeader: setHeaderFn,
@@ -54,8 +56,8 @@ describe("application - integration test", () => {
 
     getByKeyFn.mockResolvedValue({
       hits: 11,
-      last_time_request: MOCK_LAST_TIME_REQUEST,
-      creat_at: MOCK_LAST_TIME_REQUEST,
+      lastTimeRequest: MOCK_LAST_TIME_REQUEST,
+      createdAt: MOCK_LAST_TIME_REQUEST,
     });
 
     const dateNowSpy = jest
@@ -70,7 +72,15 @@ describe("application - integration test", () => {
       }),
 
       requestExpressDto: new RequestExpressDTO(
-        { ip: "123" } as RequestExpress,
+        {
+          ip: "127.0.0.1",
+          app: {
+            get: jest.fn(),
+          },
+          headers: {
+            "x-forwarded-for": "",
+          },
+        } as unknown as RequestExpress,
         res,
         nextFn
       ),
@@ -97,7 +107,7 @@ describe("application - integration test", () => {
     dateNowSpy.mockRestore();
   });
 
-  test("it's should'nt return too many requests", async () => {
+  test("it should'nt return too many requests", async () => {
     const res = {
       json: jest.fn(),
       setHeader: setHeaderFn,
@@ -106,8 +116,8 @@ describe("application - integration test", () => {
 
     getByKeyFn.mockResolvedValue({
       hits: 2,
-      last_time_request: MOCK_LAST_TIME_REQUEST,
-      creat_at: MOCK_LAST_TIME_REQUEST,
+      lastTimeRequest: MOCK_LAST_TIME_REQUEST,
+      createdAt: MOCK_LAST_TIME_REQUEST,
     });
 
     const dateNowSpy = jest
@@ -122,7 +132,15 @@ describe("application - integration test", () => {
       }),
 
       requestExpressDto: new RequestExpressDTO(
-        { ip: "123" } as RequestExpress,
+        {
+          ip: "127.0.0.1",
+          app: {
+            get: jest.fn(),
+          },
+          headers: {
+            "x-forwarded-for": "",
+          },
+        } as unknown as RequestExpress,
         res,
         nextFn
       ),
@@ -143,7 +161,7 @@ describe("application - integration test", () => {
     dateNowSpy.mockRestore();
   });
 
-  test("it's should return block requests", async () => {
+  test("it should return block requests", async () => {
     const res = {
       json: jest.fn(),
       setHeader: setHeaderFn,
@@ -153,8 +171,8 @@ describe("application - integration test", () => {
     // Mock result of cache the getByKey
     getByKeyFn.mockResolvedValue({
       hits: 2,
-      last_time_request: MOCK_LAST_TIME_REQUEST,
-      creat_at: MOCK_LAST_TIME_REQUEST,
+      lastTimeRequest: MOCK_LAST_TIME_REQUEST,
+      createdAt: MOCK_LAST_TIME_REQUEST,
     });
 
     // spy Date now and mock result
@@ -170,7 +188,15 @@ describe("application - integration test", () => {
       }),
 
       requestExpressDto: new RequestExpressDTO(
-        { ip: "123" } as RequestExpress,
+        {
+          ip: "127.0.0.1",
+          app: {
+            get: jest.fn(),
+          },
+          headers: {
+            "x-forwarded-for": "",
+          },
+        } as unknown as RequestExpress,
         res,
         nextFn
       ),
@@ -184,6 +210,56 @@ describe("application - integration test", () => {
     expect(res.status).toHaveBeenCalledWith(HTTP_STATUS_FORBIDDEN);
     expect(res.json).toHaveBeenCalledWith({
       message: MESSAGE_DEFAULT_UNAUTHORIZED_REQUEST,
+    });
+
+    dateNowSpy.mockRestore();
+  });
+
+  test("it should return invalid ip detected", async () => {
+    const res = {
+      json: jest.fn(),
+      setHeader: setHeaderFn,
+      status: jest.fn().mockReturnThis(),
+    } as unknown as ResponseExpress;
+
+    getByKeyFn.mockResolvedValue({
+      hits: 11,
+      lastTimeRequest: MOCK_LAST_TIME_REQUEST,
+      createdAt: MOCK_LAST_TIME_REQUEST,
+    });
+
+    const dateNowSpy = jest
+      .spyOn(Date, "now")
+      .mockReturnValue(MOCK_LAST_TIME_REQUEST);
+
+    const instance = new Application({
+      argumentsPolicyDto: new ArgumentsPolicyDTO({
+        type: "REQUEST_PER_MINUTES",
+        maxRequests: 10,
+        periodWindow: 10,
+      }),
+
+      requestExpressDto: new RequestExpressDTO(
+        {
+          app: {
+            get: jest.fn(),
+          },
+          headers: {
+            "x-forwarded-for": "a",
+          },
+        } as unknown as RequestExpress,
+        res,
+        nextFn
+      ),
+      cache: mockCustomCache,
+    });
+
+    // execute application
+    await instance.execute();
+
+    expect(res.status).toHaveBeenCalledWith(HTTP_STATUS_BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      message: MESSAGE_INVALID_IP,
     });
 
     dateNowSpy.mockRestore();

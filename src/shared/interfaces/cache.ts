@@ -1,4 +1,10 @@
-import { RedisClientType, RedisFunctions, RedisModules, RedisScripts } from "redis";
+
+import {
+  RedisClientType,
+  RedisFunctions,
+  RedisModules,
+  RedisScripts,
+} from "redis";
 
 /* eslint-disable no-unused-vars */
 export interface IRateLimitCache {
@@ -10,22 +16,26 @@ export interface IRateLimitCache {
   /**
    * represented last time request
    */
-  last_time_request: number;
+  lastTimeRequest: number;
 
   /**
    * represented when cache was created
    */
-  created_at: number;
+  createdAt: number;
 }
 
-export type RedisCache = RedisClientType<RedisModules, RedisFunctions, RedisScripts>;
+export type RedisCache = RedisClientType<
+  RedisModules,
+  RedisFunctions,
+  RedisScripts
+>;
 
 export type CacheStrategy = "REDIS" | "IN_MEMORY" | "CUSTOM";
 
 export interface ICache {
   /**
    * Save a HIT to a cache using the parameter key.
-   *  This method needs to implement a logic that store hits, last_time_request and created_at
+   *  This method needs to implement a logic that store hits, lastTimeRequest and createdAt
    * @param {string} key
    * @param {number} newHit
    * @returns {IRateLimitCache}
@@ -34,7 +44,7 @@ export interface ICache {
 
   /**
    * Update a HIT to a cache using the parameter key.
-   * This method needs to implement a logic that store hits, last_time_request and created_at
+   * This method needs to implement a logic that store hits, lastTimeRequest and createdAt
    * @param {string} key
    * @param {number} newHit
    * @returns {IRateLimitCache}

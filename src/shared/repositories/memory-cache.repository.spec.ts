@@ -19,8 +19,8 @@ describe("memory-db.adapter unit test", () => {
     expect(resultBeforeInsert).toBeUndefined();
     expect(resultAfterInsert).toEqual({
       hits: 1,
-      last_time_request: DATE_NOW_MOCK,
-      created_at: DATE_NOW_MOCK,
+      lastTimeRequest: DATE_NOW_MOCK,
+      createdAt: DATE_NOW_MOCK,
     });
   });
 
@@ -33,8 +33,8 @@ describe("memory-db.adapter unit test", () => {
 
     expect(result).toStrictEqual({
       hits: 5,
-      last_time_request: DATE_NOW_MOCK,
-      created_at: DATE_NOW_MOCK,
+      lastTimeRequest: DATE_NOW_MOCK,
+      createdAt: DATE_NOW_MOCK,
     });
   });
 
@@ -47,8 +47,8 @@ describe("memory-db.adapter unit test", () => {
 
     expect(result).toStrictEqual({
       hits: 1,
-      last_time_request: DATE_NOW_MOCK,
-      created_at: DATE_NOW_MOCK,
+      lastTimeRequest: DATE_NOW_MOCK,
+      createdAt: DATE_NOW_MOCK,
     });
   });
 
@@ -64,8 +64,8 @@ describe("memory-db.adapter unit test", () => {
 
     expect(beforeDelete).toEqual({
       hits: 1,
-      last_time_request: DATE_NOW_MOCK,
-      created_at: DATE_NOW_MOCK,
+      lastTimeRequest: DATE_NOW_MOCK,
+      createdAt: DATE_NOW_MOCK,
     });
     expect(afterDelete).toBeUndefined();
     expect(resultDelete).toBeTruthy();
@@ -84,8 +84,8 @@ describe("memory-db.adapter unit test", () => {
 
     expect(resultInstanceTwo).toStrictEqual({
       hits: 999,
-      last_time_request: DATE_NOW_MOCK,
-      created_at: DATE_NOW_MOCK,
+      lastTimeRequest: DATE_NOW_MOCK,
+      createdAt: DATE_NOW_MOCK,
     });
   });
 });

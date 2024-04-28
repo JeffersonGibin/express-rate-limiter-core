@@ -70,7 +70,7 @@ export abstract class RateLimitPolicy {
     const timeRetryInSeconds = this.timeWaitToRetryAfter();
 
     const timeWaitting = timeWaitingCalculations(
-      this.responseRateLimitCache?.last_time_request,
+      this.responseRateLimitCache?.lastTimeRequest,
       timeRetryInSeconds
     );
 

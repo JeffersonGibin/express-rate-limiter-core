@@ -25,8 +25,8 @@ describe("rate-limit-per-minutes.policy unit test", () => {
         },
         {
           hits: 10,
-          created_at: Date.now(),
-          last_time_request: Date.now(),
+          createdAt: Date.now(),
+          lastTimeRequest: Date.now(),
         },
         {} as ICache
       );
@@ -54,8 +54,8 @@ describe("rate-limit-per-minutes.policy unit test", () => {
         },
         {
           hits: 10,
-          created_at: Date.now(),
-          last_time_request: Date.now(),
+          createdAt: Date.now(),
+          lastTimeRequest: Date.now(),
         },
         {} as ICache
       );
