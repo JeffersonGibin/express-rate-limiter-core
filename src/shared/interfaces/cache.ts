@@ -1,3 +1,5 @@
+import { RedisClientType, RedisFunctions, RedisModules, RedisScripts } from "redis";
+
 /* eslint-disable no-unused-vars */
 export interface IRateLimitCache {
   /**
@@ -15,6 +17,10 @@ export interface IRateLimitCache {
    */
   created_at: number;
 }
+
+export type RedisCache = RedisClientType<RedisModules, RedisFunctions, RedisScripts>;
+
+export type CacheStrategy = "REDIS" | "IN_MEMORY" | "CUSTOM";
 
 export interface ICache {
   /**

@@ -3,32 +3,20 @@ import { HTTP_STATUS_INTERNAL_SERVER_ERROR } from "../core/constants";
 
 import { IMiddleware } from "../core/interfaces/middleware";
 
-import {
-  RequestExpress,
-  ResponseExpress,
-  NextFunctionExpress,
-} from "../core/interfaces/express";
-import { MemoryCacheRepository } from "./repositories/memory-cache.repository";
+import { RequestExpress, ResponseExpress, NextFunctionExpress } from "../core/interfaces/express";
 import { ArgumentsPolicyDTO } from "../app/dtos/arguments-policy.dto";
 import { RequestExpressDTO } from "../app/dtos/request-express.dto";
 import { ISettings } from "./interfaces/settings";
+import { getStrategyCache } from "./get-strategy-cache";
 
 export const middleware = (settings: ISettings): IMiddleware => {
   return {
-    apply: (
-      req: RequestExpress,
-      res: ResponseExpress,
-      next: NextFunctionExpress
-    ) => {
+    apply: (req: RequestExpress, res: ResponseExpress, next: NextFunctionExpress) => {
       try {
         const requestExpressDto = new RequestExpressDTO(req, res, next);
         const argumentsPolicyDto = new ArgumentsPolicyDTO(settings.policy);
         const blockRequestRule = settings?.blockRequestRule;
-
-        // if the cache was defined in a library instance use that was defined otherwise use repository in memory
-        const cache = settings?.cache
-          ? settings?.cache
-          : MemoryCacheRepository.getInstance();
+        const cache = getStrategyCache(settings);
 
         const app = new Application({
           blockRequestRule,
