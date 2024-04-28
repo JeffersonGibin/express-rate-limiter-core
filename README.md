@@ -81,7 +81,6 @@ const rateLimit = RateLimitExpress({
 
     maxRequests: 10,
   },
-  },
 });
 
 // Exemple RateLimitExpress with cache in Redis
