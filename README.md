@@ -56,11 +56,7 @@ This library provides interfaces that can be used with TypeScript.
 ### Importing
 
 ```javascript
-import {
-  RateLimitExpress,
-  Redis,
-
-} from "express-rate-limiter-core";
+import { RateLimitExpress, Redis } from "express-rate-limiter-core";
 ```
 
 ### Request per Seconds or Minutes
@@ -80,7 +76,6 @@ const rateLimit = RateLimitExpress({
     periodWindow: 10,
 
     maxRequests: 10,
-  },
   },
 });
 
