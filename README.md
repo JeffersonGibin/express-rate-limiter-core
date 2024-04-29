@@ -53,6 +53,11 @@ This library provides interfaces that can be used with TypeScript.
 
 ## Exemples
 
+
+### Docker
+
+Start an example with Docker by viewing the readme in the [example directory](https://github.com/JeffersonGibin/express-rate-limiter-core/tree/release-v2.0.2/exemples).
+
 ### Importing
 
 ```javascript
